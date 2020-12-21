@@ -1,0 +1,10 @@
+[debug] [2020-12-21T09:38:15.547Z] ----------------------------------------------------------------------
+[debug] [2020-12-21T09:38:15.549Z] Command:       C:\Programming Language Path\nodejs\node.exe C:\Users\NITRO 5\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js logout
+[debug] [2020-12-21T09:38:15.550Z] CLI Version:   9.0.1
+[debug] [2020-12-21T09:38:15.550Z] Platform:      win32
+[debug] [2020-12-21T09:38:15.550Z] Node Version:  v14.15.0
+[debug] [2020-12-21T09:38:15.551Z] Time:          Mon Dec 21 2020 17:38:15 GMT+0800 (Central Indonesia Time)
+[debug] [2020-12-21T09:38:15.551Z] ----------------------------------------------------------------------
+[debug] [2020-12-21T09:38:15.552Z] 
+[debug] [2020-12-21T09:38:15.609Z] >>> HTTP REQUEST GET https://accounts.google.com/o/oauth2/revoke?token=1%2F%2F0grp87xrmnJ3OCgYIARAAGBASNwF-L9Irf3Njut0QcPhkhPY0kjqTFeubXyEZPucRUCyV5Yp-DFwtjlCSuuTcBJ_4_I5EpKfQioo  
+ 
