@@ -56,7 +56,7 @@ const Section = ({ className, title, fetchURL, isPotrait }) => {
   });
 
   return (
-    <div className={className}>
+    <div className={className} key={title}>
       <h1>{title}</h1>
       <div className="movielist">{movieList}</div>
       <div className="showTrailer">
