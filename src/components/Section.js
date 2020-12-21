@@ -3,9 +3,15 @@ import Axios from "axios";
 import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
-import YouTube from "react-youtube";
 
-const Section = ({ className, title, fetchURL, isPotrait }) => {
+const Section = ({
+  className,
+  title,
+  fetchURL,
+  isPotrait,
+  onPlay,
+  playingSection,
+}) => {
   const [movies, setMovies] = useState([]);
   const [movieTrailerLink, setMovieTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
@@ -23,29 +29,47 @@ const Section = ({ className, title, fetchURL, isPotrait }) => {
 
   const playTrailer = (movieName, id) => {
     setMovieId(id);
+    // const movieIdSelector = document.getElementById(`${id}`);
     if (reactPlayerSize[1] === "0") {
       setReactPlayerSize(["100%", "60vh"]);
       setIsTrailerPlaying(true);
+      onPlay();
     } else if (reactPlayerSize[1] === "60vh" && id === movieId) {
-      setReactPlayerSize(["100%", "0"]);
-      setIsTrailerPlaying(false);
-      setMovieId(id);
+      pauseTrailer();
     }
     movieTrailer(movieName).then((response) => {
       setMovieTrailerLink(response);
     });
   };
 
+  function pauseTrailer() {
+    if (reactPlayerSize[1] === "60vh") {
+      setReactPlayerSize(["100%", "0"]);
+      setIsTrailerPlaying(false);
+    }
+  }
+
+  if (title !== playingSection) {
+    pauseTrailer();
+  }
+
   const movieList = movies.map((movie) => {
     const imgSrc = `${imgURL}${
-      isPotrait ? movie.poster_path : movie.backdrop_path
+      isPotrait
+        ? movie.poster_path ?? "show-netflix-logo"
+        : movie.backdrop_path ?? "show-netflix-logo"
     }`;
     return (
       <div className="movie-container">
         <img
           key={movie.id}
+          id={movie.id}
           className={isPotrait ? "portrait" : "landscape"}
-          src={imgSrc}
+          src={
+            imgSrc.includes("show-netflix-logo")
+              ? "/img/netflix_logo.svg"
+              : imgSrc
+          }
           alt={movie.original_title ?? movie.original_name}
           onClick={() =>
             playTrailer(movie.original_title ?? movie.original_name, movie.id)

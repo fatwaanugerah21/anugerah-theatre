@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
-const HeaderContent = ({ className, fetchURL }) => {
+const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
   const [movie, setMovie] = useState({});
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
@@ -20,23 +20,30 @@ const HeaderContent = ({ className, fetchURL }) => {
   }, []);
 
   const playTrailer = (movieName) => {
-    console.log("run");
-    const movieTrailerContainer = document.querySelector(".header-trailer");
-    if (reactPlayerSize[0] === "0") {
-      setReactPlayerSize(["100%", "80vh"]);
-      movieTrailerContainer.style.width = "100%";
+    onPlay();
+    if (reactPlayerSize[1] === "0") {
+      setReactPlayerSize(["70vw", "96vh"]);
       setIsTrailerPlaying(true);
       setPlayText("Pause");
-    } else {
-      setReactPlayerSize(["0", "0"]);
-      movieTrailerContainer.style.width = "0";
-      setIsTrailerPlaying(false);
-      setPlayText("Play");
+    } else if (reactPlayerSize[1] === "96vh") {
+      pauseTrailer();
     }
     movieTrailer(movieName).then((response) => {
       setTrailerLink(response);
     });
   };
+
+  function pauseTrailer() {
+    if (reactPlayerSize[1] === "96vh") {
+      setReactPlayerSize(["100vw", "0"]);
+      setIsTrailerPlaying(false);
+      setPlayText("Play");
+    }
+  }
+
+  if ("Header" !== playingSection) {
+    pauseTrailer();
+  }
 
   function concenate(string, digit) {
     return string.length > digit ? string.substr(0, digit) + "..." : string;
