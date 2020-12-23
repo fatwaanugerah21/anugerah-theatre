@@ -62,9 +62,9 @@ const Section = ({
         ? movie.poster_path ?? "show-netflix-logo"
         : movie.backdrop_path ?? "show-netflix-logo"
     }`;
-    const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${
+    const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=Watch ${
       movie.original_title ?? movie.original_name
-    }&oq=${
+    }&oq=Watch ${
       movie.original_title ?? movie.original_name
     }&gs_lcp=CgZwc3ktYWIQAzIOCC4QsQMQgwEQyQMQkwIyCAgAELEDEIMBMggIABCxAxCDATIFCAAQsQMyCAgAELEDEIMBMgUIABCxAzIFCAAQsQMyAggAMgUIABCxAzIICAAQsQMQgwE6CwgAELEDEIMBEMkDOggILhCxAxCDAToFCC4QsQM6AgguUJcbWKQgYOMiaABwAHgAgAGTAYgBtgSSAQMxLjSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwiksqOa4ePtAhVjFLcAHTAjBMEQ4dUDCAc&uact=5`;
     return (
