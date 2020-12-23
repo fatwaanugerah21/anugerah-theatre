@@ -59,6 +59,55 @@ function App() {
         />
         <Section
           className="movielist-section"
+          title="Crime"
+          fetchURL={requestLinks.crimeMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("Crime")}
+        />
+        <Section
+          className="movielist-section"
+          title="Family"
+          fetchURL={requestLinks.familyMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("Family")}
+        />
+        <Section
+          className="movielist-section"
+          title="Fantasy"
+          fetchURL={requestLinks.fantasyMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("Fantasy")}
+        />
+        <Section
+          className="movielist-section"
+          title="History"
+          fetchURL={requestLinks.historyMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("History")}
+        />
+        <Section
+          className="movielist-section"
+          title="Science Fiction"
+          fetchURL={requestLinks.scienceFictionMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("Science Fiction")}
+        />
+        <Section
+          className="movielist-section"
+          title="War"
+          fetchURL={requestLinks.warMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("War")}
+        />
+        <Section
+          className="movielist-section"
+          title="Western"
+          fetchURL={requestLinks.westernMovies}
+          playingSection={playingSection}
+          onPlay={() => setPlayingSection("Western")}
+        />
+        <Section
+          className="movielist-section"
           title="Horror"
           fetchURL={requestLinks.horrorMovies}
           playingSection={playingSection}

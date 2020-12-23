@@ -55,9 +55,10 @@ const Section = ({
 
   const movieList = movies.map((movie) => {
     const imgSrc = `${imgURL}${
-      isPotrait
+      /* isPotrait
         ? movie.poster_path ?? "show-netflix-logo"
-        : movie.backdrop_path ?? "show-netflix-logo"
+        : movie.backdrop_path ?? "show-netflix-logo" */
+      "show-netflix-logo"
     }`;
     return (
       <div className="movie-container">
