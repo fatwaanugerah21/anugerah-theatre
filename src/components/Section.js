@@ -28,29 +28,32 @@ const Section = ({
   }, []);
 
   const playTrailer = (movieName, id) => {
+    console.log(movieName);
+    movieTrailer(movieName)
+      .then((response) => {
+        setMovieTrailerLink(response);
+      })
+      .catch((_) =>
+        setMovieTrailerLink("https://www.youtube.com/watch?v=sscdG2ez7-E")
+      );
     setMovieId(id);
-    // const movieIdSelector = document.getElementById(`${id}`);
-    if (reactPlayerSize[1] === "0") {
+    if (!isTrailerPlaying) {
       setReactPlayerSize(["100%", "60vh"]);
       setIsTrailerPlaying(true);
       onPlay();
-    } else if (reactPlayerSize[1] === "60vh" && id === movieId) {
+    } else if (isTrailerPlaying && id === movieId) {
       pauseTrailer();
     }
-    movieTrailer(movieName).then((response) => {
-      setMovieTrailerLink(response);
-    });
   };
 
   function pauseTrailer() {
-    if (reactPlayerSize[1] === "60vh") {
+    if (isTrailerPlaying) {
       setReactPlayerSize(["100%", "0"]);
       setIsTrailerPlaying(false);
     }
   }
-
   if (title !== playingSection) {
-    pauseTrailer();
+    if (movieId) pauseTrailer();
   }
 
   const movieList = movies.map((movie) => {
@@ -59,22 +62,45 @@ const Section = ({
         ? movie.poster_path ?? "show-netflix-logo"
         : movie.backdrop_path ?? "show-netflix-logo"
     }`;
+    const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${
+      movie.original_title ?? movie.original_name
+    }&oq=${
+      movie.original_title ?? movie.original_name
+    }&gs_lcp=CgZwc3ktYWIQAzIOCC4QsQMQgwEQyQMQkwIyCAgAELEDEIMBMggIABCxAxCDATIFCAAQsQMyCAgAELEDEIMBMgUIABCxAzIFCAAQsQMyAggAMgUIABCxAzIICAAQsQMQgwE6CwgAELEDEIMBEMkDOggILhCxAxCDAToFCC4QsQM6AgguUJcbWKQgYOMiaABwAHgAgAGTAYgBtgSSAQMxLjSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwiksqOa4ePtAhVjFLcAHTAjBMEQ4dUDCAc&uact=5`;
     return (
-      <div className="movie-container">
-        <img
-          key={movie.id}
-          id={movie.id}
-          className={isPotrait ? "portrait" : "landscape"}
-          src={
-            imgSrc.includes("show-netflix-logo")
-              ? "/img/netflix_logo.svg"
-              : imgSrc
-          }
-          alt={movie.original_title ?? movie.original_name}
-          onClick={() =>
-            playTrailer(movie.original_title ?? movie.original_name, movie.id)
-          }
-        />
+      <div
+        className="movie-container"
+        onClick={() => {
+          playTrailer(movie.original_title ?? movie.original_name, movie.id);
+        }}
+        key={movie.id}
+        id={movie.id}
+      >
+        <div className="movie-content">
+          <img
+            className={isPotrait ? "portrait" : "landscape"}
+            src={
+              imgSrc.includes("show-netflix-logo")
+                ? "/img/netflix_logo.svg"
+                : imgSrc
+            }
+            alt={movie.original_title ?? movie.original_name}
+          />
+          <div className="movie-text white-text">
+            <h4>{movie.original_title ?? movie.original_name}</h4>
+            <div className="row">
+              <a
+                className="button"
+                href={googleSearch}
+                target="_blank"
+                onClick={(e) => e.stopPropagation()}
+                rel="noreferrer"
+              >
+                More Info
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     );
   });

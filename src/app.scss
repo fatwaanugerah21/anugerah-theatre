@@ -14,6 +14,11 @@ $navMargin: 10px;
       right: 0;
       height: fit-content;
       width: fit-content;
+      background: linear-gradient(
+        to bottom,
+        rgb(126, 126, 126),
+        rgba(0, 0, 0, 1)
+      );
     }
     .header-content {
       overflow: hidden;
@@ -29,14 +34,12 @@ $navMargin: 10px;
         p {
           margin-bottom: 20px;
         }
-        button {
-          border: none;
-          padding: 10px;
-          margin-right: 10px;
-          min-width: 80px;
-          color: white;
-          cursor: pointer;
-          background: #111;
+        .row {
+          margin-top: 80px;
+          a {
+            margin-right: 20px;
+            width: 80px;
+          }
         }
       }
 
@@ -96,7 +99,7 @@ $navMargin: 10px;
     transform: translateX(-100px);
   }
   .movielist-section {
-    margin-left: $leftMargin;
+    padding-left: $leftMargin;
     margin-bottom: 10px;
     position: relative;
     h1 {
@@ -107,34 +110,90 @@ $navMargin: 10px;
     .movielist {
       display: flex;
       overflow-x: auto;
-      height: fit-content;
       padding: 10px 0;
 
       .movie-container {
         margin-right: 25px;
+        padding: 5px;
+        position: relative;
+        cursor: pointer;
 
-        img {
-          border-radius: 10px;
-          transition: all 450ms;
-          cursor: pointer;
-        }
-        .landscape {
-          width: 160px;
-          height: 100px;
-        }
+        .movie-content {
+          img {
+            border-radius: 10px;
+            transition: all 450ms;
+          }
+          .landscape {
+            width: 200px;
+            height: 140px;
+          }
 
-        .portrait {
-          height: 300px;
-          width: 250px;
+          .portrait {
+            height: 300px;
+            width: 250px;
+          }
+
+          .movie-text {
+            display: none;
+          }
         }
-        :hover {
+      }
+
+      .movie-container:hover,
+      .movie-container:focus {
+        outline: none;
+        .movie-content {
           transform: scale(1.1);
           z-index: -1;
+
+          img {
+            filter: brightness(20%);
+          }
+
+          .movie-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            top: 0;
+            opacity: 1;
+            animation: fade-in 500ms;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            .row {
+              margin-top: 10px;
+              a {
+                padding: 5px;
+                cursor: alias;
+              }
+            }
+          }
         }
       }
     }
     .movielist::-webkit-scrollbar {
       display: none;
     }
+  }
+}
+
+.button {
+  border: none;
+  padding: 20px;
+  min-width: 80px;
+  color: white;
+  cursor: pointer;
+  background: #111;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

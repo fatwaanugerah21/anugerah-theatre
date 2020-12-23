@@ -10,6 +10,12 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [playText, setPlayText] = useState("Play");
 
+  const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${
+    movie.original_title ?? movie.original_name
+  }&oq=${
+    movie.original_title ?? movie.original_name
+  }&gs_lcp=CgZwc3ktYWIQAzIOCC4QsQMQgwEQyQMQkwIyCAgAELEDEIMBMggIABCxAxCDATIFCAAQsQMyCAgAELEDEIMBMgUIABCxAzIFCAAQsQMyAggAMgUIABCxAzIICAAQsQMQgwE6CwgAELEDEIMBEMkDOggILhCxAxCDAToFCC4QsQM6AgguUJcbWKQgYOMiaABwAHgAgAGTAYgBtgSSAQMxLjSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwiksqOa4ePtAhVjFLcAHTAjBMEQ4dUDCAc&uact=5`;
+
   useEffect(() => {
     async function fetchData() {
       await Axios.get(fetchURL).then((request) => {
@@ -21,6 +27,9 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
 
   const playTrailer = (movieName) => {
     onPlay();
+    movieTrailer(movieName).then((response) => {
+      setTrailerLink(response);
+    });
     if (reactPlayerSize[1] === "0") {
       setReactPlayerSize(["70vw", "96vh"]);
       setIsTrailerPlaying(true);
@@ -28,9 +37,6 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
     } else if (reactPlayerSize[1] === "96vh") {
       pauseTrailer();
     }
-    movieTrailer(movieName).then((response) => {
-      setTrailerLink(response);
-    });
   };
 
   function pauseTrailer() {
@@ -63,17 +69,29 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
           {movie.overview ? concenate(movie.overview, 150) : movie.overview}
         </p>
         <div className="row ">
-          <button
+          <a
+            className="button play"
             onClick={() =>
               playTrailer(movie.original_name ?? movie.original_title)
             }
           >
             {playText}
-          </button>
-          <button>More Info</button>
+          </a>
+          <a
+            className="button"
+            href={googleSearch}
+            target="_blank"
+            onClick={(e) => e.stopPropagation()}
+            rel="noreferrer"
+          >
+            More Info
+          </a>
         </div>
       </div>
       <div className="header-trailer p-relative">
+        <div className="header-movie-top-info">
+          {movie.original_name ?? movie.original_title}
+        </div>
         <ReactPlayer
           url={trailerLink}
           width={reactPlayerSize[0]}

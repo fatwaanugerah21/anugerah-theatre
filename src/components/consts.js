@@ -4,7 +4,7 @@ export const imgURL = "https://image.tmdb.org/t/p/original/";
 export const requestLinks = {
   trending: `${baseURL}/trending/all/week?api_key=${API_KEY}&language=en_US`,
   topRated: `${baseURL}/movie/top_rated?api_key=${API_KEY}&language=en_US`,
-  tvShows: `${baseURL}/discover/tv?api_key=${API_KEY}&language=en_US`,
+  tvShows: `${baseURL}/discover/tv?api_key=${API_KEY}&language=en_US&video=true`,
   actionMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=28`,
   animationMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=16`,
   comedyMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=35`,
