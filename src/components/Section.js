@@ -29,7 +29,7 @@ const Section = ({
 
   const playTrailer = (movieName, id) => {
     console.log(movieName);
-    movieTrailer(movieName)
+    movieTrailer(`${movieName}`)
       .then((response) => {
         setMovieTrailerLink(response);
       })
