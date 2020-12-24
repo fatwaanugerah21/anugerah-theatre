@@ -89,9 +89,6 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
         </div>
       </div>
       <div className="header-trailer p-relative">
-        <div className="header-movie-top-info">
-          {movie.original_name ?? movie.original_title}
-        </div>
         <ReactPlayer
           url={trailerLink}
           width={reactPlayerSize[0]}

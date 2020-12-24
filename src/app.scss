@@ -2,6 +2,7 @@ $leftMargin: 40px;
 $navMargin: 10px;
 
 .app {
+  overflow-x: hidden;
   header {
     width: 100%;
     height: 100vh;
@@ -53,7 +54,7 @@ $navMargin: 10px;
       color: white;
       position: absolute;
       top: 0;
-      height: 100%;
+      height: 100vh;
       width: 100%;
       background: linear-gradient(to bottom, transparent, #111);
     }
@@ -88,6 +89,16 @@ $navMargin: 10px;
       margin-right: 30px;
       transform: translateY(7px);
     }
+    @media (max-width: 768px) {
+      .left-side-nav {
+        display: none;
+      }
+      .right-side {
+        img {
+          margin-right: 0px;
+        }
+      }
+    }
     .right-side {
       img {
         height: 30px;
@@ -95,87 +106,152 @@ $navMargin: 10px;
       }
     }
   }
-  .show-trailer {
-    transform: translateX(-100px);
-  }
   .movielist-section {
     padding-left: $leftMargin;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     position: relative;
+
     h1 {
       color: white;
       font-size: 19pt;
+      margin-bottom: 10px;
     }
-
-    .movielist {
-      display: flex;
-      overflow-x: auto;
-      padding: 10px 0;
-
-      .movie-container {
-        margin-right: 25px;
-        padding: 5px;
-        position: relative;
-        cursor: pointer;
-
-        .movie-content {
-          img {
-            border-radius: 10px;
-            transition: all 450ms;
-          }
-          .landscape {
-            width: 200px;
-            height: 140px;
-          }
-
-          .portrait {
-            height: 300px;
-            width: 250px;
-          }
+    .showTrailer {
+      margin-left: -40px;
+    }
+    @media not all and (pointer: coarse) {
+      .Netflix {
+        margin-bottom: calc(350px - 100vw) !important;
+        margin-right: 0px !important;
+        width: 330px;
+        .movie-container {
+          margin-right: 0 !important;
+          margin: 0 10px -80px;
+          margin-bottom: -30px !important;
 
           .movie-text {
             display: none;
+            transform: translateX(-24px);
           }
         }
       }
 
-      .movie-container:hover,
-      .movie-container:focus {
-        outline: none;
-        .movie-content {
-          transform: scale(1.1);
-          z-index: -1;
+      .movielist {
+        height: 100vw;
+        margin-bottom: calc(200px - 100vw);
+        display: inline-block;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 10px 0;
+        transform: rotate(-90deg) translateX(-100%);
+        transform-origin: top left;
+        &::-webkit-scrollbar {
+          width: 4px;
+          background: linear-gradient(
+            to right,
+            transparent,
+            transparent,
+            transparent,
+            black,
+            transparent,
+            transparent,
+            transparent
+          );
+          // display: none;
+        }
 
-          img {
-            filter: brightness(20%);
+        &::-webkit-scrollbar-thumb {
+          background: rgb(71, 71, 71);
+          border-radius: 10px;
+        }
+
+        .movie-container {
+          transform: rotate(90deg) translateY(-100%);
+          transform-origin: top left;
+          padding: 5px;
+          position: relative;
+          margin-bottom: 70px;
+          margin-right: -50px;
+          cursor: pointer;
+          &:nth-child(20) {
+            margin-bottom: 160px;
           }
+        }
+      }
+    }
+    @media (pointer: coarse) {
+      margin-left: -30px;
+      .showTrailer {
+        margin-left: -10px;
+      }
+      .movielist {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
 
-          .movie-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
-            top: 0;
-            opacity: 1;
-            animation: fade-in 500ms;
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .movie-container {
+          margin-right: 25px;
+          padding: 5px;
+          position: relative;
+          cursor: pointer;
+        }
+      }
+    }
 
-            .row {
-              margin-top: 10px;
-              a {
-                padding: 5px;
-                cursor: alias;
-              }
+    .movie-content {
+      img {
+        border-radius: 10px;
+        transition: all 450ms;
+      }
+      .landscape {
+        width: 200px;
+        height: 140px;
+      }
+
+      .portrait {
+        height: 300px;
+        width: 250px;
+      }
+
+      .movie-text {
+        display: none;
+      }
+    }
+
+    .movie-container:hover,
+    .movie-container:focus {
+      outline: none;
+      .movie-content {
+        transform: scale(1.1);
+        z-index: -1;
+
+        img {
+          filter: brightness(20%);
+        }
+
+        .movie-text {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          flex-direction: column;
+          top: 0;
+          left: 0;
+          opacity: 1;
+          animation: fade-in 500ms;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+
+          .row {
+            margin-top: 10px;
+            a {
+              padding: 5px;
+              cursor: alias;
             }
           }
         }
       }
-    }
-    .movielist::-webkit-scrollbar {
-      display: none;
     }
   }
 }

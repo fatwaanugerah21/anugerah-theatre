@@ -19,11 +19,21 @@ const Navbar = () => {
           alt="netflix-logo"
           className="netflix-logo"
         />
-        <a href="#home">Home</a>
-        <a href="#home">TV Shows</a>
-        <a href="#home">Movies</a>
-        <a href="#home">Latest</a>
-        <a href="#home">My List</a>
+        <a className="left-side-nav" href="#home">
+          Home
+        </a>
+        <a className="left-side-nav" href="#home">
+          TV Shows
+        </a>
+        <a className="left-side-nav" href="#home">
+          Movies
+        </a>
+        <a className="left-side-nav" href="#home">
+          Latest
+        </a>
+        <a className="left-side-nav" href="#home">
+          My List
+        </a>
       </div>
 
       <div className="right-side">

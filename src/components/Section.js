@@ -28,7 +28,6 @@ const Section = ({
   }, []);
 
   const playTrailer = (movieName, id) => {
-    console.log(movieName);
     movieTrailer(`${movieName}`)
       .then((response) => {
         setMovieTrailerLink(response);
@@ -108,7 +107,7 @@ const Section = ({
   return (
     <div className={className} key={title}>
       <h1>{title}</h1>
-      <div className="movielist">{movieList}</div>
+      <div className={"movielist " + title}>{movieList}</div>
       <div className="showTrailer">
         <ReactPlayer
           url={movieTrailerLink}
