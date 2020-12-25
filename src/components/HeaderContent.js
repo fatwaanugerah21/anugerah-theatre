@@ -23,7 +23,7 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
       });
     }
     fetchData();
-  }, []);
+  }, [fetchURL]);
 
   const playTrailer = (movieName) => {
     onPlay();
@@ -69,14 +69,14 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
           {movie.overview ? concenate(movie.overview, 150) : movie.overview}
         </p>
         <div className="row ">
-          <a
+          <button
             className="button play"
             onClick={() =>
               playTrailer(movie.original_name ?? movie.original_title)
             }
           >
             {playText}
-          </a>
+          </button>
           <a
             className="button"
             href={googleSearch}

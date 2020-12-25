@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import Axios from "axios";
 import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
@@ -25,7 +27,7 @@ const Section = ({
       });
     }
     fetchData();
-  }, []);
+  }, [fetchURL]);
 
   const playTrailer = (movieName, id) => {
     movieTrailer(`${movieName}`)
@@ -61,11 +63,9 @@ const Section = ({
         ? movie.poster_path ?? "show-netflix-logo"
         : movie.backdrop_path ?? "show-netflix-logo"
     }`;
-    const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=Watch ${
+    const googleSearch = `https://google.com/search?q=${
       movie.original_title ?? movie.original_name
-    }&oq=Watch ${
-      movie.original_title ?? movie.original_name
-    }&gs_lcp=CgZwc3ktYWIQAzIOCC4QsQMQgwEQyQMQkwIyCAgAELEDEIMBMggIABCxAxCDATIFCAAQsQMyCAgAELEDEIMBMgUIABCxAzIFCAAQsQMyAggAMgUIABCxAzIICAAQsQMQgwE6CwgAELEDEIMBEMkDOggILhCxAxCDAToFCC4QsQM6AgguUJcbWKQgYOMiaABwAHgAgAGTAYgBtgSSAQMxLjSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwiksqOa4ePtAhVjFLcAHTAjBMEQ4dUDCAc&uact=5`;
+    }`;
     return (
       <div
         className="movie-container"
@@ -76,14 +76,17 @@ const Section = ({
         id={movie.id}
       >
         <div className="movie-content">
-          <img
-            className={isPotrait ? "portrait" : "landscape"}
+          <LazyLoadImage
+            className="mantul"
+            alt={movie.original_title ?? movie.original_name}
+            height={isPotrait ? "250px" : "140px"}
             src={
               imgSrc.includes("show-netflix-logo")
                 ? "/img/netflix_logo.svg"
                 : imgSrc
             }
-            alt={movie.original_title ?? movie.original_name}
+            effect="blur"
+            width={isPotrait ? "300px" : "200px"}
           />
           <div className="movie-text white-text">
             <h4>{movie.original_title ?? movie.original_name}</h4>
