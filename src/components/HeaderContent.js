@@ -1,6 +1,5 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
 
@@ -61,11 +60,7 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
     <div className={className}>
       <img
         loading="lazy"
-        src={
-          movie.backdrop_path
-            ? `${baseImgURL}${movie.backdrop_path}`
-            : "/img/netflix_N_logo.png"
-        }
+        src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
         alt={movie.original_title}
       />
       <div className="fade-bottom"></div>
