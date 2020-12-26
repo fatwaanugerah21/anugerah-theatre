@@ -1,21 +1,20 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { imgURL } from "./consts";
+// import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
+
 const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
+  const baseImgURL = "https://image.tmdb.org/t/p/original/";
+
   const [movie, setMovie] = useState({});
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [playText, setPlayText] = useState("Play");
-
   const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${
     movie.original_title ?? movie.original_name
-  }&oq=${
-    movie.original_title ?? movie.original_name
-  }&gs_lcp=CgZwc3ktYWIQAzIOCC4QsQMQgwEQyQMQkwIyCAgAELEDEIMBMggIABCxAxCDATIFCAAQsQMyCAgAELEDEIMBMgUIABCxAzIFCAAQsQMyAggAMgUIABCxAzIICAAQsQMQgwE6CwgAELEDEIMBEMkDOggILhCxAxCDAToFCC4QsQM6AgguUJcbWKQgYOMiaABwAHgAgAGTAYgBtgSSAQMxLjSYAQCgAQGqAQdnd3Mtd2l6&sclient=psy-ab&ved=0ahUKEwiksqOa4ePtAhVjFLcAHTAjBMEQ4dUDCAc&uact=5`;
-
+  }`;
   useEffect(() => {
     async function fetchData() {
       await Axios.get(fetchURL).then((request) => {
@@ -55,9 +54,20 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
     return string.length > digit ? string.substr(0, digit) + "..." : string;
   }
 
+  if (!movie.backdrop_path) {
+    return <div>Loading</div>;
+  }
   return (
     <div className={className}>
-      <img src={`${imgURL}${movie.backdrop_path}`} alt={movie.original_title} />
+      <img
+        loading="lazy"
+        src={
+          movie.backdrop_path
+            ? `${baseImgURL}${movie.backdrop_path}`
+            : "/img/netflix_N_logo.png"
+        }
+        alt={movie.original_title}
+      />
       <div className="fade-bottom"></div>
       <div className="header-movie-info white-text">
         <h1>

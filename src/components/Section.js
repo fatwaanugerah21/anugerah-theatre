@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Axios from "axios";
-import { imgURL } from "./consts";
+// import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
 
@@ -14,6 +14,7 @@ const Section = ({
   onPlay,
   playingSection,
 }) => {
+  const imgURL = "https://image.tmdb.org/t/p/original/";
   const [movies, setMovies] = useState([]);
   const [movieTrailerLink, setMovieTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
@@ -58,11 +59,10 @@ const Section = ({
   }
 
   const movieList = movies.map((movie) => {
-    const imgSrc = `${imgURL}${
-      isPotrait
-        ? movie.poster_path ?? "show-netflix-logo"
-        : movie.backdrop_path ?? "show-netflix-logo"
-    }`;
+    const imgSrc =
+      movie.poster_path ?? movie.backdrop_path
+        ? `${imgURL}${isPotrait ? movie.poster_path : movie.backdrop_path}`
+        : "/img/netflix_logo.svg";
     const googleSearch = `https://google.com/search?q=${
       movie.original_title ?? movie.original_name
     }`;
@@ -77,14 +77,11 @@ const Section = ({
       >
         <div className="movie-content">
           <LazyLoadImage
-            className="mantul"
+            is="lazyload-image"
+            offset="200px"
             alt={movie.original_title ?? movie.original_name}
             height={isPotrait ? "250px" : "140px"}
-            src={
-              imgSrc.includes("show-netflix-logo")
-                ? "/img/netflix_logo.svg"
-                : imgSrc
-            }
+            src={imgSrc}
             effect="blur"
             width={isPotrait ? "300px" : "200px"}
           />

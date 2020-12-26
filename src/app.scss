@@ -48,6 +48,12 @@ $navMargin: 10px;
             width: 80px;
           }
         }
+        @media only screen and (max-width: 768px) {
+          width: 80% !important;
+          .row {
+            margin-top: 40px;
+          }
+        }
       }
 
       img {
@@ -208,15 +214,6 @@ $navMargin: 10px;
         border-radius: 10px;
         transition: all 450ms;
       }
-      // .landscape {
-      //   width: 200px;
-      //   height: 140px;
-      // }
-
-      // .portrait {
-      //   height: 300px;
-      //   width: 250px;
-      // }
 
       .movie-text {
         display: none;
@@ -232,7 +229,6 @@ $navMargin: 10px;
 
         img {
           filter: brightness(20%);
-          transition: all 450ms;
         }
 
         .movie-text {
