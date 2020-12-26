@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
 
@@ -53,9 +53,6 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
     return string.length > digit ? string.substr(0, digit) + "..." : string;
   }
 
-  if (!movie.backdrop_path) {
-    return <div>Loading</div>;
-  }
   return (
     <div className={className}>
       <img
@@ -64,44 +61,46 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
         alt={movie.original_title}
       />
       <div className="fade-bottom"></div>
-      <div className="header-movie-info white-text">
-        <h1>
-          {movie.original_title ?? movie.original_name
-            ? concenate(movie.original_title ?? movie.original_name, 30)
-            : movie.original_title ?? movie.original_name}
-        </h1>
-        <p>
-          {movie.overview ? concenate(movie.overview, 150) : movie.overview}
-        </p>
-        <div className="row ">
-          <button
-            className="button play"
-            onClick={() =>
-              playTrailer(movie.original_name ?? movie.original_title)
-            }
-          >
-            {playText}
-          </button>
-          <a
-            className="button"
-            href={googleSearch}
-            target="_blank"
-            onClick={(e) => e.stopPropagation()}
-            rel="noreferrer"
-          >
-            More Info
-          </a>
+      <Suspense fallback={<div></div>}>
+        <div className="header-movie-info white-text">
+          <h1>
+            {movie.original_title ?? movie.original_name
+              ? concenate(movie.original_title ?? movie.original_name, 30)
+              : movie.original_title ?? movie.original_name}
+          </h1>
+          <p>
+            {movie.overview ? concenate(movie.overview, 150) : movie.overview}
+          </p>
+          <div className="row ">
+            <button
+              className="button play"
+              onClick={() =>
+                playTrailer(movie.original_name ?? movie.original_title)
+              }
+            >
+              {playText}
+            </button>
+            <a
+              className="button"
+              href={googleSearch}
+              target="_blank"
+              onClick={(e) => e.stopPropagation()}
+              rel="noreferrer"
+            >
+              More Info
+            </a>
+          </div>
         </div>
-      </div>
-      <div className="header-trailer p-relative">
-        <ReactPlayer
-          url={trailerLink}
-          width={reactPlayerSize[0]}
-          height={reactPlayerSize[1]}
-          playing={isTrailerPlaying}
-          controls
-        />
-      </div>
+        <div className="header-trailer p-relative">
+          <ReactPlayer
+            url={trailerLink}
+            width={reactPlayerSize[0]}
+            height={reactPlayerSize[1]}
+            playing={isTrailerPlaying}
+            controls
+          />
+        </div>
+      </Suspense>
     </div>
   );
 };
