@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Axios from "axios";
-// import { imgURL } from "./consts";
 import movieTrailer from "movie-trailer";
 import ReactPlayer from "react-player";
 
@@ -74,6 +73,7 @@ const Section = ({
         }}
         key={movie.id}
         id={movie.id}
+        tabindex="0"
       >
         <div className="movie-content">
           <LazyLoadImage
