@@ -19,6 +19,7 @@ const Section = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
+  const [randomTrailerIndex, setTrailerIndex] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,12 +35,20 @@ const Section = ({
       .then((response) => {
         setMovieTrailerLink(response);
       })
-      .catch((_) =>
-        setMovieTrailerLink("https://www.youtube.com/watch?v=sscdG2ez7-E")
-      );
+      .catch((_) => {
+        const otherTrailers = [
+          "https://www.youtube.com/watch?v=N10PlyFoSVM",
+          "https://www.youtube.com/watch?v=sscdG2ez7-E",
+          "https://www.youtube.com/watch?v=I4rS15xBL1Y",
+          "https://www.youtube.com/watch?v=LDV8VHbQoPI",
+        ];
+
+        setMovieTrailerLink(otherTrailers[randomTrailerIndex]);
+        setTrailerIndex((randomTrailerIndex + 1) % otherTrailers.length);
+      });
     setMovieId(id);
     if (!isTrailerPlaying) {
-      setReactPlayerSize(["100%", "60vh"]);
+      setReactPlayerSize(["100%", "70vh"]);
       setIsTrailerPlaying(true);
       onPlay();
     } else if (isTrailerPlaying && id === movieId) {
@@ -62,7 +71,7 @@ const Section = ({
       movie.poster_path ?? movie.backdrop_path
         ? `${imgURL}${isPotrait ? movie.poster_path : movie.backdrop_path}`
         : "/img/netflix_logo.svg";
-    const googleSearch = `https://google.com/search?q=${
+    const googleSearch = `https://google.com/search?q=Watch ${
       movie.original_title ?? movie.original_name
     }`;
     return (
@@ -89,13 +98,35 @@ const Section = ({
             <h4>{movie.original_title ?? movie.original_name}</h4>
             <div className="row">
               <a
+                className="white-text"
+                href={`https://netflix.com/search?q=${
+                  movie.original_title ?? movie.original_name
+                }`}
+                onClick={(e) => e.stopPropagation()}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src="/img/netflix-button-icon.svg" alt="netflix-search" />
+              </a>
+              <a
+                className="white-text"
+                href={`https://hotstar.com/in/search?q=${
+                  movie.original_title ?? movie.original_name
+                }`}
+                onClick={(e) => e.stopPropagation()}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src="/img/hotstar-button-icon.svg" alt="hotstar-search" />
+              </a>
+              <a
                 className="button"
                 href={googleSearch}
                 target="_blank"
                 onClick={(e) => e.stopPropagation()}
                 rel="noreferrer"
               >
-                More Info
+                <img src="/img/google-icon.svg" alt="google-search" />
               </a>
             </div>
           </div>

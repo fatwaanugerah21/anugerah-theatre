@@ -56,7 +56,6 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
   return (
     <div className={className}>
       <img
-        loading="lazy"
         src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
         alt={movie.original_title}
       />

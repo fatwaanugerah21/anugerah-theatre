@@ -1,19 +1,17 @@
 import React, { useState, Suspense, lazy } from "react";
+
 import { requestLinks } from "./components/consts";
 import "./app.min.css";
-import Navbar from "./components/Navbar";
 import HeaderContent from "./components/HeaderContent";
 
 const Section = lazy(() => import("./components/Section"));
+const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
   const [playingSection, setPlayingSection] = useState("");
   const [previousPlayingMovie, setPreviousPlayingMovie] = useState();
   return (
     <div className="app">
-      <Suspense fallback={<div></div>}>
-        <Navbar />
-      </Suspense>
       <header className="App-header">
         <HeaderContent
           className="header-content"
@@ -24,6 +22,10 @@ function App() {
           onPlay={() => setPlayingSection("Header")}
         />
       </header>
+      <Suspense fallback={<div></div>}>
+        <Navbar />
+      </Suspense>
+
       <div className="mask"></div>
       <Suspense fallback={<div></div>}>
         <main>
