@@ -1,7 +1,7 @@
 import React, { useState, Suspense, lazy } from "react";
 
 import { requestLinks } from "./components/consts";
-import "./app.min.css";
+import "./app.css";
 import HeaderContent from "./components/HeaderContent";
 
 const Section = lazy(() => import("./components/Section"));
@@ -17,8 +17,6 @@ function App() {
           className="header-content"
           fetchURL={requestLinks.actionMovies}
           playingSection={playingSection}
-          previousPlayingMovie={previousPlayingMovie}
-          setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
           onPlay={() => setPlayingSection("Header")}
         />
       </header>
@@ -29,6 +27,16 @@ function App() {
       <div className="mask"></div>
       <Suspense fallback={<div></div>}>
         <main>
+          <Section
+            className="movielist-section"
+            title="Netflix Original"
+            isPotrait={true}
+            fetchURL={requestLinks.tvShows}
+            playingSection={playingSection}
+            previousPlayingMovie={previousPlayingMovie}
+            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
+            onPlay={() => setPlayingSection("Netflix Original")}
+          />
           <Section
             className="movielist-section"
             title="Trending"
@@ -47,16 +55,7 @@ function App() {
             setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Top Rated")}
           />
-          <Section
-            className="movielist-section"
-            title="Netflix Original"
-            isPotrait={true}
-            fetchURL={requestLinks.tvShows}
-            playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
-            onPlay={() => setPlayingSection("Netflix Original")}
-          />
+
           <Section
             className="movielist-section"
             title="Action & Adventure"

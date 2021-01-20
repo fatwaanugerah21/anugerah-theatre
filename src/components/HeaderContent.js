@@ -1,7 +1,9 @@
 import Axios from "axios";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import movieTrailer from "movie-trailer";
-import ReactPlayer from "react-player";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+const ReactPlayer = lazy(() => import("react-player"));
 
 const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
   const baseImgURL = "https://image.tmdb.org/t/p/original/";
@@ -11,9 +13,8 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [playText, setPlayText] = useState("Play");
-  const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${
-    movie.original_title ?? movie.original_name
-  }`;
+  const movieName = movie.original_title ?? movie.original_name;
+  const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${movieName}`;
   useEffect(() => {
     async function fetchData() {
       await Axios.get(fetchURL).then((request) => {
@@ -55,27 +56,25 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
 
   return (
     <div className={className}>
-      <img
-        src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
-        alt={movie.original_title}
-      />
+      <Suspense
+        fallback={<img src="img\netflix_N_logo.png" alt="Netflix logo" />}
+      >
+        <LazyLoadImage
+          src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
+          alt={movie.original_title}
+        />
+      </Suspense>
       <div className="fade-bottom"></div>
       <Suspense fallback={<div></div>}>
         <div className="header-movie-info white-text">
-          <h1>
-            {movie.original_title ?? movie.original_name
-              ? concenate(movie.original_title ?? movie.original_name, 30)
-              : movie.original_title ?? movie.original_name}
-          </h1>
+          <h1>{movieName ? concenate(movieName, 30) : movieName}</h1>
           <p>
             {movie.overview ? concenate(movie.overview, 150) : movie.overview}
           </p>
           <div className="row ">
             <button
               className="button play"
-              onClick={() =>
-                playTrailer(movie.original_name ?? movie.original_title)
-              }
+              onClick={() => playTrailer(movieName)}
             >
               {playText}
             </button>
@@ -91,13 +90,15 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
           </div>
         </div>
         <div className="header-trailer p-relative">
-          <ReactPlayer
-            url={trailerLink}
-            width={reactPlayerSize[0]}
-            height={reactPlayerSize[1]}
-            playing={isTrailerPlaying}
-            controls
-          />
+          <Suspense callback={<div></div>}>
+            <ReactPlayer
+              url={trailerLink}
+              width={reactPlayerSize[0]}
+              height={reactPlayerSize[1]}
+              playing={isTrailerPlaying}
+              controls
+            />
+          </Suspense>
         </div>
       </Suspense>
     </div>

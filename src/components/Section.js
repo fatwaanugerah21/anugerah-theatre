@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
+
+const ReactPlayer = lazy(() => import("react-player"));
 
 const Section = ({
   className,
@@ -67,41 +69,46 @@ const Section = ({
   }
 
   const movieList = movies.map((movie) => {
+    const movieName = movie.original_title ?? movie.original_name;
     const imgSrc =
       movie.poster_path ?? movie.backdrop_path
         ? `${imgURL}${isPotrait ? movie.poster_path : movie.backdrop_path}`
         : "/img/netflix_logo.svg";
-    const googleSearch = `https://google.com/search?q=Watch ${
-      movie.original_title ?? movie.original_name
-    }`;
+    const googleSearch = `https://google.com/search?q=Watch ${movieName}`;
     return (
       <div
         className="movie-container"
         onClick={() => {
-          playTrailer(movie.original_title ?? movie.original_name, movie.id);
+          playTrailer(movieName, movie.id);
         }}
         key={movie.id}
         id={movie.id}
-        tabindex="0"
+        tabIndex="-1"
       >
         <div className="movie-content">
-          <LazyLoadImage
-            is="lazyload-image"
-            offset="200px"
-            alt={movie.original_title ?? movie.original_name}
-            height={isPotrait ? "250px" : "140px"}
-            src={imgSrc}
-            effect="blur"
-            width={isPotrait ? "300px" : "200px"}
-          />
-          <div className="movie-text white-text">
-            <h4>{movie.original_title ?? movie.original_name}</h4>
+          <Suspense
+            fallback={<img src="img\netflix_N_logo.png" alt="Netflix logo" />}
+          >
+            <LazyLoadImage
+              offset="-400px"
+              alt={movieName}
+              height={isPotrait ? "420px" : "150px"}
+              src={imgSrc}
+              effect="opacity"
+              width={isPotrait ? "210px" : "230px"}
+            />
+          </Suspense>
+          <div
+            className={
+              isPotrait
+                ? "movie-text white-text potrait-text"
+                : " movie-text white-text landscape-text"
+            }
+          >
+            <h4>{movieName}</h4>
             <div className="row">
               <a
-                className="white-text"
-                href={`https://netflix.com/search?q=${
-                  movie.original_title ?? movie.original_name
-                }`}
+                href={`https://netflix.com/search?q=${movieName}`}
                 onClick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noreferrer"
@@ -109,10 +116,7 @@ const Section = ({
                 <img src="/img/netflix-button-icon.svg" alt="netflix-search" />
               </a>
               <a
-                className="white-text"
-                href={`https://hotstar.com/in/search?q=${
-                  movie.original_title ?? movie.original_name
-                }`}
+                href={`https://hotstar.com/in/`}
                 onClick={(e) => e.stopPropagation()}
                 target="_blank"
                 rel="noreferrer"
@@ -120,7 +124,6 @@ const Section = ({
                 <img src="/img/hotstar-button-icon.svg" alt="hotstar-search" />
               </a>
               <a
-                className="button"
                 href={googleSearch}
                 target="_blank"
                 onClick={(e) => e.stopPropagation()}
@@ -137,17 +140,21 @@ const Section = ({
 
   return (
     <div className={className} key={title}>
-      <h1>{title}</h1>
-      <div className={"movielist " + title}>{movieList}</div>
-      <div className="showTrailer">
-        <ReactPlayer
-          url={movieTrailerLink}
-          width={reactPlayerSize[0]}
-          height={reactPlayerSize[1]}
-          playing={isTrailerPlaying}
-          controls
-        />
-      </div>
+      <Suspense callback={<div></div>}>
+        <h1>{title}</h1>
+        <div className={"movielist " + title}>{movieList}</div>
+        <div className="showTrailer">
+          <Suspense fallback={<div></div>}>
+            <ReactPlayer
+              url={movieTrailerLink}
+              width={reactPlayerSize[0]}
+              height={reactPlayerSize[1]}
+              playing={isTrailerPlaying}
+              controls
+            />
+          </Suspense>
+        </div>
+      </Suspense>
     </div>
   );
 };
