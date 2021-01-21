@@ -1,7 +1,6 @@
 import Axios from "axios";
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import movieTrailer from "movie-trailer";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ReactPlayer = lazy(() => import("react-player"));
 
@@ -56,14 +55,10 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
 
   return (
     <div className={className}>
-      <Suspense
-        fallback={<img src="img\netflix_N_logo.png" alt="Netflix logo" />}
-      >
-        <LazyLoadImage
-          src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
-          alt={movie.original_title}
-        />
-      </Suspense>
+      <img
+        src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
+        alt={movie.original_title}
+      />
       <div className="fade-bottom"></div>
       <Suspense fallback={<div></div>}>
         <div className="header-movie-info white-text">

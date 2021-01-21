@@ -1,11 +1,11 @@
 .app {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .app header {
   width: 100%;
   height: 100vh;
-  margin-bottom: -100px;
+  margin-bottom: -150px;
   background: white;
 }
 
@@ -68,7 +68,7 @@
 
 .app header .header-content img {
   z-index: -1;
-  height: 93vh;
+  height: 100vh;
   width: 100%;
 }
 
@@ -174,16 +174,16 @@
     width: 470px;
   }
   .app .movielist-section .Netflix .movie-container {
-    margin: -300px 40px;
-    margin-left: 5px;
-    padding: 0;
+    margin: -200px 40px;
+    margin-bottom: 0 !important;
+    margin-left: -30px;
     width: 220px;
   }
   .app .movielist-section .Netflix .movie-container:hover, .app .movielist-section .Netflix .movie-container:focus {
     max-width: 220px !important;
   }
   .app .movielist-section .Netflix .movie-container:nth-child(20) {
-    margin-bottom: -80px !important;
+    margin-bottom: -150px !important;
   }
   .app .movielist-section .Netflix .movie-container:nth-child(1) {
     margin-top: 0;
@@ -191,15 +191,19 @@
   .app .movielist-section .Netflix .movie-container .movie-content {
     width: 0 !important;
   }
+  .app .movielist-section .Netflix .movie-container .movie-content img {
+    -o-object-fit: cover !important;
+       object-fit: cover !important;
+  }
   .app .movielist-section .Netflix .movie-container .movie-text {
     display: none;
   }
   .app .movielist-section .movielist {
     height: 100vw;
-    margin-bottom: calc(200px - 100vw);
+    margin-bottom: calc(300px - 100vw);
     display: inline-block;
     overflow-y: auto;
-    padding: 10px 10px;
+    padding: 10px 40px;
     -webkit-transform: rotate(-90deg) translateX(-100%);
             transform: rotate(-90deg) translateX(-100%);
     -webkit-transform-origin: top left;
@@ -221,12 +225,20 @@
             transform-origin: top left;
     padding: 5px;
     position: relative;
-    margin-bottom: 100px;
-    margin-right: -70px;
+    margin-bottom: -60px;
+    margin-right: 50px;
     cursor: pointer;
   }
   .app .movielist-section .movielist .movie-container:nth-child(20) {
-    margin-bottom: 130px;
+    margin-bottom: 0px;
+  }
+  .app .movielist-section .movielist .movie-container .contain-scale-image img {
+    -o-object-fit: contain;
+       object-fit: contain;
+    -webkit-transition: -webkit-transform 450ms !important;
+    transition: -webkit-transform 450ms !important;
+    transition: transform 450ms !important;
+    transition: transform 450ms, -webkit-transform 450ms !important;
   }
 }
 

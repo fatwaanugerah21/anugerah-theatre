@@ -3,6 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
+
 // import ReactPlayer from "react-player";
 
 const ReactPlayer = lazy(() => import("react-player"));
@@ -67,12 +68,11 @@ const Section = ({
   if (title !== playingSection) {
     if (movieId) pauseTrailer();
   }
-
   const movieList = movies.map((movie) => {
     const movieName = movie.original_title ?? movie.original_name;
     const imgSrc =
-      movie.poster_path ?? movie.backdrop_path
-        ? `${imgURL}${isPotrait ? movie.poster_path : movie.backdrop_path}`
+      movie.poster_path !== null
+        ? `${imgURL}${movie.poster_path}`
         : "/img/netflix_logo.svg";
     const googleSearch = `https://google.com/search?q=Watch ${movieName}`;
     return (
@@ -85,26 +85,16 @@ const Section = ({
         id={movie.id}
         tabIndex="-1"
       >
-        <div className="movie-content">
-          <Suspense
-            fallback={<img src="img\netflix_N_logo.png" alt="Netflix logo" />}
-          >
-            <LazyLoadImage
-              offset="-400px"
-              alt={movieName}
-              height={isPotrait ? "420px" : "150px"}
-              src={imgSrc}
-              effect="opacity"
-              width={isPotrait ? "210px" : "230px"}
-            />
-          </Suspense>
-          <div
-            className={
-              isPotrait
-                ? "movie-text white-text potrait-text"
-                : " movie-text white-text landscape-text"
-            }
-          >
+        <div className="movie-content contain-scale-image">
+          <LazyLoadImage
+            offset="-400px"
+            alt={movieName}
+            height={isPotrait ? "420px" : "230px"}
+            src={imgSrc}
+            effect="blur"
+            width={isPotrait ? "210px" : "150px"}
+          />
+          <div className={"movie-text white-text"}>
             <h4>{movieName}</h4>
             <div className="row">
               <a
@@ -140,21 +130,19 @@ const Section = ({
 
   return (
     <div className={className} key={title}>
-      <Suspense callback={<div></div>}>
-        <h1>{title}</h1>
-        <div className={"movielist " + title}>{movieList}</div>
-        <div className="showTrailer">
-          <Suspense fallback={<div></div>}>
-            <ReactPlayer
-              url={movieTrailerLink}
-              width={reactPlayerSize[0]}
-              height={reactPlayerSize[1]}
-              playing={isTrailerPlaying}
-              controls
-            />
-          </Suspense>
-        </div>
-      </Suspense>
+      <h1>{title}</h1>
+      <div className={"movielist " + title}>{movieList}</div>
+      <div className="showTrailer">
+        <Suspense fallback={<div></div>}>
+          <ReactPlayer
+            url={movieTrailerLink}
+            width={reactPlayerSize[0]}
+            height={reactPlayerSize[1]}
+            playing={isTrailerPlaying}
+            controls
+          />
+        </Suspense>
+      </div>
     </div>
   );
 };
