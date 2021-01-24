@@ -1,50 +1,54 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
+import { baseImgURL, otherTrailers } from "./consts";
+import { MediaIcon } from "./Shared";
+
 // import ReactPlayer from "react-player";
 
 const ReactPlayer = lazy(() => import("react-player"));
 
 const Section = ({
+  activeMovieId,
+  setPlayingMovieId,
   className,
   title,
   fetchURL,
-  isPotrait,
+  isLarge,
   onPlay,
   playingSection,
+  addMovieToStore,
 }) => {
-  const imgURL = "https://image.tmdb.org/t/p/original/";
   const [movies, setMovies] = useState([]);
   const [movieTrailerLink, setMovieTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
+  const trailerReference = useRef(null);
 
   useEffect(() => {
     async function fetchData() {
-      Axios.get(fetchURL).then((request) => {
-        setMovies(request.data.results);
-      });
+      const { data } = await Axios.get(fetchURL);
+      setMovies(data.results);
+      addMovieToStore(data.results);
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
 
   const playTrailer = (movieName, id) => {
-    movieTrailer(`${movieName}`)
+    setPlayingMovieId(id);
+    movieTrailer(`${movieName}`, { multi: true })
       .then((response) => {
-        setMovieTrailerLink(response);
+        setMovieTrailerLink(
+          response[Math.floor((Math.random() * 200) % response.length)]
+        );
       })
       .catch((_) => {
-        const otherTrailers = [
-          "https://www.youtube.com/watch?v=N10PlyFoSVM",
-          "https://www.youtube.com/watch?v=sscdG2ez7-E",
-          "https://www.youtube.com/watch?v=I4rS15xBL1Y",
-          "https://www.youtube.com/watch?v=LDV8VHbQoPI",
-        ];
-
         setMovieTrailerLink(otherTrailers[randomTrailerIndex]);
         setTrailerIndex((randomTrailerIndex + 1) % otherTrailers.length);
       });
@@ -53,6 +57,7 @@ const Section = ({
       setReactPlayerSize(["100%", "70vh"]);
       setIsTrailerPlaying(true);
       onPlay();
+      trailerReference.current.scrollIntoView();
     } else if (isTrailerPlaying && id === movieId) {
       pauseTrailer();
     }
@@ -71,67 +76,32 @@ const Section = ({
   const movieList = movies.map((movie) => {
     const movieName = movie.original_title ?? movie.original_name;
     const imgSrc =
-      movie.poster_path ?? movie.backdrop_path
-        ? `${imgURL}${isPotrait ? movie.poster_path : movie.backdrop_path}`
+      movie.poster_path !== undefined
+        ? `${baseImgURL}${movie.poster_path}`
         : "/img/netflix_logo.svg";
-    const googleSearch = `https://google.com/search?q=Watch ${movieName}`;
     return (
       <div
-        className="movie-container"
+        className={`movie-container ${
+          activeMovieId === movie.id ? "active-movie" : ""
+        }`}
         onClick={() => {
           playTrailer(movieName, movie.id);
         }}
         key={movie.id}
         id={movie.id}
-        tabIndex="-1"
       >
-        <div className="movie-content">
-          <Suspense
-            fallback={<img src="img\netflix_N_logo.png" alt="Netflix logo" />}
-          >
-            <LazyLoadImage
-              offset="-400px"
-              alt={movieName}
-              height={isPotrait ? "420px" : "150px"}
-              src={imgSrc}
-              effect="opacity"
-              width={isPotrait ? "210px" : "230px"}
-            />
-          </Suspense>
-          <div
-            className={
-              isPotrait
-                ? "movie-text white-text potrait-text"
-                : " movie-text white-text landscape-text"
-            }
-          >
+        <div className="movie-content contain-scale-image">
+          <LazyLoadImage
+            offset="-400px"
+            alt={movieName}
+            height={isLarge ? "420px" : "230px"}
+            src={imgSrc}
+            effect="blur"
+            width={isLarge ? "210px" : "150px"}
+          />
+          <div className={"movie-text white-text"}>
             <h4>{movieName}</h4>
-            <div className="row">
-              <a
-                href={`https://netflix.com/search?q=${movieName}`}
-                onClick={(e) => e.stopPropagation()}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src="/img/netflix-button-icon.svg" alt="netflix-search" />
-              </a>
-              <a
-                href={`https://hotstar.com/in/`}
-                onClick={(e) => e.stopPropagation()}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img src="/img/hotstar-button-icon.svg" alt="hotstar-search" />
-              </a>
-              <a
-                href={googleSearch}
-                target="_blank"
-                onClick={(e) => e.stopPropagation()}
-                rel="noreferrer"
-              >
-                <img src="/img/google-icon.svg" alt="google-search" />
-              </a>
-            </div>
+            <MediaIcon movieName={movieName} />
           </div>
         </div>
       </div>
@@ -140,22 +110,33 @@ const Section = ({
 
   return (
     <div className={className} key={title}>
-      <Suspense callback={<div></div>}>
-        <h1>{title}</h1>
-        <div className={"movielist " + title}>{movieList}</div>
-        <div className="showTrailer">
-          <Suspense fallback={<div></div>}>
-            <ReactPlayer
-              url={movieTrailerLink}
-              width={reactPlayerSize[0]}
-              height={reactPlayerSize[1]}
-              playing={isTrailerPlaying}
-              controls
-            />
-          </Suspense>
-        </div>
-      </Suspense>
+      <h1 ref={trailerReference}>{title}</h1>
+      <div className={"movielist " + title}>{movieList}</div>
+      <div className="showTrailer">
+        <Suspense fallback={<div></div>}>
+          <ReactPlayer
+            url={movieTrailerLink}
+            width={reactPlayerSize[0]}
+            height={reactPlayerSize[1]}
+            playing={isTrailerPlaying}
+            controls
+          />
+        </Suspense>
+      </div>
     </div>
   );
 };
-export default Section;
+function mapStateToProps(state, props) {
+  return {
+    activeMovieId: state.activeMovieId,
+    oldActiveMovieId: state.activeMovieId,
+  };
+}
+
+function mapDispatchToProps(dispatch, props) {
+  return {
+    setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
+    addMovieToStore: (movies) => dispatch({ type: "ADD_NEW_MOVIES", movies }),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Section);

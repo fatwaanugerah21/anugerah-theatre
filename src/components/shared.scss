@@ -1,0 +1,19 @@
+.media-icon {
+  margin-top: 10px;
+  display: flex;
+  a {
+    padding: 5px;
+    cursor: alias;
+  }
+  img {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50%;
+    filter: brightness(100%);
+    &:hover {
+      transform: scale(1.2);
+      filter: brightness(140%);
+      transition: transform 450ms;
+    }
+  }
+}

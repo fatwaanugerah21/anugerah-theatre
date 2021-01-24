@@ -2,25 +2,68 @@ $leftMargin: 40px;
 $navMargin: 10px;
 
 .app {
-  overflow-x: hidden;
+  overflow: hidden;
   header {
     width: 100%;
     height: 100vh;
-    margin-bottom: -100px;
+    margin-bottom: -150px;
     background: white;
 
+    .show {
+      display: block !important;
+    }
+
     .header-trailer {
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
+      display: none;
       height: fit-content;
       width: fit-content;
-      background: linear-gradient(
-        to bottom,
-        rgb(126, 126, 126),
-        rgba(0, 0, 0, 1)
-      );
+      background-color: black;
+
+      .top-bar {
+        padding: 0.5% 10%;
+        display: block;
+        width: 100vw;
+        position: absolute;
+        background-color: black;
+
+        @media (max-width: 780px) and (pointer: coarse) {
+          bottom: 5%;
+        }
+
+        h2 {
+          margin: 1rem 0;
+
+          @media (max-width: 427px) {
+            font-size: 14pt;
+          }
+          @media (max-width: 340px) {
+            font-size: 12pt;
+          }
+        }
+
+        .close-button {
+          font-size: 20pt;
+          cursor: pointer;
+        }
+
+        .media-icon {
+          img {
+            margin-right: 20px;
+            width: 30px !important;
+            height: 30px !important;
+
+            @media (max-width: 426px) {
+              width: 25px !important;
+              height: 25px !important;
+            }
+          }
+        }
+      }
     }
+
     .header-content {
       overflow: hidden;
 
@@ -58,7 +101,7 @@ $navMargin: 10px;
 
       img {
         z-index: -1;
-        height: 93vh;
+        height: 100vh;
         width: 100%;
       }
     }
@@ -144,25 +187,22 @@ $navMargin: 10px;
     }
     @media not all and (pointer: coarse) {
       .Netflix {
-        margin-bottom: calc(480px - 100vw) !important;
+        margin-bottom: calc(500px - 100vw) !important;
         padding: 0;
-
         margin-right: 0px !important;
         width: 470px;
-
+        .movie-container:hover,
+        .active-movie {
+          max-width: 210px !important;
+        }
         .movie-container {
-          margin: -300px 40px;
-          margin-left: 5px;
-          padding: 0;
+          margin: -200px 40px;
+          margin-bottom: 0 !important;
+          margin-left: -30px;
           width: 220px;
 
-          &:hover,
-          &:focus {
-            max-width: 220px !important;
-          }
-
           &:nth-child(20) {
-            margin-bottom: -80px !important;
+            margin-bottom: -150px !important;
           }
 
           &:nth-child(1) {
@@ -171,6 +211,10 @@ $navMargin: 10px;
 
           .movie-content {
             width: 0 !important;
+
+            img {
+              object-fit: cover !important;
+            }
           }
           .movie-text {
             display: none;
@@ -180,10 +224,10 @@ $navMargin: 10px;
 
       .movielist {
         height: 100vw;
-        margin-bottom: calc(200px - 100vw);
+        margin-bottom: calc(300px - 100vw);
         display: inline-block;
         overflow-y: auto;
-        padding: 10px 10px;
+        padding: 10px 40px;
         transform: rotate(-90deg) translateX(-100%);
         transform-origin: top left;
         &::-webkit-scrollbar {
@@ -210,11 +254,18 @@ $navMargin: 10px;
           transform-origin: top left;
           padding: 5px;
           position: relative;
-          margin-bottom: 100px;
-          margin-right: -70px;
+          margin-bottom: -60px;
+          margin-right: 50px;
           cursor: pointer;
           &:nth-child(20) {
-            margin-bottom: 130px;
+            margin-bottom: 0px;
+          }
+
+          .contain-scale-image {
+            img {
+              object-fit: contain;
+              transition: transform 450ms !important;
+            }
           }
         }
       }
@@ -250,7 +301,7 @@ $navMargin: 10px;
     }
 
     .movie-container:hover,
-    .movie-container:focus {
+    .active-movie {
       outline: none;
       z-index: 4;
       max-width: fit-content;
@@ -271,25 +322,19 @@ $navMargin: 10px;
           top: 0;
           left: 0;
           opacity: 1;
-          animation: fade-in 500ms;
           position: absolute;
           width: 100%;
           height: 100%;
 
-          .row {
-            margin-top: 10px;
+          .media-icon {
             a {
               padding: 5px;
               cursor: alias;
-            }
-            img {
-              width: 20px;
-              height: 20px;
-              border-radius: 50%;
-              filter: brightness(100%);
+              z-index: 10000;
+              filter: brightness(250%);
               &:hover {
                 transform: scale(1.2);
-                filter: brightness(140%);
+                filter: brightness(300%);
                 transition: transform 450ms;
               }
             }

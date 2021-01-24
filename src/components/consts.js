@@ -1,10 +1,9 @@
 const API_KEY = "19d7eaee255a9288a902fa6ccbc5c974";
 export const baseURL = "https://api.themoviedb.org/3";
-export const imgURL = "https://image.tmdb.org/t/p/original/";
 export const requestLinks = {
   trending: `${baseURL}/trending/all/week?api_key=${API_KEY}&language=en_US`,
   topRated: `${baseURL}/movie/top_rated?api_key=${API_KEY}&language=en_US`,
-  tvShows: `${baseURL}/discover/tv?api_key=${API_KEY}&language=en_US&video=true`,
+  tvShows: `${baseURL}/discover/tv?api_key=${API_KEY}&language=en_US`,
   actionMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=28`,
   animationMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=16`,
   comedyMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=35`,
@@ -20,3 +19,16 @@ export const requestLinks = {
   romanceMovies: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=10749`,
   documentaries: `${baseURL}/discover/movie?api_key=${API_KEY}&language=en_US&with_genres=99`,
 };
+
+export const googleSearch = (movieName) => {
+  return `https://google.com/search?q=Watch ${movieName}`;
+};
+
+export const baseImgURL = "https://image.tmdb.org/t/p/original/";
+
+export const otherTrailers = [
+  "https://www.youtube.com/watch?v=N10PlyFoSVM",
+  "https://www.youtube.com/watch?v=sscdG2ez7-E",
+  "https://www.youtube.com/watch?v=I4rS15xBL1Y",
+  "https://www.youtube.com/watch?v=LDV8VHbQoPI",
+];
