@@ -24,8 +24,8 @@ function App() {
         <Navbar />
       </Suspense>
 
-      <div className="mask"></div>
       <Suspense fallback={<div></div>}>
+        <div className="mask"></div>
         <main>
           <Section
             className="movielist-section"
