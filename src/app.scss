@@ -135,6 +135,7 @@ $navMargin: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background 500ms;
 
     .left-side {
       display: flex;
