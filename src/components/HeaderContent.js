@@ -3,7 +3,7 @@ import Axios from "axios";
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
-import { baseImgURL, googleSearch } from "./consts";
+import { baseImgURL, googleSearch, w500ImgURL } from "./consts";
 import { MediaIcon } from "./Shared";
 
 const ReactPlayer = lazy(() => import("react-player"));
@@ -51,7 +51,9 @@ const HeaderContent = ({
   function getImageSrc() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    return baseImgURL + (w < h ? movie.poster_path : movie.backdrop_path);
+    return w < h
+      ? `${w500ImgURL}${movie.poster_path}`
+      : `${baseImgURL}${movie.backdrop_path}`;
   }
 
   function pauseTrailer() {

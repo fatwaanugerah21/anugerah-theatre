@@ -25,6 +25,7 @@ export const googleSearch = (movieName) => {
 };
 
 export const baseImgURL = "https://image.tmdb.org/t/p/original/";
+export const w500ImgURL = "https://image.tmdb.org/t/p/w500/";
 
 export const otherTrailers = [
   "https://www.youtube.com/watch?v=N10PlyFoSVM",

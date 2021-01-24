@@ -2,7 +2,7 @@ import { requestLinks } from "./consts";
 
 export const allSections = [
   {
-    title: "Netflix Originl",
+    title: "Netflix Original",
     isLarge: true,
     fetchURL: requestLinks.tvShows,
   },

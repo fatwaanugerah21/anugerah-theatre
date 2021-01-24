@@ -4,7 +4,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
-import { baseImgURL, otherTrailers } from "./consts";
+import { otherTrailers, w500ImgURL } from "./consts";
 import { MediaIcon } from "./Shared";
 
 // import ReactPlayer from "react-player";
@@ -77,7 +77,7 @@ const Section = ({
     const movieName = movie.original_title ?? movie.original_name;
     const imgSrc =
       movie.poster_path !== undefined
-        ? `${baseImgURL}${movie.poster_path}`
+        ? `${w500ImgURL}${movie.poster_path}`
         : "/img/netflix_logo.svg";
     return (
       <div
