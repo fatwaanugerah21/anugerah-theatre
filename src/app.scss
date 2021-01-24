@@ -45,7 +45,8 @@ $navMargin: 10px;
         }
 
         .close-button {
-          font-size: 20pt;
+          font-size: 27pt;
+          margin-top: -10px;
           cursor: pointer;
         }
 
@@ -66,7 +67,11 @@ $navMargin: 10px;
 
     .header-content {
       overflow: hidden;
-
+      background: url("./components/netflix_logo.svg");
+      background-clip: border-box;
+      background-position-x: center;
+      background-position-y: center;
+      background-repeat: no-repeat;
       .header-movie-info {
         position: absolute;
         top: 50%;

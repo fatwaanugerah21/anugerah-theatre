@@ -116,7 +116,7 @@ const HeaderContent = ({
                 className="close-button white-text"
                 onClick={() => pauseTrailer()}
               >
-                X
+                x
               </a>
             </div>
           </div>
