@@ -1,47 +1,68 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Axios from "axios";
 import React, { useEffect, useState, Suspense, lazy } from "react";
+import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
+import { baseImgURL, googleSearch } from "./consts";
+import { MediaIcon } from "./Shared";
 
 const ReactPlayer = lazy(() => import("react-player"));
 
-const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
-  const baseImgURL = "https://image.tmdb.org/t/p/original/";
-
+const HeaderContent = ({
+  className,
+  fetchURL,
+  playingSection,
+  onPlay,
+  setPlayingMovieId,
+}) => {
   const [movie, setMovie] = useState({});
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
-  const [playText, setPlayText] = useState("Play");
   const movieName = movie.original_title ?? movie.original_name;
-  const googleSearch = `https://www.google.com/search?source=hp&ei=uwnjX-ToPOOo3LUPsMaQiAw&q=${movieName}`;
+
   useEffect(() => {
     async function fetchData() {
-      await Axios.get(fetchURL).then((request) => {
-        setMovie(request.data.results[Math.floor(Math.random() * 20)]);
-      });
+      const { data } = await Axios.get(fetchURL);
+      setMovie(data.results[Math.floor(Math.random() * 20)]);
     }
     fetchData();
   }, [fetchURL]);
 
   const playTrailer = (movieName) => {
     onPlay();
+    setPlayingMovieId(null);
     movieTrailer(movieName).then((response) => {
       setTrailerLink(response);
     });
-    if (reactPlayerSize[1] === "0") {
-      setReactPlayerSize(["70vw", "96vh"]);
+    if (!isTrailerPlaying) {
+      document.body.style.overflow = "hidden";
+      const trailerContainerDOM = document.getElementById(
+        "header-trailer-container"
+      );
+      trailerContainerDOM?.classList.add("show");
+      setReactPlayerSize(["100vw", "100vh"]);
       setIsTrailerPlaying(true);
-      setPlayText("Pause");
-    } else if (reactPlayerSize[1] === "96vh") {
+    } else if (isTrailerPlaying) {
       pauseTrailer();
     }
   };
 
+  function getImageSrc() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    return baseImgURL + (w < h ? movie.poster_path : movie.backdrop_path);
+  }
+
   function pauseTrailer() {
-    if (reactPlayerSize[1] === "96vh") {
+    document.body.style.overflow = "auto";
+    if (isTrailerPlaying) {
+      const trailerContainerDOM = document.getElementById(
+        "header-trailer-container"
+      );
+      trailerContainerDOM?.classList.remove("show");
       setReactPlayerSize(["100vw", "0"]);
       setIsTrailerPlaying(false);
-      setPlayText("Play");
     }
   }
 
@@ -55,10 +76,7 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
 
   return (
     <div className={className}>
-      <img
-        src={movie.backdrop_path ? `${baseImgURL}${movie.backdrop_path}` : ""}
-        alt={movie.original_title}
-      />
+      <img src={getImageSrc()} alt={movie.original_title} />
       <div className="fade-bottom"></div>
       <Suspense fallback={<div></div>}>
         <div className="header-movie-info white-text">
@@ -71,11 +89,11 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
               className="button play"
               onClick={() => playTrailer(movieName)}
             >
-              {playText}
+              Play
             </button>
             <a
               className="button"
-              href={googleSearch}
+              href={googleSearch(movieName)}
               target="_blank"
               onClick={(e) => e.stopPropagation()}
               rel="noreferrer"
@@ -84,14 +102,30 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
             </a>
           </div>
         </div>
-        <div className="header-trailer p-relative">
+        <div
+          id="header-trailer-container"
+          className="header-trailer p-relative"
+        >
+          <div className="top-bar ">
+            <h2 className="white-text center-text">{movieName}</h2>
+            <div className="row f-sb-ac">
+              <div className="movie-provider-button">
+                <MediaIcon movieName={movieName} />
+              </div>
+              <a
+                className="close-button white-text"
+                onClick={() => pauseTrailer()}
+              >
+                X
+              </a>
+            </div>
+          </div>
           <Suspense callback={<div></div>}>
             <ReactPlayer
               url={trailerLink}
               width={reactPlayerSize[0]}
               height={reactPlayerSize[1]}
               playing={isTrailerPlaying}
-              controls
             />
           </Suspense>
         </div>
@@ -99,4 +133,20 @@ const HeaderContent = ({ className, fetchURL, playingSection, onPlay }) => {
     </div>
   );
 };
-export default HeaderContent;
+
+function mapStateToProps(state, props) {
+  return {
+    activeMovieId: state.activeMovieId,
+    oldActiveMovieId: state.activeMovieId,
+    allMovie: state.allMovies,
+  };
+}
+
+function mapDispatchToProps(dispatch, props) {
+  return {
+    setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
+    setActiveSection: (title) =>
+      dispatch({ type: "NEW_ACTIVE_SECTION", title }),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContent);

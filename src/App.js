@@ -2,6 +2,7 @@ import React, { useState, Suspense, lazy } from "react";
 
 import { requestLinks } from "./components/consts";
 import "./app.css";
+import "./components/shared.css";
 import HeaderContent from "./components/HeaderContent";
 
 const Section = lazy(() => import("./components/Section"));
@@ -9,7 +10,6 @@ const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
   const [playingSection, setPlayingSection] = useState("");
-  const [previousPlayingMovie, setPreviousPlayingMovie] = useState();
   return (
     <div className="app">
       <header className="App-header">
@@ -30,11 +30,9 @@ function App() {
           <Section
             className="movielist-section"
             title="Netflix Original"
-            isPotrait={true}
+            isLarge={true}
             fetchURL={requestLinks.tvShows}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Netflix Original")}
           />
           <Section
@@ -42,8 +40,6 @@ function App() {
             title="Trending"
             fetchURL={requestLinks.trending}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Trending")}
           />
           <Section
@@ -51,8 +47,6 @@ function App() {
             title="Top Rated"
             fetchURL={requestLinks.topRated}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Top Rated")}
           />
 
@@ -61,8 +55,6 @@ function App() {
             title="Action & Adventure"
             fetchURL={requestLinks.actionMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Action & Adventure")}
           />
           <Section
@@ -70,8 +62,6 @@ function App() {
             title="Comedies"
             fetchURL={requestLinks.comedyMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Comedies")}
           />
           <Section
@@ -79,8 +69,6 @@ function App() {
             title="Crime"
             fetchURL={requestLinks.crimeMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Crime")}
           />
           <Section
@@ -88,8 +76,6 @@ function App() {
             title="Family"
             fetchURL={requestLinks.familyMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Family")}
           />
           <Section
@@ -97,8 +83,6 @@ function App() {
             title="Fantasy"
             fetchURL={requestLinks.fantasyMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Fantasy")}
           />
           <Section
@@ -106,8 +90,6 @@ function App() {
             title="History"
             fetchURL={requestLinks.historyMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("History")}
           />
           <Section
@@ -115,8 +97,6 @@ function App() {
             title="Science Fiction"
             fetchURL={requestLinks.scienceFictionMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Science Fiction")}
           />
           <Section
@@ -124,8 +104,6 @@ function App() {
             title="War"
             fetchURL={requestLinks.warMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("War")}
           />
           <Section
@@ -133,8 +111,6 @@ function App() {
             title="Western"
             fetchURL={requestLinks.westernMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Western")}
           />
           <Section
@@ -142,8 +118,6 @@ function App() {
             title="Horror"
             fetchURL={requestLinks.horrorMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Horror")}
           />
           <Section
@@ -151,8 +125,6 @@ function App() {
             title="Romance"
             fetchURL={requestLinks.romanceMovies}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Romance")}
           />
           <Section
@@ -160,8 +132,6 @@ function App() {
             title="Documentaries"
             fetchURL={requestLinks.documentaries}
             playingSection={playingSection}
-            previousPlayingMovie={previousPlayingMovie}
-            setPreviousPlayingMovie={(id) => setPreviousPlayingMovie(id)}
             onPlay={() => setPlayingSection("Documentaries")}
           />
         </main>

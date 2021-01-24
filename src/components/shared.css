@@ -1,0 +1,31 @@
+.media-icon {
+  margin-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.media-icon a {
+  padding: 5px;
+  cursor: alias;
+}
+
+.media-icon img {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50%;
+  -webkit-filter: brightness(100%);
+          filter: brightness(100%);
+}
+
+.media-icon img:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-filter: brightness(140%);
+          filter: brightness(140%);
+  -webkit-transition: -webkit-transform 450ms;
+  transition: -webkit-transform 450ms;
+  transition: transform 450ms;
+  transition: transform 450ms, -webkit-transform 450ms;
+}
+/*# sourceMappingURL=shared.css.map */

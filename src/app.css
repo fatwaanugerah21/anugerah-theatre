@@ -9,18 +9,70 @@
   background: white;
 }
 
+.app header .show {
+  display: block !important;
+}
+
 .app header .header-trailer {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
+  display: none;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  background: -webkit-gradient(linear, left top, left bottom, from(#7e7e7e), to(black));
-  background: linear-gradient(to bottom, #7e7e7e, black);
+  background-color: black;
+}
+
+.app header .header-trailer .top-bar {
+  padding: 0.5% 10%;
+  display: block;
+  width: 100vw;
+  position: absolute;
+  background-color: black;
+}
+
+@media (max-width: 780px) and (pointer: coarse) {
+  .app header .header-trailer .top-bar {
+    bottom: 5%;
+  }
+}
+
+.app header .header-trailer .top-bar h2 {
+  margin: 1rem 0;
+}
+
+@media (max-width: 427px) {
+  .app header .header-trailer .top-bar h2 {
+    font-size: 14pt;
+  }
+}
+
+@media (max-width: 340px) {
+  .app header .header-trailer .top-bar h2 {
+    font-size: 12pt;
+  }
+}
+
+.app header .header-trailer .top-bar .close-button {
+  font-size: 20pt;
+  cursor: pointer;
+}
+
+.app header .header-trailer .top-bar .media-icon img {
+  margin-right: 20px;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+@media (max-width: 426px) {
+  .app header .header-trailer .top-bar .media-icon img {
+    width: 25px !important;
+    height: 25px !important;
+  }
 }
 
 .app header .header-content {
@@ -168,19 +220,20 @@
 
 @media not all and (pointer: coarse) {
   .app .movielist-section .Netflix {
-    margin-bottom: calc(480px - 100vw) !important;
+    margin-bottom: calc(500px - 100vw) !important;
     padding: 0;
     margin-right: 0px !important;
     width: 470px;
+  }
+  .app .movielist-section .Netflix .movie-container:hover,
+  .app .movielist-section .Netflix .active-movie {
+    max-width: 210px !important;
   }
   .app .movielist-section .Netflix .movie-container {
     margin: -200px 40px;
     margin-bottom: 0 !important;
     margin-left: -30px;
     width: 220px;
-  }
-  .app .movielist-section .Netflix .movie-container:hover, .app .movielist-section .Netflix .movie-container:focus {
-    max-width: 220px !important;
   }
   .app .movielist-section .Netflix .movie-container:nth-child(20) {
     margin-bottom: -150px !important;
@@ -273,7 +326,7 @@
 }
 
 .app .movielist-section .movie-container:hover,
-.app .movielist-section .movie-container:focus {
+.app .movielist-section .active-movie {
   outline: none;
   z-index: 4;
   max-width: -webkit-fit-content;
@@ -282,12 +335,12 @@
 }
 
 .app .movielist-section .movie-container:hover .movie-content,
-.app .movielist-section .movie-container:focus .movie-content {
+.app .movielist-section .active-movie .movie-content {
   z-index: -1;
 }
 
 .app .movielist-section .movie-container:hover .movie-content img,
-.app .movielist-section .movie-container:focus .movie-content img {
+.app .movielist-section .active-movie .movie-content img {
   -webkit-filter: brightness(40%);
           filter: brightness(40%);
   -webkit-transform: scale(1.1);
@@ -295,7 +348,7 @@
 }
 
 .app .movielist-section .movie-container:hover .movie-content .movie-text,
-.app .movielist-section .movie-container:focus .movie-content .movie-text {
+.app .movielist-section .active-movie .movie-content .movie-text {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -313,39 +366,26 @@
   top: 0;
   left: 0;
   opacity: 1;
-  -webkit-animation: fade-in 500ms;
-          animation: fade-in 500ms;
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-.app .movielist-section .movie-container:hover .movie-content .movie-text .row,
-.app .movielist-section .movie-container:focus .movie-content .movie-text .row {
-  margin-top: 10px;
-}
-
-.app .movielist-section .movie-container:hover .movie-content .movie-text .row a,
-.app .movielist-section .movie-container:focus .movie-content .movie-text .row a {
+.app .movielist-section .movie-container:hover .movie-content .movie-text .media-icon a,
+.app .movielist-section .active-movie .movie-content .movie-text .media-icon a {
   padding: 5px;
   cursor: alias;
+  z-index: 10000;
+  -webkit-filter: brightness(250%);
+          filter: brightness(250%);
 }
 
-.app .movielist-section .movie-container:hover .movie-content .movie-text .row img,
-.app .movielist-section .movie-container:focus .movie-content .movie-text .row img {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  -webkit-filter: brightness(100%);
-          filter: brightness(100%);
-}
-
-.app .movielist-section .movie-container:hover .movie-content .movie-text .row img:hover,
-.app .movielist-section .movie-container:focus .movie-content .movie-text .row img:hover {
+.app .movielist-section .movie-container:hover .movie-content .movie-text .media-icon a:hover,
+.app .movielist-section .active-movie .movie-content .movie-text .media-icon a:hover {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
-  -webkit-filter: brightness(140%);
-          filter: brightness(140%);
+  -webkit-filter: brightness(300%);
+          filter: brightness(300%);
   -webkit-transition: -webkit-transform 450ms;
   transition: -webkit-transform 450ms;
   transition: transform 450ms;
