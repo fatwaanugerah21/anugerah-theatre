@@ -7,8 +7,6 @@ import movieTrailer from "movie-trailer";
 import { otherTrailers, w500ImgURL } from "./consts";
 import { MediaIcon } from "./Shared";
 
-// import ReactPlayer from "react-player";
-
 const ReactPlayer = lazy(() => import("react-player"));
 
 const Section = ({

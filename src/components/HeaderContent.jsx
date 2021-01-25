@@ -1,18 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Axios from "axios";
-import React, { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
 import { baseImgURL, googleSearch, w500ImgURL } from "./consts";
-import { MediaIcon } from "./Shared";
-
-const ReactPlayer = lazy(() => import("react-player"));
+import { concenate, FullscreenTrailer } from "./Shared";
 
 const HeaderContent = ({
   className,
   fetchURL,
-  playingSection,
-  onPlay,
+  setPlayingSection,
   setPlayingMovieId,
 }) => {
   const [movie, setMovie] = useState({});
@@ -30,7 +27,7 @@ const HeaderContent = ({
   }, [fetchURL]);
 
   const playTrailer = (movieName) => {
-    onPlay();
+    setPlayingSection(null);
     setPlayingMovieId(null);
     movieTrailer(movieName).then((response) => {
       setTrailerLink(response);
@@ -40,7 +37,7 @@ const HeaderContent = ({
       const trailerContainerDOM = document.getElementById(
         "header-trailer-container"
       );
-      trailerContainerDOM?.classList.add("show");
+      trailerContainerDOM.style.display = "block";
       setReactPlayerSize(["100vw", "100vh"]);
       setIsTrailerPlaying(true);
     } else if (isTrailerPlaying) {
@@ -62,18 +59,10 @@ const HeaderContent = ({
       const trailerContainerDOM = document.getElementById(
         "header-trailer-container"
       );
-      trailerContainerDOM?.classList.remove("show");
+      trailerContainerDOM.style.display = "none";
       setReactPlayerSize(["100vw", "0"]);
       setIsTrailerPlaying(false);
     }
-  }
-
-  if ("Header" !== playingSection) {
-    pauseTrailer();
-  }
-
-  function concenate(string, digit) {
-    return string.length > digit ? string.substr(0, digit) + "..." : string;
   }
 
   return (
@@ -104,33 +93,13 @@ const HeaderContent = ({
             </a>
           </div>
         </div>
-        <div
-          id="header-trailer-container"
-          className="header-trailer p-relative"
-        >
-          <div className="top-bar ">
-            <h2 className="white-text center-text">{movieName}</h2>
-            <div className="row f-sb-ac">
-              <div className="movie-provider-button">
-                <MediaIcon movieName={movieName} />
-              </div>
-              <a
-                className="close-button white-text"
-                onClick={() => pauseTrailer()}
-              >
-                x
-              </a>
-            </div>
-          </div>
-          <Suspense callback={<div></div>}>
-            <ReactPlayer
-              url={trailerLink}
-              width={reactPlayerSize[0]}
-              height={reactPlayerSize[1]}
-              playing={isTrailerPlaying}
-            />
-          </Suspense>
-        </div>
+        <FullscreenTrailer
+          movieName={movieName}
+          isTrailerPlaying={isTrailerPlaying}
+          reactPlayerSize={reactPlayerSize}
+          trailerLink={trailerLink}
+          pauseTrailer={() => pauseTrailer()}
+        />
       </Suspense>
     </div>
   );
@@ -139,7 +108,7 @@ const HeaderContent = ({
 function mapStateToProps(state, props) {
   return {
     activeMovieId: state.activeMovieId,
-    oldActiveMovieId: state.activeMovieId,
+    playingSection: state.playingSection,
     allMovie: state.allMovies,
   };
 }
@@ -147,8 +116,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch, props) {
   return {
     setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
-    setActiveSection: (title) =>
-      dispatch({ type: "NEW_ACTIVE_SECTION", title }),
+    setPlayingSection: (title) =>
+      dispatch({ type: "NEW_PLAYING_SECTION", title }),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderContent);

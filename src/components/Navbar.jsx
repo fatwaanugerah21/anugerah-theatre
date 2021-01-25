@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({ setSearchedMovies, inputValue, autoFocus }) => {
   const [navbarId, setNavbarId] = useState("");
   function setNavbarBG(_) {
     setNavbarId(window.pageYOffset > 100 ? "black-background" : "");
+  }
+
+  function searchMovies(e) {
+    setSearchedMovies(e.target.value);
   }
 
   useEffect(() => {
@@ -37,6 +41,15 @@ const Navbar = () => {
       </div>
 
       <div className="right-side">
+        <form action="">
+          <input
+            type="text"
+            placeholder="search movies"
+            value={inputValue}
+            autoFocus={autoFocus}
+            onChange={searchMovies}
+          />
+        </form>
         <img src="/img/account_icon.svg" height="26" width="20" alt="" />
       </div>
     </nav>

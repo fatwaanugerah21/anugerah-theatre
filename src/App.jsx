@@ -1,16 +1,26 @@
-import React, { useState, Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
 
 import { requestLinks } from "./components/consts";
 import "./app.css";
 import "./components/shared.css";
 import HeaderContent from "./components/HeaderContent";
 import { allSections } from "./components/sectionsArray";
+import SearchMovies from "./components/SearchMovies";
 
 const Section = lazy(() => import("./components/Section"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
-  const [playingSection, setPlayingSection] = useState("");
+  const [searchedMovie, setSearchedMovie] = useState("");
+
+  if (searchedMovie) {
+    return (
+      <SearchMovies
+        mustContains={searchedMovie}
+        setMustContains={(input) => setSearchedMovie(input)}
+      />
+    );
+  }
 
   const sectionList = allSections.map((section) => {
     return (
@@ -20,10 +30,6 @@ function App() {
         title={section.title}
         fetchURL={section.fetchURL}
         isLarge={section.isLarge}
-        playingSection={playingSection}
-        onPlay={() => {
-          setPlayingSection(section.title);
-        }}
       />
     );
   });
@@ -34,12 +40,15 @@ function App() {
         <HeaderContent
           className="header-content"
           fetchURL={requestLinks.actionMovies}
-          playingSection={playingSection}
-          onPlay={() => setPlayingSection("Header")}
+          title="Header"
         />
       </header>
       <Suspense fallback={<div></div>}>
-        <Navbar />
+        <Navbar
+          setSearchedMovies={(title) => {
+            setSearchedMovie(title);
+          }}
+        />
       </Suspense>
 
       <Suspense fallback={<div></div>}>

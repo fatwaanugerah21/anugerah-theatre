@@ -3,75 +3,67 @@ $navMargin: 10px;
 
 .app {
   overflow: hidden;
-  header {
-    width: 100%;
-    height: 100vh;
-    margin-bottom: -150px;
-    background: white;
+  .searched-movies-contents {
+    padding: 7rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
 
-    .show {
-      display: block !important;
+    @media (max-width: 600px) {
+      justify-content: center;
     }
 
-    .header-trailer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      display: none;
-      height: fit-content;
-      width: fit-content;
-      background-color: black;
+    .movie {
+      transition: all 450ms !important;
+      margin: 10px;
+      position: relative;
+      .movie-text {
+        display: none;
+      }
 
-      .top-bar {
-        padding: 0.5% 10%;
-        display: block;
-        width: 100vw;
-        position: absolute;
-        background-color: black;
-
-        @media (max-width: 780px) and (pointer: coarse) {
-          bottom: 5%;
+      &:hover {
+        cursor: pointer;
+        z-index: 100;
+        transform: scale(1.3);
+        img {
+          filter: brightness(50%);
         }
-
-        h2 {
-          margin: 1rem 0;
-
-          @media (max-width: 427px) {
-            font-size: 14pt;
+        .movie-text {
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          position: absolute;
+          h4 {
+            font-size: 10pt;
+            text-align: center;
           }
-          @media (max-width: 340px) {
-            font-size: 12pt;
-          }
-        }
-
-        .close-button {
-          font-size: 27pt;
-          margin-top: -10px;
-          cursor: pointer;
-        }
-
-        .media-icon {
           img {
-            margin-right: 20px;
-            width: 30px !important;
-            height: 30px !important;
-
-            @media (max-width: 426px) {
-              width: 25px !important;
-              height: 25px !important;
-            }
+            filter: brightness(100%);
           }
         }
       }
     }
+  }
+
+  header {
+    width: 100%;
+    height: 100vh;
+    margin-bottom: -150px;
+
+    @media (max-width: 500px) {
+      margin-bottom: -110px;
+    }
+    background: white;
 
     .header-content {
       overflow: hidden;
-      background: url("./components/netflix_logo.svg");
-      background-clip: border-box;
-      background-position-x: center;
-      background-position-y: center;
-      background-repeat: no-repeat;
+
       .header-movie-info {
         position: absolute;
         top: 50%;
@@ -136,7 +128,7 @@ $navMargin: 10px;
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 10px $leftMargin 15px;
+    padding: 10px $leftMargin 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -193,7 +185,7 @@ $navMargin: 10px;
     }
     @media not all and (pointer: coarse) {
       .Netflix {
-        margin-bottom: calc(500px - 100vw) !important;
+        margin-bottom: calc(550px - 100vw) !important;
         padding: 0;
         margin-right: 0px !important;
         width: 470px;
@@ -278,6 +270,11 @@ $navMargin: 10px;
     }
     @media (pointer: coarse) {
       margin-left: -30px;
+      .Netflix {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        overflow-y: hidden;
+      }
       .showTrailer {
         margin-left: -10px;
       }
@@ -366,5 +363,56 @@ $navMargin: 10px;
   }
   to {
     opacity: 1;
+  }
+}
+
+.header-trailer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+
+  .top-bar {
+    padding: 0 10% 10px;
+    display: block;
+    width: 100vw;
+    position: absolute;
+    background-color: black;
+
+    @media (max-width: 780px) and (pointer: coarse) {
+      // bottom: 5%;
+    }
+
+    h2 {
+      margin: 1rem 0;
+      margin-bottom: -5px;
+      @media (max-width: 427px) {
+        font-size: 14pt;
+      }
+      @media (max-width: 340px) {
+        font-size: 12pt;
+      }
+    }
+
+    .close-button {
+      font-size: 27pt;
+      cursor: pointer;
+    }
+
+    .media-icon {
+      img {
+        margin-right: 20px;
+        width: 30px !important;
+        height: 30px !important;
+
+        @media (max-width: 426px) {
+          width: 25px !important;
+          height: 25px !important;
+        }
+      }
+    }
   }
 }

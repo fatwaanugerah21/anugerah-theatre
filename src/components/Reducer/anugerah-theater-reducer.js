@@ -2,6 +2,8 @@ const AnugerahTheaterReducer = (
   state = {
     activeMovieId: null,
     allMovies: null,
+    playingSection: null,
+    wasPlayedSection: null,
   },
   action
 ) => {
@@ -11,12 +13,18 @@ const AnugerahTheaterReducer = (
         return (state = { ...state, activeMovieId: undefined });
       state = { ...state, activeMovieId: action.id };
       return state;
+    case "NEW_PLAYING_SECTION":
+      state = {
+        ...state,
+        wasPlayedSection: state.playingSection,
+        playingSection: action.title,
+      };
+      return state;
     case "ADD_NEW_MOVIES":
       if (state.allMovies) {
         for (const movie of action.movies) {
-          state.allMovies = [...state.allMovies, movie];
+          state.allMovies.push(movie);
         }
-        state.allMovies = [...state.allMovies, action.movies.slice()];
         return state;
       }
       state = { ...state, allMovies: action.movies };

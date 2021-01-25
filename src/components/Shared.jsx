@@ -1,4 +1,7 @@
 import { googleSearch } from "./consts";
+import { Suspense, lazy } from "react";
+
+const ReactPlayer = lazy(() => import("react-player"));
 
 export const MediaIcon = ({ movieName }) => {
   return (
@@ -27,6 +30,47 @@ export const MediaIcon = ({ movieName }) => {
       >
         <img src="/img/google-icon.svg" alt="google-search" />
       </a>
+    </div>
+  );
+};
+
+export function concenate(string, digit) {
+  return string.length > digit ? string.substr(0, digit) + "..." : string;
+}
+
+export const FullscreenTrailer = ({
+  trailerLink,
+  movieName,
+  reactPlayerSize,
+  isTrailerPlaying,
+  pauseTrailer,
+}) => {
+  return (
+    <div id="header-trailer-container" className="header-trailer p-relative">
+      <Suspense>
+        <div className="top-bar ">
+          <h2 className="white-text center-text">{movieName}</h2>
+          <div className="row f-sb-ac">
+            <div className="movie-provider-button">
+              <MediaIcon movieName={movieName} />
+            </div>
+            <button
+              className="close-button white-text"
+              onClick={() => pauseTrailer()}
+            >
+              X
+            </button>
+          </div>
+        </div>
+
+        <ReactPlayer
+          url={trailerLink}
+          width={reactPlayerSize[0]}
+          height={reactPlayerSize[1]}
+          playing={isTrailerPlaying}
+          controls
+        />
+      </Suspense>
     </div>
   );
 };
