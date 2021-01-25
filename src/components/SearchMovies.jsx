@@ -1,11 +1,12 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { w500ImgURL, otherTrailers } from "./consts";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import Navbar from "./Navbar";
-import { FullscreenTrailer } from "./Shared";
 import movieTrailer from "movie-trailer";
 import { MediaIcon } from "./Shared";
 import { connect } from "react-redux";
+
+const FullscreenTrailer = lazy(() => import("./FullscreenPlayer"));
 
 const SearchMovies = ({ mustContains, setMustContains, allMovies }) => {
   const [trailerLink, setTrailerLink] = useState("");
@@ -68,8 +69,6 @@ const SearchMovies = ({ mustContains, setMustContains, allMovies }) => {
   const lgtmMovies = allLgtmMovies.map((movie) => {
     const movieName =
       movie.name ?? movie.original_title ?? movie.original_name ?? movie.title;
-
-    console.log(movieName);
 
     if (isInTheList(alreadyDumped, movie)) return null;
     alreadyDumped.push(movie);

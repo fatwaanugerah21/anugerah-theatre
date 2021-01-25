@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Axios from "axios";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
 import { baseImgURL, googleSearch, w500ImgURL } from "./consts";
-import { concenate, FullscreenTrailer } from "./Shared";
+import { concenate } from "./Shared";
+
+const FullscreenTrailer = lazy(() => import("./FullscreenPlayer"));
 
 const HeaderContent = ({
   className,
@@ -68,8 +70,8 @@ const HeaderContent = ({
   return (
     <div className={className}>
       <img src={getImageSrc()} alt={movie.original_title} />
-      <div className="fade-bottom"></div>
       <Suspense fallback={<div></div>}>
+        <div className="fade-bottom"></div>
         <div className="header-movie-info white-text">
           <h1>{movieName ? concenate(movieName, 30) : movieName}</h1>
           <p>

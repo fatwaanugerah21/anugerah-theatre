@@ -5,8 +5,9 @@ import "./app.css";
 import "./components/shared.css";
 import HeaderContent from "./components/HeaderContent";
 import { allSections } from "./components/sectionsArray";
-import SearchMovies from "./components/SearchMovies";
+// import SearchMovies from "./components/SearchMovies";
 
+const SearchMovies = lazy(() => import("./components/SearchMovies"));
 const Section = lazy(() => import("./components/Section"));
 const Navbar = lazy(() => import("./components/Navbar"));
 
@@ -16,10 +17,12 @@ function App() {
 
   if (searchedMovie) {
     return (
-      <SearchMovies
-        mustContains={searchedMovie}
-        setMustContains={(input) => setSearchedMovie(input)}
-      />
+      <Suspense fallback={<div></div>}>
+        <SearchMovies
+          mustContains={searchedMovie}
+          setMustContains={(input) => setSearchedMovie(input)}
+        />
+      </Suspense>
     );
   }
 

@@ -17,6 +17,7 @@ const Section = ({
   fetchURL,
   isLarge,
   wasPlayedSection,
+  setPlayingSection,
   playingSection,
   addMovieToStore,
 }) => {
@@ -50,6 +51,7 @@ const Section = ({
         setMovieTrailerLink(otherTrailers[randomTrailerIndex]);
         setTrailerIndex((randomTrailerIndex + 1) % otherTrailers.length);
       });
+    setPlayingSection(title);
     setMovieId(id);
     if (!isTrailerPlaying) {
       setReactPlayerSize(["100%", "70vh"]);
@@ -67,8 +69,7 @@ const Section = ({
       setIsTrailerPlaying(false);
     }
   }
-  if (title === wasPlayedSection) {
-    console.log("call");
+  if (title === wasPlayedSection && wasPlayedSection !== playingSection) {
     if (movieId) pauseTrailer();
   }
 
@@ -81,7 +82,9 @@ const Section = ({
     return (
       <div
         className={`movie-container ${
-          activeMovieId === movie.id ? "active-movie" : ""
+          activeMovieId === movie.id && playingSection === title
+            ? "active-movie"
+            : ""
         }`}
         onClick={() => {
           playTrailer(movieName, movie.id);
