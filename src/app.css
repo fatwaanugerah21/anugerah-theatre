@@ -212,14 +212,26 @@
   .app .navbar .left-side-nav {
     display: none;
   }
-  .app .navbar .right-side img {
-    margin-right: 0px;
+  .app .navbar .right-side input {
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75);
+    margin-right: -10px !important;
   }
+  .app .navbar .right-side img {
+    margin-top: 5px;
+  }
+}
+
+.app .navbar .right-side input {
+  margin: 10px;
+  margin-bottom: -20px;
+  padding: 5px 0;
 }
 
 .app .navbar .right-side img {
   height: 30px;
   width: 30px;
+  margin-bottom: -5px;
 }
 
 .app .movielist-section {
@@ -240,7 +252,7 @@
 
 @media not all and (pointer: coarse) {
   .app .movielist-section .Netflix {
-    margin-bottom: calc(550px - 100vw) !important;
+    margin-bottom: calc(500px - 100vw) !important;
     padding: 0;
     margin-right: 0px !important;
     width: 470px;
@@ -480,6 +492,8 @@
 }
 
 .header-trailer .top-bar .close-button {
+  background-color: transparent;
+  border: none;
   font-size: 27pt;
   cursor: pointer;
 }

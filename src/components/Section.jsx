@@ -16,7 +16,7 @@ const Section = ({
   title,
   fetchURL,
   isLarge,
-  onPlay,
+  wasPlayedSection,
   playingSection,
   addMovieToStore,
 }) => {
@@ -54,7 +54,6 @@ const Section = ({
     if (!isTrailerPlaying) {
       setReactPlayerSize(["100%", "70vh"]);
       setIsTrailerPlaying(true);
-      onPlay();
       trailerReference.current.scrollIntoView();
     } else if (isTrailerPlaying && id === movieId) {
       pauseTrailer();
@@ -62,12 +61,14 @@ const Section = ({
   };
 
   function pauseTrailer() {
+    console.log("run");
     if (isTrailerPlaying) {
       setReactPlayerSize(["100%", "0"]);
       setIsTrailerPlaying(false);
     }
   }
-  if (title !== playingSection) {
+  if (title === wasPlayedSection) {
+    console.log("call");
     if (movieId) pauseTrailer();
   }
 
@@ -85,8 +86,8 @@ const Section = ({
         onClick={() => {
           playTrailer(movieName, movie.id);
         }}
-        key={movie.id}
-        id={movie.id}
+        key={"Section Movie " + movie.id}
+        id={"Section Movie " + movie.id}
       >
         <div className="movie-content contain-scale-image">
           <LazyLoadImage
@@ -127,12 +128,15 @@ const Section = ({
 function mapStateToProps(state, props) {
   return {
     activeMovieId: state.activeMovieId,
-    oldActiveMovieId: state.activeMovieId,
+    wasPlayedSection: state.wasPlayedSection,
+    playingSection: state.playingSection,
   };
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
+    setPlayingSection: (title) =>
+      dispatch({ type: "NEW_PLAYING_SECTION", title }),
     setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
     addMovieToStore: (movies) => dispatch({ type: "ADD_NEW_MOVIES", movies }),
   };

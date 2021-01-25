@@ -12,6 +12,7 @@ const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
   const [searchedMovie, setSearchedMovie] = useState("");
+  const [isFocus, setIsFocus] = useState(false);
 
   if (searchedMovie) {
     return (
@@ -48,6 +49,8 @@ function App() {
           setSearchedMovies={(title) => {
             setSearchedMovie(title);
           }}
+          isFocus={isFocus}
+          setIsFocus={() => setIsFocus(true)}
         />
       </Suspense>
 

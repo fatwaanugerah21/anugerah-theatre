@@ -33,3 +33,11 @@ export const otherTrailers = [
   "https://www.youtube.com/watch?v=I4rS15xBL1Y",
   "https://www.youtube.com/watch?v=LDV8VHbQoPI",
 ];
+
+export const allNavLinks = [
+  { name: "Home" },
+  { name: "TV Shows" },
+  { name: "Movies" },
+  { name: "Latest" },
+  { name: "My List" },
+];

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { allNavLinks } from "./consts";
 
-const Navbar = ({ setSearchedMovies, inputValue, autoFocus }) => {
+const Navbar = ({
+  setSearchedMovies,
+  inputValue,
+  autoFocus,
+  isFocus,
+  setIsFocus,
+}) => {
   const [navbarId, setNavbarId] = useState("");
   function setNavbarBG(_) {
     setNavbarId(window.pageYOffset > 100 ? "black-background" : "");
@@ -8,12 +15,21 @@ const Navbar = ({ setSearchedMovies, inputValue, autoFocus }) => {
 
   function searchMovies(e) {
     setSearchedMovies(e.target.value);
+    if (setIsFocus) setIsFocus(true);
   }
 
   useEffect(() => {
     window.addEventListener("scroll", setNavbarBG);
     return document.body.removeEventListener("scroll", setNavbarBG);
   }, []);
+
+  const navLinks = allNavLinks.map((link) => {
+    return (
+      <a className="left-side-nav" href="#home">
+        {link.name}
+      </a>
+    );
+  });
 
   return (
     <nav className="navbar" id={navbarId}>
@@ -23,30 +39,16 @@ const Navbar = ({ setSearchedMovies, inputValue, autoFocus }) => {
           alt="netflix-logo"
           className="netflix-logo"
         />
-        <a className="left-side-nav" href="#home">
-          Home
-        </a>
-        <a className="left-side-nav" href="#home">
-          TV Shows
-        </a>
-        <a className="left-side-nav" href="#home">
-          Movies
-        </a>
-        <a className="left-side-nav" href="#home">
-          Latest
-        </a>
-        <a className="left-side-nav" href="#home">
-          My List
-        </a>
+        {navLinks}
       </div>
 
-      <div className="right-side">
+      <div className="right-side f-sb-ac">
         <form action="">
           <input
             type="text"
             placeholder="search movies"
             value={inputValue}
-            autoFocus={autoFocus}
+            autoFocus={autoFocus || isFocus}
             onChange={searchMovies}
           />
         </form>

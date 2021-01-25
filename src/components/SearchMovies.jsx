@@ -13,7 +13,9 @@ const SearchMovies = ({ mustContains, setMustContains, allMovies }) => {
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const [movieName, setMovieName] = useState("");
-  const [alreadyDumped, setAlreadyDumped] = useState([]);
+  let alreadyDumped = [];
+
+  if (!mustContains) return;
 
   function handleClick(movieName) {
     movieTrailer(movieName)
@@ -57,41 +59,52 @@ const SearchMovies = ({ mustContains, setMustContains, allMovies }) => {
     return false;
   }
 
-  const lgtmMovies = allMovies.map((movie, index) => {
-    const movieName = movie.name;
-    if (movieName?.includes(mustContains)) {
-      if (isInTheList(alreadyDumped, movie)) return null;
-      alreadyDumped.push(movie);
-      const imgSrc =
-        movie.poster_path !== undefined
-          ? `${w500ImgURL}${movie.poster_path}`
-          : "/img/netflix_logo.svg";
-      return (
-        <div
-          className="movie"
-          key={movie.id}
-          onClick={() => handleClick(movieName)}
-        >
-          <div className="movie-container" key={movie.id} id={movie.id}>
-            <div className="movie-content contain-scale-image">
-              <LazyLoadImage
-                offset="-400px"
-                alt={movieName}
-                height={"230px"}
-                src={imgSrc}
-                effect="blur"
-                width={"150px"}
-              />
-              <div className={"movie-text white-text"}>
-                <h4>{movieName}</h4>
-                <MediaIcon movieName={movieName} />
-              </div>
+  const allLgtmMovies = allMovies.filter((movie) => {
+    const movieName =
+      movie.name ?? movie.original_title ?? movie.original_name ?? movie.title;
+    return movieName?.includes(mustContains);
+  });
+
+  const lgtmMovies = allLgtmMovies.map((movie) => {
+    const movieName =
+      movie.name ?? movie.original_title ?? movie.original_name ?? movie.title;
+
+    console.log(movieName);
+
+    if (isInTheList(alreadyDumped, movie)) return null;
+    alreadyDumped.push(movie);
+    const imgSrc =
+      movie.poster_path !== undefined
+        ? `${w500ImgURL}${movie.poster_path}`
+        : "/img/netflix_logo.svg";
+    return (
+      <div
+        className="movie"
+        key={movie.id}
+        onClick={() => handleClick(movieName)}
+      >
+        <div className="movie-container" key={movie.id} id={movie.id}>
+          <div className="movie-content contain-scale-image">
+            <LazyLoadImage
+              offset="-400px"
+              alt={movieName}
+              height={"230px"}
+              src={imgSrc}
+              effect="blur"
+              width={"150px"}
+            />
+            <div className={"movie-text white-text"}>
+              <h4>{movieName}</h4>
+              <MediaIcon movieName={movieName} />
             </div>
           </div>
         </div>
-      );
-    } else return null;
+      </div>
+    );
   });
+
+  const noMovieFound = <div>Film tidak ditemukan</div>;
+
   return (
     <div className="app">
       <Navbar
@@ -101,7 +114,9 @@ const SearchMovies = ({ mustContains, setMustContains, allMovies }) => {
           setMustContains(title);
         }}
       />
-      <div className="searched-movies-contents">{lgtmMovies}</div>
+      <div className="searched-movies-contents white-text">
+        {lgtmMovies.length ? lgtmMovies : noMovieFound}
+      </div>
       <FullscreenTrailer
         isTrailerPlaying={isTrailerPlaying}
         movieName={movieName}
