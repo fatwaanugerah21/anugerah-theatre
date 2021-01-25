@@ -3,8 +3,8 @@ import Axios from "axios";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
-import { baseImgURL, googleSearch, w500ImgURL } from "./consts";
-import { concenate } from "./Shared";
+import { baseImgURL, googleSearch, w500ImgURL } from "../consts/urls";
+import { concenate } from "../consts/utils";
 
 const FullscreenTrailer = lazy(() => import("./FullscreenPlayer"));
 

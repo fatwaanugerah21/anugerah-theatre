@@ -1,6 +1,6 @@
-import { googleSearch } from "./consts";
+import { googleSearch } from "../consts/urls";
 
-export const MediaIcon = ({ movieName }) => {
+const MediaIcon = ({ movieName }) => {
   return (
     <div className="row media-icon">
       <a
@@ -30,7 +30,4 @@ export const MediaIcon = ({ movieName }) => {
     </div>
   );
 };
-
-export function concenate(string, digit) {
-  return string.length > digit ? string.substr(0, digit) + "..." : string;
-}
+export default MediaIcon;

@@ -1,4 +1,4 @@
-import { requestLinks } from "./consts";
+import { requestLinks } from "./urls";
 
 export const allSections = [
   {

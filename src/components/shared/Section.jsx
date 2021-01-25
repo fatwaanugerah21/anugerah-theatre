@@ -4,8 +4,8 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
-import { otherTrailers, w500ImgURL } from "./consts";
-import { MediaIcon } from "./Shared";
+import { otherTrailers, w500ImgURL } from "../consts/urls";
+import MediaIcon from "./MediaIcon";
 
 const ReactPlayer = lazy(() => import("react-player"));
 
@@ -89,8 +89,8 @@ const Section = ({
         onClick={() => {
           playTrailer(movieName, movie.id);
         }}
-        key={"Section Movie " + movie.id}
-        id={"Section Movie " + movie.id}
+        key={movie.id + title}
+        id={movie.id + title}
       >
         <div className="movie-content contain-scale-image">
           <LazyLoadImage

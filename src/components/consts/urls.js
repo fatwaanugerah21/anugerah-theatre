@@ -35,9 +35,8 @@ export const otherTrailers = [
 ];
 
 export const allNavLinks = [
-  { name: "Home" },
-  { name: "TV Shows" },
-  { name: "Movies" },
-  { name: "Latest" },
-  { name: "My List" },
+  { name: "TV Shows", href: "tv" },
+  { name: "Movies", href: "movies" },
+  { name: "Latest", href: "latest" },
+  { name: "My List", href: "my-list" },
 ];

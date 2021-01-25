@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { MediaIcon } from "./Shared";
+import MediaIcon from "./MediaIcon";
 
 const ReactPlayer = lazy(() => import("react-player"));
 

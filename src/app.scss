@@ -1,18 +1,15 @@
 $leftMargin: 40px;
 $navMargin: 10px;
 
+.homepage,
 .app {
   overflow: hidden;
   .searched-movies-contents {
     padding: 7rem 1rem;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     flex-wrap: wrap;
-
-    @media (max-width: 600px) {
-      justify-content: center;
-    }
+    justify-content: center;
 
     .movie {
       transition: all 450ms !important;

@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { allNavLinks } from "./consts";
+import { allNavLinks } from "../consts/urls";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-const Navbar = ({
-  setSearchedMovies,
-  inputValue,
-  autoFocus,
-  isFocus,
-  setIsFocus,
-}) => {
+const Navbar = ({ searchValue, setSearchValue }) => {
   const [navbarId, setNavbarId] = useState("");
   function setNavbarBG(_) {
     setNavbarId(window.pageYOffset > 100 ? "black-background" : "");
   }
 
   function searchMovies(e) {
-    setSearchedMovies(e.target.value);
-    if (setIsFocus) setIsFocus(true);
+    setSearchValue(e.target.value);
   }
 
   useEffect(() => {
@@ -25,20 +20,22 @@ const Navbar = ({
 
   const navLinks = allNavLinks.map((link) => {
     return (
-      <a className="left-side-nav" href="#home">
+      <Link className="left-side-nav" key={link.name} to={link.href}>
         {link.name}
-      </a>
+      </Link>
     );
   });
 
   return (
     <nav className="navbar" id={navbarId}>
       <div className="left-side">
-        <img
-          src="/img/netflix_logo.svg"
-          alt="netflix-logo"
-          className="netflix-logo"
-        />
+        <Link to="/">
+          <img
+            src="/img/netflix_logo.svg"
+            alt="netflix-logo"
+            className="netflix-logo"
+          />
+        </Link>
         {navLinks}
       </div>
 
@@ -47,8 +44,7 @@ const Navbar = ({
           <input
             type="text"
             placeholder="search movies"
-            value={inputValue}
-            autoFocus={autoFocus || isFocus}
+            value={searchValue ?? ""}
             onChange={searchMovies}
           />
         </form>
@@ -57,4 +53,16 @@ const Navbar = ({
     </nav>
   );
 };
-export default Navbar;
+
+function mapStateToProps(state, _) {
+  return {
+    searchValue: state.searchValue,
+  };
+}
+
+function mapDispatchToProps(dispatch, _) {
+  return {
+    setSearchValue: (input) => dispatch({ type: "SET_SEARCH_VALUE", input }),
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

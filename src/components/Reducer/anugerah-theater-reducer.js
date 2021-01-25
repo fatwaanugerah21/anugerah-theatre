@@ -4,10 +4,14 @@ const AnugerahTheaterReducer = (
     allMovies: null,
     playingSection: null,
     wasPlayedSection: null,
+    searchValue: null,
   },
   action
 ) => {
   switch (action.type) {
+    case "SET_SEARCH_VALUE":
+      state = { ...state, searchValue: action.input };
+      return state;
     case "NEW_ACTIVE_MOVIE":
       if (state.activeMovieId === action.id)
         return (state = { ...state, activeMovieId: undefined });
