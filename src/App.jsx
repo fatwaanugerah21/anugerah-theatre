@@ -4,7 +4,7 @@ import "./app.css";
 import "./components/shared/shared.css";
 import Homepage from "./components/pages/Homepage";
 import { connect } from "react-redux";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Movies from "./components/pages/Movies";
 
 // const SearchMovies = lazy(() => import("./components/pages/SearchMovies"));
@@ -17,10 +17,11 @@ function App() {
         <Suspense fallback={<div></div>}>
           <Navbar />
         </Suspense>
-        <div>
+        <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/movies" component={Movies} />
-        </div>
+          <Route path="/search" component={Movies} />
+        </Switch>
       </div>
     </BrowserRouter>
   );

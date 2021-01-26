@@ -1,10 +1,11 @@
 const AnugerahTheaterReducer = (
   state = {
     activeMovieId: null,
-    allMovies: null,
+    allMovies: [],
     playingSection: null,
     wasPlayedSection: null,
     searchValue: null,
+    emptySearchRedirect: null,
   },
   action
 ) => {
@@ -17,6 +18,9 @@ const AnugerahTheaterReducer = (
         return (state = { ...state, activeMovieId: undefined });
       state = { ...state, activeMovieId: action.id };
       return state;
+    case "SET_EMPTY_SEARCH_REDIRECT":
+      state = { ...state, emptySearchRedirect: action.input };
+      return state;
     case "NEW_PLAYING_SECTION":
       state = {
         ...state,
@@ -25,13 +29,7 @@ const AnugerahTheaterReducer = (
       };
       return state;
     case "ADD_NEW_MOVIES":
-      if (state.allMovies) {
-        for (const movie of action.movies) {
-          state.allMovies.push(movie);
-        }
-        return state;
-      }
-      state = { ...state, allMovies: action.movies };
+      state.allMovies.push(action.movies);
       return state;
     default:
       return state;

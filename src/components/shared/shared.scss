@@ -29,7 +29,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 10px $leftMargin 25px;
+  padding: 10px 40px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,7 +44,7 @@
     }
   }
   a {
-    margin-right: $navMargin;
+    margin-right: 10px;
     color: white;
   }
   img {
@@ -68,6 +68,13 @@
     img {
       height: 30px;
       width: 30px;
+    }
+    .searchInput {
+      // padding: 2px;
+      padding-left: 10px !important;
+      background-color: rgb(49, 46, 46);
+      border: white 1px solid;
+      color: white;
     }
   }
 }

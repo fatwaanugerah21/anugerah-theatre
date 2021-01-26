@@ -3,8 +3,9 @@ import { allSections } from "../consts/sectionsArray";
 import { requestLinks } from "../consts/urls";
 import Section from "../shared/Section";
 import HeaderContent from "../shared/HeaderContent";
+import { connect } from "react-redux";
 
-const Homepage = () => {
+const Homepage = ({ setEmptySearchRedirect }) => {
   const sectionList = allSections.map((section) => {
     return (
       <Section
@@ -16,6 +17,9 @@ const Homepage = () => {
       />
     );
   });
+
+  setEmptySearchRedirect("/");
+
   return (
     <div className="homepage">
       <header className="App-header">
@@ -34,4 +38,10 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+function mapDispatchToProps(dispatch, _) {
+  return {
+    setEmptySearchRedirect: (input) =>
+      dispatch({ type: "SET_EMPTY_SEARCH_REDIRECT", input }),
+  };
+}
+export default connect(null, mapDispatchToProps)(Homepage);
