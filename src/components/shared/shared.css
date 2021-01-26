@@ -58,10 +58,18 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
 }
 
 .navbar .left-side .left-side-nav {
-  margin-top: 14px;
+  margin-top: 8px !important;
+}
+
+.navbar .left-side .active {
+  font-weight: bold;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 .navbar a {

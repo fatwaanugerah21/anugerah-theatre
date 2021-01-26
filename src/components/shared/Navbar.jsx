@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { allNavLinks } from "../consts/urls";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");
@@ -17,14 +17,15 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
 
   const navLinks = allNavLinks.map((link) => {
     return (
-      <Link
+      <NavLink
         className="left-side-nav"
         onClick={() => setEmptySearchRedirect(link.emptySearchRedirect)}
         key={link.name}
         to={link.href}
+        exact={true}
       >
         {link.name}
-      </Link>
+      </NavLink>
     );
   });
 
@@ -44,7 +45,7 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
     <div>
       <nav className="navbar" id={navbarId}>
         <div className="left-side">
-          <Link to="/">
+          <Link to="/" onClick={() => setSearchValue(null)}>
             <img
               src="/img/netflix_logo.svg"
               alt="netflix-logo"

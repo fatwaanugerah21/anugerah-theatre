@@ -10,7 +10,13 @@ import Axios from "axios";
 
 const FullscreenTrailer = lazy(() => import("../shared/FullscreenPlayer"));
 
-const Movies = ({ allMovies, searchValue, history, emptySearchRedirect }) => {
+const Movies = ({
+  allMovies,
+  searchValue,
+  history,
+  emptySearchRedirect,
+  setPlayingMovieId,
+}) => {
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
@@ -39,6 +45,7 @@ const Movies = ({ allMovies, searchValue, history, emptySearchRedirect }) => {
   }
 
   function handleClick(movieName) {
+    setPlayingMovieId(null);
     movieTrailer(movieName)
       .then((response) => {
         setTrailerLink(response);
@@ -167,6 +174,7 @@ function mapDispatchToProps(dispatch, _) {
   return {
     setEmptySearchRedirect: (input) =>
       dispatch({ type: "SET_EMPTY_SEARCH_REDIRECT", input }),
+    setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Movies);

@@ -38,9 +38,15 @@
   .left-side {
     display: flex;
     align-items: center;
+    transform: translateY(4px);
 
     .left-side-nav {
-      margin-top: 14px;
+      margin-top: 8px !important;
+    }
+
+    .active {
+      font-weight: bold;
+      transform: scale(1.1);
     }
   }
   a {

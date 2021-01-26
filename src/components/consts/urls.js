@@ -35,6 +35,7 @@ export const otherTrailers = [
 ];
 
 export const allNavLinks = [
+  { name: "Home", href: "/", emptySearchRedirect: "/" },
   { name: "TV Shows", href: "tv", emptySearchRedirect: "/movies" },
   { name: "Movies", href: "movies", emptySearchRedirect: "/movies" },
   { name: "Latest", href: "latest", emptySearchRedirect: "/movies" },
