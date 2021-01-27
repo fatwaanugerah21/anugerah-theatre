@@ -19,7 +19,10 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
     return (
       <NavLink
         className="left-side-nav"
-        onClick={() => setEmptySearchRedirect(link.emptySearchRedirect)}
+        onClick={() => {
+          setSearchValue(null);
+          setEmptySearchRedirect(link.emptySearchRedirect);
+        }}
         key={link.name}
         to={link.href}
         exact={true}

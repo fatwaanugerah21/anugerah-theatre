@@ -91,6 +91,7 @@ const Section = ({
         }}
         key={movie.id + title}
         id={movie.id + title}
+        tabIndex={-1}
       >
         <div className="movie-content contain-scale-image">
           <LazyLoadImage

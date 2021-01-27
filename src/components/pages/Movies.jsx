@@ -87,6 +87,7 @@ const Movies = ({
         key={movie.id}
         id={movieName}
         onClick={() => handleClick(movieName)}
+        tabIndex={-1}
       >
         <div className="movie-container" key={movie.id} id={movie.id}>
           <div className="movie-content contain-scale-image">

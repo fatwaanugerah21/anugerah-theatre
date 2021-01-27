@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Movies from "./components/pages/Movies";
 
-// const SearchMovies = lazy(() => import("./components/pages/SearchMovies"));
 const Navbar = lazy(() => import("./components/shared/Navbar"));
 
 function App() {
