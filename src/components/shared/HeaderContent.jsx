@@ -50,9 +50,10 @@ const HeaderContent = ({
   function getImageSrc() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    return w < h
-      ? `${w500ImgURL}${movie.poster_path}`
-      : `${baseImgURL}${movie.backdrop_path}`;
+    if (movie.backdrop_path || movie.poster_path)
+      return w < h
+        ? `${w500ImgURL}${movie.poster_path}`
+        : `${baseImgURL}${movie.backdrop_path}`;
   }
 
   function pauseTrailer() {

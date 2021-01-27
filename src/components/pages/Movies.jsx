@@ -85,6 +85,7 @@ const Movies = ({
       <div
         className="movie"
         key={movie.id}
+        id={movieName}
         onClick={() => handleClick(movieName)}
       >
         <div className="movie-container" key={movie.id} id={movie.id}>
@@ -115,7 +116,7 @@ const Movies = ({
           movie.original_title ??
           movie.original_name ??
           movie.title;
-        return movieName.includes(searchValue);
+        return movieName.toLowerCase().includes(searchValue.toLowerCase());
       });
     });
     return filteredMovies;
@@ -136,7 +137,7 @@ const Movies = ({
           movie.title;
 
         const imgSrc =
-          movie.poster_path !== undefined
+          movie.poster_path !== null
             ? `${w500ImgURL}${movie.poster_path}`
             : "/img/netflix_logo.svg";
         alreadyDumped.push(movie);

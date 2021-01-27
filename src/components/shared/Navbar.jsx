@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { allNavLinks } from "../consts/urls";
 import { connect } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");
-
+  const pathName = useLocation().pathname;
   useEffect(() => {
     window.addEventListener("scroll", setNavbarBG);
     return document.body.removeEventListener("scroll", setNavbarBG);
@@ -29,8 +29,7 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
     );
   });
 
-  if (searchValue) {
-    console.log("clicking");
+  if (searchValue && pathName !== "/movies") {
     setTimeout(() => {
       const link = document.getElementById("searchMovieWithParams");
       link?.click();
