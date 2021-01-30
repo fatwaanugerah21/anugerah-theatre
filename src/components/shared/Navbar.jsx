@@ -57,7 +57,7 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
           {navLinks}
         </div>
         <div className="right-side f-sb-ac">
-          <form action="">
+          <form onSubmit={(e) => e.preventDefault()}>
             <input
               className="searchInput"
               type="text"
