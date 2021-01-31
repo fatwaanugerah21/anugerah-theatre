@@ -12,3 +12,9 @@ export function isInTheList(lists, movie) {
   }
   return false;
 }
+
+export function getMoviename(movie) {
+  return (
+    movie.name ?? movie.original_title ?? movie.original_name ?? movie.title
+  );
+}

@@ -6,20 +6,22 @@ import HeaderContent from "../shared/HeaderContent";
 import { connect } from "react-redux";
 
 const Homepage = ({ setEmptySearchRedirect }) => {
-  const [endIndex, setEndIndex] = useState(2);
+  const [endIndex, setEndIndex] = useState(1);
 
   useEffect(() => {
     const bottomFetch = (_) => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
       if (windowScrollHeight <= 800)
-        setEndIndex((old) => (old + 3 > 16 ? 16 : old + 3));
+        setEndIndex((old) => (old + 2 > 16 ? 16 : old + 2));
     };
     window.addEventListener("scroll", () => bottomFetch());
-    return window.removeEventListener("scroll", () => bottomFetch());
+    return () => {
+      window.removeEventListener("scroll", () => bottomFetch());
+    };
   });
 
-  const sectionList = allSections.slice(0, endIndex).map((section, index) => {
+  const sectionList = allSections.slice(0, endIndex).map((section) => {
     return (
       <Section
         key={section.title}
@@ -51,7 +53,7 @@ const Homepage = ({ setEmptySearchRedirect }) => {
   );
 };
 
-function mapDispatchToProps(dispatch, _) {
+function mapDispatchToProps(dispatch) {
   return {
     setEmptySearchRedirect: (input) =>
       dispatch({ type: "SET_EMPTY_SEARCH_REDIRECT", input }),

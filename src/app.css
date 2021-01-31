@@ -335,6 +335,8 @@
   .homepage .movielist-section .movielist::-webkit-scrollbar,
   .app .movielist-section .movielist::-webkit-scrollbar {
     width: 4px;
+    -webkit-transition: all 450ms;
+    transition: all 450ms;
     background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(transparent), color-stop(transparent), color-stop(black), color-stop(transparent), color-stop(transparent), to(transparent));
     background: linear-gradient(to right, transparent, transparent, transparent, black, transparent, transparent, transparent);
   }
@@ -349,6 +351,8 @@
             transform: rotate(90deg) translateY(-100%);
     -webkit-transform-origin: top left;
             transform-origin: top left;
+    -webkit-animation: fade-in 250ms ease;
+            animation: fade-in 250ms ease;
     padding: 5px;
     position: relative;
     margin-bottom: -60px;
@@ -570,6 +574,32 @@
   .header-trailer .top-bar .media-icon img {
     width: 25px !important;
     height: 25px !important;
+  }
+}
+
+@-webkit-keyframes feade-in {
+  from {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 100%;
+  }
+}
+
+@keyframes feade-in {
+  from {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 100%;
   }
 }
 /*# sourceMappingURL=app.css.map */

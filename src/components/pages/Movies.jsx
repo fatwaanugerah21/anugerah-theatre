@@ -7,7 +7,9 @@ import movieTrailer from "movie-trailer";
 import MediaIcon from "../shared/MediaIcon";
 import { connect } from "react-redux";
 import Axios from "axios";
+import { getMoviename } from "./../consts/utils";
 const FullscreenTrailer = lazy(() => import("../shared/FullscreenPlayer"));
+
 const Movies = ({
   allMovies,
   searchValue,
@@ -40,7 +42,7 @@ const Movies = ({
     setMovies(tempMovies);
   }
 
-  if (!movies?.length) {
+  if (!movies?.length || movies?.length < 17) {
     fetchAllMovies();
   }
 
@@ -50,15 +52,13 @@ const Movies = ({
         document.body.scrollHeight - window.pageYOffset;
       const isMdLgMobile = window.innerWidth < 768;
       if (windowScrollHeight <= 800) {
-        console.log("run");
         setEndSlice((old) => {
-          return old + 3 > 17 ? 17 : old + 3;
+          return old + 2 > 17 ? 17 : old + 2;
         });
       }
-
       if (
         (isMdLgMobile && windowScrollHeight >= 10000) ||
-        (!isMdLgMobile && windowScrollHeight >= 4000)
+        (!isMdLgMobile && windowScrollHeight >= 2800)
       ) {
         setEndSlice((old) => (old - 3 >= 3 ? old - 3 : 3));
       }
@@ -133,34 +133,38 @@ const Movies = ({
   }
 
   function filterMovies(movies) {
-    const filteredMovies = movies?.map((row) => {
-      return row?.filter((movie) => {
-        const movieName =
-          movie.name ??
-          movie.original_title ??
-          movie.original_name ??
-          movie.title;
-        return movieName.toLowerCase().includes(searchValue.toLowerCase());
-      });
-    });
+    const filteredMovies = [];
+    let i = 0;
+    let tempContainer = [];
+    for (const row of movies) {
+      for (const movie of row) {
+        const movieName = getMoviename(movie);
+
+        if (movieName.toLowerCase().includes(searchValue.toLowerCase())) {
+          i++;
+          if (i >= 20) {
+            filteredMovies.push(tempContainer);
+            tempContainer = [];
+            i = 0;
+          }
+          tempContainer.push(movie);
+        }
+      }
+    }
+    filteredMovies.push(tempContainer);
     return filteredMovies;
   }
 
   const lgtmMovies =
     movies &&
-    (searchValue ? filterMovies(movies) : movies.slice(0, endSlice)).map(
-      (row) => {
-        // eslint-disable-next-line array-callback-return
-
+    (searchValue ? filterMovies(movies) : movies)
+      .slice(0, endSlice)
+      .map((row) => {
         if (row.length) if (!movieFound) movieFound = true;
         return row?.map((movie) => {
           if (isInTheList(alreadyDumped, movie)) return null;
           alreadyDumped.push(movie);
-          const movieName =
-            movie.name ??
-            movie.original_title ??
-            movie.original_name ??
-            movie.title;
+          const movieName = getMoviename(movie);
 
           const imgSrc =
             movie.poster_path !== null
@@ -169,8 +173,7 @@ const Movies = ({
 
           return createMovieDOM(movie, movieName, imgSrc);
         });
-      }
-    );
+      });
 
   return (
     <div className="app">

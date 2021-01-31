@@ -239,6 +239,7 @@ $navMargin: 10px;
         transform-origin: top left;
         &::-webkit-scrollbar {
           width: 4px;
+          transition: all 450ms;
           background: linear-gradient(
             to right,
             transparent,
@@ -259,6 +260,7 @@ $navMargin: 10px;
         .movie-container {
           transform: rotate(90deg) translateY(-100%);
           transform-origin: top left;
+          animation: fade-in 250ms ease;
           padding: 5px;
           position: relative;
           margin-bottom: -60px;
@@ -425,5 +427,16 @@ $navMargin: 10px;
         }
       }
     }
+  }
+}
+
+@keyframes feade-in {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 100%;
   }
 }

@@ -26,18 +26,35 @@ const Section = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
+  const [endSliceIndex, setEndSliceIndex] = useState(10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const trailerReference = useRef(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     async function fetchData() {
-      const { data } = await Axios.get(fetchURL);
+      const { data } = await Axios.get(fetchURL, signal);
       setMovies(data.results);
       addMovieToStore(data.results);
     }
     fetchData();
+    return abortController.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
+
+  useEffect(() => {
+    const section = document.getElementById(title + "-movielist");
+    section.addEventListener("scroll", (_) => {
+      const scrollValue = section.scrollHeight - section.scrollTop;
+      if (scrollValue <= 1400) {
+        setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
+      }
+      if (scrollValue >= 3000) {
+        setEndSliceIndex((old) => (old - 4 <= 10 ? 10 : old - 4));
+      }
+    });
+  }, [title]);
 
   const playTrailer = (movieName, id) => {
     setPlayingMovieId(id);
@@ -63,7 +80,6 @@ const Section = ({
   };
 
   function pauseTrailer() {
-    console.log("run");
     if (isTrailerPlaying) {
       setReactPlayerSize(["100%", "0"]);
       setIsTrailerPlaying(false);
@@ -73,7 +89,7 @@ const Section = ({
     if (movieId) pauseTrailer();
   }
 
-  const movieList = movies.map((movie) => {
+  const movieList = movies.slice(0, endSliceIndex).map((movie) => {
     const movieName = movie.original_title ?? movie.original_name;
     const imgSrc =
       movie.poster_path !== undefined
@@ -114,7 +130,9 @@ const Section = ({
   return (
     <div className={className} key={title}>
       <h1 ref={trailerReference}>{title}</h1>
-      <div className={"movielist " + title}>{movieList}</div>
+      <div id={title + "-movielist"} className={"movielist " + title}>
+        {movieList}
+      </div>
       <div className="showTrailer">
         <Suspense fallback={<div></div>}>
           <ReactPlayer
