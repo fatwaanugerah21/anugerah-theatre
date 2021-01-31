@@ -89,8 +89,8 @@ const Section = ({
         onClick={() => {
           playTrailer(movieName, movie.id);
         }}
-        key={movie.id + title}
-        id={movie.id + title}
+        key={movie.id}
+        id={movie.id}
         tabIndex={-1}
       >
         <div className="movie-content contain-scale-image">

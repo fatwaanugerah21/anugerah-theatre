@@ -7,9 +7,7 @@ import movieTrailer from "movie-trailer";
 import MediaIcon from "../shared/MediaIcon";
 import { connect } from "react-redux";
 import Axios from "axios";
-
 const FullscreenTrailer = lazy(() => import("../shared/FullscreenPlayer"));
-
 const Movies = ({
   allMovies,
   searchValue,
@@ -25,6 +23,8 @@ const Movies = ({
   const [movies, setMovies] = useState(allMovies);
   let movieFound = false;
   let alreadyDumped = [];
+  const lastItemId = "lastmoviesitem";
+  const [endSlice, setEndSlice] = useState(3);
 
   if (!searchValue && emptySearchRedirect === "/") {
     if (history) history?.push(emptySearchRedirect);
@@ -43,6 +43,29 @@ const Movies = ({
   if (!movies?.length) {
     fetchAllMovies();
   }
+
+  useState(() => {
+    const bottomFetch = () => {
+      const windowScrollHeight =
+        document.body.scrollHeight - window.pageYOffset;
+      const isMdLgMobile = window.innerWidth < 768;
+      if (windowScrollHeight <= 800) {
+        console.log("run");
+        setEndSlice((old) => {
+          return old + 3 > 17 ? 17 : old + 3;
+        });
+      }
+
+      if (
+        (isMdLgMobile && windowScrollHeight >= 10000) ||
+        (!isMdLgMobile && windowScrollHeight >= 4000)
+      ) {
+        setEndSlice((old) => (old - 3 >= 3 ? old - 3 : 3));
+      }
+    };
+    window.addEventListener("scroll", () => bottomFetch());
+    return window.removeEventListener("scroll", () => bottomFetch());
+  });
 
   function handleClick(movieName) {
     setPlayingMovieId(null);
@@ -80,12 +103,12 @@ const Movies = ({
     }
   }
 
-  function createMovieDOM(movie, movieName, imgSrc) {
+  function createMovieDOM(movie, movieName, imgSrc, isLast) {
     return (
       <div
         className="movie"
         key={movie.id}
-        id={movieName}
+        id={isLast ? lastItemId : movieName}
         onClick={() => handleClick(movieName)}
         tabIndex={-1}
       >
@@ -109,7 +132,7 @@ const Movies = ({
     );
   }
 
-  function filterMovies(movies, searchValue) {
+  function filterMovies(movies) {
     const filteredMovies = movies?.map((row) => {
       return row?.filter((movie) => {
         const movieName =
@@ -125,26 +148,29 @@ const Movies = ({
 
   const lgtmMovies =
     movies &&
-    (searchValue ? filterMovies(movies, searchValue) : movies).map((row) => {
-      // eslint-disable-next-line array-callback-return
+    (searchValue ? filterMovies(movies) : movies.slice(0, endSlice)).map(
+      (row) => {
+        // eslint-disable-next-line array-callback-return
 
-      if (row.length) if (!movieFound) movieFound = true;
-      return row?.map((movie) => {
-        if (isInTheList(alreadyDumped, movie)) return null;
-        const movieName =
-          movie.name ??
-          movie.original_title ??
-          movie.original_name ??
-          movie.title;
+        if (row.length) if (!movieFound) movieFound = true;
+        return row?.map((movie) => {
+          if (isInTheList(alreadyDumped, movie)) return null;
+          alreadyDumped.push(movie);
+          const movieName =
+            movie.name ??
+            movie.original_title ??
+            movie.original_name ??
+            movie.title;
 
-        const imgSrc =
-          movie.poster_path !== null
-            ? `${w500ImgURL}${movie.poster_path}`
-            : "/img/netflix_logo.svg";
-        alreadyDumped.push(movie);
-        return createMovieDOM(movie, movieName, imgSrc);
-      });
-    });
+          const imgSrc =
+            movie.poster_path !== null
+              ? `${w500ImgURL}${movie.poster_path}`
+              : "/img/netflix_logo.svg";
+
+          return createMovieDOM(movie, movieName, imgSrc);
+        });
+      }
+    );
 
   return (
     <div className="app">

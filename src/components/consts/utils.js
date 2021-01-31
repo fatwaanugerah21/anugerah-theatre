@@ -4,7 +4,11 @@ export function concenate(string, digit) {
 
 export function isInTheList(lists, movie) {
   for (const item of lists) {
-    if (item.id === movie.id) return true;
+    const movieName =
+      movie.name ?? movie.original_title ?? movie.original_name ?? movie.title;
+    const itemName =
+      item.name ?? item.original_title ?? item.original_name ?? item.title;
+    if (item.id === movie.id || movieName === itemName) return true;
   }
   return false;
 }

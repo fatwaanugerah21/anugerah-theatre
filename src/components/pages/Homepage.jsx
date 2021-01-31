@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { allSections } from "../consts/sectionsArray";
 import { requestLinks } from "../consts/urls";
 import Section from "../shared/Section";
@@ -6,7 +6,20 @@ import HeaderContent from "../shared/HeaderContent";
 import { connect } from "react-redux";
 
 const Homepage = ({ setEmptySearchRedirect }) => {
-  const sectionList = allSections.map((section) => {
+  const [endIndex, setEndIndex] = useState(2);
+
+  useEffect(() => {
+    const bottomFetch = (_) => {
+      const windowScrollHeight =
+        document.body.scrollHeight - window.pageYOffset;
+      if (windowScrollHeight <= 800)
+        setEndIndex((old) => (old + 3 > 16 ? 16 : old + 3));
+    };
+    window.addEventListener("scroll", () => bottomFetch());
+    return window.removeEventListener("scroll", () => bottomFetch());
+  });
+
+  const sectionList = allSections.slice(0, endIndex).map((section, index) => {
     return (
       <Section
         key={section.title}
