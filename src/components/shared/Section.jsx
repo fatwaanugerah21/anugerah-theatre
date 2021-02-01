@@ -27,7 +27,7 @@ const Section = ({
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
   const isMdLgMobile = window.innerWidth < 768;
-  const [endSliceIndex, setEndSliceIndex] = useState(isMdLgMobile ? 4 : 10);
+  const [endSliceIndex, setEndSliceIndex] = useState(isMdLgMobile ? 3 : 10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const trailerReference = useRef(null);
 
@@ -50,14 +50,16 @@ const Section = ({
       const scrollValue = isMdLgMobile
         ? section.scrollWidth - section.scrollLeft
         : section.scrollHeight - section.scrollTop;
-      console.log(scrollValue);
       if (
-        (!isMdLgMobile && scrollValue <= 1500) ||
+        (!isMdLgMobile && scrollValue <= 1700) ||
         (isMdLgMobile && scrollValue <= 600)
       ) {
         setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
       }
-      if (scrollValue >= 3500) {
+      if (
+        (!isMdLgMobile && scrollValue >= 3500) ||
+        (isMdLgMobile && scrollValue >= 1500)
+      ) {
         setEndSliceIndex((old) => (old - 4 <= 10 ? 10 : old - 4));
       }
     });
