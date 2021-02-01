@@ -238,6 +238,7 @@ $navMargin: 10px;
         transform: rotate(-90deg) translateX(-100%);
         transform-origin: top left;
         &::-webkit-scrollbar {
+          display: none;
           width: 4px;
           transition: all 450ms;
           background: linear-gradient(

@@ -334,6 +334,7 @@
   }
   .homepage .movielist-section .movielist::-webkit-scrollbar,
   .app .movielist-section .movielist::-webkit-scrollbar {
+    display: none;
     width: 4px;
     -webkit-transition: all 450ms;
     transition: all 450ms;
@@ -359,8 +360,8 @@
     margin-right: 50px;
     cursor: pointer;
   }
-  .homepage .movielist-section .movielist .movie-container:nth-child(20),
-  .app .movielist-section .movielist .movie-container:nth-child(20) {
+  .homepage .movielist-section .movielist .movie-container:last-child,
+  .app .movielist-section .movielist .movie-container:last-child {
     margin-bottom: 0px;
   }
   .homepage .movielist-section .movielist .movie-container .contain-scale-image img,
