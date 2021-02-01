@@ -1,7 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { w500ImgURL, otherTrailers, requestLinks } from "../consts/urls";
 import { isInTheList } from "../consts/utils";
-import { lazy, useState, Suspense } from "react";
+import { lazy, useState, Suspense, useEffect } from "react";
 import Navbar from "../shared/Navbar";
 import movieTrailer from "movie-trailer";
 import MediaIcon from "../shared/MediaIcon";
@@ -46,7 +46,7 @@ const Movies = ({
     fetchAllMovies();
   }
 
-  useState(() => {
+  useEffect(() => {
     const bottomFetch = () => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;

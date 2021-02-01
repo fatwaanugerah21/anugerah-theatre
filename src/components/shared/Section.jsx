@@ -26,7 +26,8 @@ const Section = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
-  const [endSliceIndex, setEndSliceIndex] = useState(10);
+  const isMdLgMobile = window.innerWidth < 768;
+  const [endSliceIndex, setEndSliceIndex] = useState(isMdLgMobile ? 4 : 10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const trailerReference = useRef(null);
 
@@ -39,22 +40,28 @@ const Section = ({
       addMovieToStore(data.results);
     }
     fetchData();
-    return abortController.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
 
   useEffect(() => {
     const section = document.getElementById(title + "-movielist");
+
     section.addEventListener("scroll", (_) => {
-      const scrollValue = section.scrollHeight - section.scrollTop;
-      if (scrollValue <= 1400) {
+      const scrollValue = isMdLgMobile
+        ? section.scrollWidth - section.scrollLeft
+        : section.scrollHeight - section.scrollTop;
+      console.log(scrollValue);
+      if (
+        (!isMdLgMobile && scrollValue <= 1500) ||
+        (isMdLgMobile && scrollValue <= 600)
+      ) {
         setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
       }
-      if (scrollValue >= 3000) {
+      if (scrollValue >= 3500) {
         setEndSliceIndex((old) => (old - 4 <= 10 ? 10 : old - 4));
       }
     });
-  }, [title]);
+  }, [title, isMdLgMobile]);
 
   const playTrailer = (movieName, id) => {
     setPlayingMovieId(id);
