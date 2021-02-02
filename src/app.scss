@@ -254,6 +254,7 @@ $navMargin: 10px;
         }
 
         &::-webkit-scrollbar-thumb {
+          display: none;
           background: rgb(71, 71, 71);
           border-radius: 10px;
         }
