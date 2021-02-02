@@ -21,6 +21,7 @@ const Movies = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
   let movieFound = false;
@@ -31,6 +32,14 @@ const Movies = ({
   if (!searchValue && emptySearchRedirect === "/") {
     if (history) history?.push(emptySearchRedirect);
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", () => handleResize());
+    return window.removeEventListener("resize", handleResize());
+  });
 
   async function fetchAllMovies() {
     const tempMovies = [];
@@ -50,15 +59,14 @@ const Movies = ({
     const bottomFetch = () => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
-      const isMdLgMobile = window.innerWidth < 768;
       if (windowScrollHeight <= 800) {
         setEndSlice((old) => {
           return old + 2 > 17 ? 17 : old + 2;
         });
       }
       if (
-        (isMdLgMobile && windowScrollHeight >= 10000) ||
-        (!isMdLgMobile && windowScrollHeight >= 2800)
+        (isMobile && windowScrollHeight >= 10000) ||
+        (!isMobile && windowScrollHeight >= 2800)
       ) {
         setEndSlice((old) => (old - 3 >= 3 ? old - 3 : 3));
       }

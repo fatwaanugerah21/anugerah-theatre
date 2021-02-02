@@ -6,6 +6,7 @@ const AnugerahTheaterReducer = (
     wasPlayedSection: null,
     searchValue: null,
     emptySearchRedirect: null,
+    dumpedMovies: [],
   },
   action
 ) => {
@@ -29,7 +30,10 @@ const AnugerahTheaterReducer = (
       };
       return state;
     case "ADD_NEW_MOVIES":
-      state.allMovies.push(action.movies);
+      for (const id of state.dumpedMovies)
+        if (id === action.data.id) return state;
+      state.dumpedMovies.push(action.data.id);
+      state.allMovies.push(action.data.movies);
       return state;
     default:
       return state;

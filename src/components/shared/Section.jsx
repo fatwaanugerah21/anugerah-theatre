@@ -26,8 +26,8 @@ const Section = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
-  const isMdLgMobile = window.innerWidth < 768;
-  const [endSliceIndex, setEndSliceIndex] = useState(isMdLgMobile ? 3 : 10);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [endSliceIndex, setEndSliceIndex] = useState(isMobile ? 3 : 10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const trailerReference = useRef(null);
 
@@ -37,7 +37,7 @@ const Section = ({
     async function fetchData() {
       const { data } = await Axios.get(fetchURL, signal);
       setMovies(data.results);
-      addMovieToStore(data.results);
+      addMovieToStore({ id: title, movies: data.results });
     }
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,23 +47,33 @@ const Section = ({
     const section = document.getElementById(title + "-movielist");
 
     section.addEventListener("scroll", (_) => {
-      const scrollValue = isMdLgMobile
+      const scrollValue = isMobile
         ? section.scrollWidth - section.scrollLeft
         : section.scrollHeight - section.scrollTop;
       if (
-        (!isMdLgMobile && scrollValue <= 1700) ||
-        (isMdLgMobile && scrollValue <= 600)
+        (!isMobile && scrollValue <= 1700) ||
+        (isMobile && scrollValue <= 600)
       ) {
         setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
       }
       if (
-        (!isMdLgMobile && scrollValue >= 3500) ||
-        (isMdLgMobile && scrollValue >= 1500)
+        (!isMobile && scrollValue >= 3500) ||
+        (isMobile && scrollValue >= 1500)
       ) {
         setEndSliceIndex((old) => (old - 4 <= 10 ? 10 : old - 4));
       }
     });
-  }, [title, isMdLgMobile]);
+  }, [title, isMobile]);
+
+  // Listening to windows resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setEndSliceIndex(isMobile ? 3 : 10);
+    };
+    window.addEventListener("resize", () => handleResize());
+    return window.removeEventListener("resize", handleResize());
+  });
 
   const playTrailer = (movieName, id) => {
     setPlayingMovieId(id);
@@ -169,7 +179,7 @@ function mapDispatchToProps(dispatch, props) {
     setPlayingSection: (title) =>
       dispatch({ type: "NEW_PLAYING_SECTION", title }),
     setPlayingMovieId: (id) => dispatch({ type: "NEW_ACTIVE_MOVIE", id }),
-    addMovieToStore: (movies) => dispatch({ type: "ADD_NEW_MOVIES", movies }),
+    addMovieToStore: (data) => dispatch({ type: "ADD_NEW_MOVIES", data }),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Section);
