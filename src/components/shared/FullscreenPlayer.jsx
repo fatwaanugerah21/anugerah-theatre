@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
-import MediaIcon from "./MediaIcon";
 
 const ReactPlayer = lazy(() => import("react-player"));
+const MediaIcon = lazy(() => import("./MediaIcon"));
 
 const FullscreenTrailer = ({
   trailerLink,

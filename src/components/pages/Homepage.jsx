@@ -12,8 +12,9 @@ const Homepage = ({ setEmptySearchRedirect }) => {
     const bottomFetch = (_) => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
-      if (windowScrollHeight <= 800)
+      if (windowScrollHeight <= 900)
         setEndIndex((old) => (old + 2 > 16 ? 16 : old + 2));
+      console.log(windowScrollHeight);
     };
     window.addEventListener("scroll", () => bottomFetch());
     return () => {

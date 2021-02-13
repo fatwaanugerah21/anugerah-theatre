@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
-import { otherTrailers, w500ImgURL } from "../consts/urls";
-import MediaIcon from "./MediaIcon";
+import { otherTrailers } from "../consts/urls";
 
 const ReactPlayer = lazy(() => import("react-player"));
+const Movie = lazy(() => import("./Movie"));
 
 const Section = ({
   activeMovieId,
@@ -106,51 +105,28 @@ const Section = ({
   }
 
   const movieList = movies.slice(0, endSliceIndex).map((movie) => {
-    const movieName = movie.original_title ?? movie.original_name;
-    const imgSrc =
-      movie.poster_path !== undefined
-        ? `${w500ImgURL}${movie.poster_path}`
-        : "/img/netflix_logo.svg";
     return (
-      <div
-        className={`movie-container ${
-          activeMovieId === movie.id && playingSection === title
-            ? "active-movie"
-            : ""
-        }`}
-        onClick={() => {
-          playTrailer(movieName, movie.id);
-        }}
+      <Movie
+        movie={movie}
+        activeMovieId={activeMovieId}
+        isLarge={isLarge}
         key={movie.id}
-        id={movie.id}
-        tabIndex={-1}
-      >
-        <div className="movie-content contain-scale-image">
-          <LazyLoadImage
-            offset="-400px"
-            alt={movieName}
-            height={isLarge ? "420px" : "230px"}
-            src={imgSrc}
-            effect="blur"
-            width={isLarge ? "210px" : "150px"}
-          />
-          <div className={"movie-text white-text"}>
-            <h4>{movieName}</h4>
-            <MediaIcon movieName={movieName} />
-          </div>
-        </div>
-      </div>
+        playTrailer={(movieName, id) => playTrailer(movieName, id)}
+        playingSection={playingSection}
+        title={title}
+      />
     );
   });
 
   return (
     <div className={className} key={title}>
       <h1 ref={trailerReference}>{title}</h1>
-      <div id={title + "-movielist"} className={"movielist " + title}>
-        {movieList}
-      </div>
-      <div className="showTrailer">
-        <Suspense fallback={<div></div>}>
+      <Suspense fallback={<div></div>}>
+        <div id={title + "-movielist"} className={"movielist " + title}>
+          {movieList}
+        </div>
+
+        <div className="showTrailer">
           <ReactPlayer
             url={movieTrailerLink}
             width={reactPlayerSize[0]}
@@ -158,8 +134,8 @@ const Section = ({
             playing={isTrailerPlaying}
             controls
           />
-        </Suspense>
-      </div>
+        </div>
+      </Suspense>
     </div>
   );
 };

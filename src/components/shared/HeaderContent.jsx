@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import Axios from "axios";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { connect } from "react-redux";

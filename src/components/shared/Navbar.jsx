@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { allNavLinks } from "../consts/urls";
 import { connect } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import PhoneMenu from "./PhoneMenu";
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");
@@ -16,6 +17,12 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   }
 
   const navLinks = allNavLinks.map((link) => {
+    if (link.onlyDisplay)
+      return (
+        <div key={link.name} className="left-side-nav white-text od-nav">
+          {link.name}
+        </div>
+      );
     return (
       <NavLink
         className="left-side-nav"
@@ -56,6 +63,7 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
           </Link>
           {navLinks}
         </div>
+        <PhoneMenu pathname={pathName}>{navLinks}</PhoneMenu>
         <div className="right-side f-sb-ac">
           <form onSubmit={(e) => e.preventDefault()}>
             <input

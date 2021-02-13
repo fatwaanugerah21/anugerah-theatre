@@ -59,7 +59,7 @@ const Movies = ({
     const bottomFetch = () => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
-      if (windowScrollHeight <= 800) {
+      if (windowScrollHeight <= 900) {
         setEndSlice((old) => {
           return old + 2 > 17 ? 17 : old + 2;
         });

@@ -6,7 +6,6 @@
         box-sizing: border-box;
         padding: 0;
         margin: 0;
-        scroll-behavior: smooth !important;
       }
       .hide {
         display: none;
@@ -20,6 +19,11 @@
           "Helvetica Neue", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+
+      li {
+        list-style: none;
       }
 
       a {
@@ -59,6 +63,12 @@
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
           monospace;
+      }
+
+      @media (min-width: 768px) {
+        .desktop-hide {
+          display: none;
+        }
       }
     </style>
     <meta charset="utf-8" />

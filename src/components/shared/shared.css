@@ -30,7 +30,7 @@
 }
 
 .navbar {
-  z-index: 1000 !important;
+  z-index: 10 !important;
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.5)), to(rgba(0, 0, 0, 0.02)));
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.02));
   font-size: 10pt;
@@ -60,6 +60,11 @@
           align-items: center;
   -webkit-transform: translateY(4px);
           transform: translateY(4px);
+}
+
+.navbar .left-side .od-nav {
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 .navbar .left-side .left-side-nav {
@@ -107,4 +112,55 @@
   border: white 1px solid;
   color: white;
 }
-/*# sourceMappingURL=shared.css.map */
+
+.phone-menu {
+  background-color: rebeccapurple;
+  padding: 9px;
+  padding-right: 25px;
+  -webkit-animation: roll-down 400ms;
+          animation: roll-down 400ms;
+  position: relative;
+  cursor: pointer;
+}
+
+.phone-menu span {
+  position: absolute;
+  right: 5px;
+  top: 28%;
+}
+
+.phone-menu ul {
+  position: absolute;
+  background-color: red;
+  z-index: 99999999999999 !important;
+  top: 100%;
+  left: 0;
+  width: 150%;
+}
+
+.phone-menu ul li {
+  z-index: 999999999999999999 !important;
+  padding: 5px 0;
+}
+
+.phone-menu ul li:hover, .phone-menu ul li:focus {
+  background-color: blue;
+}
+
+@-webkit-keyframes roll-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: 250%;
+  }
+}
+
+@keyframes roll-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: 250%;
+  }
+}
