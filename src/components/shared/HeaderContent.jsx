@@ -70,7 +70,7 @@ const HeaderContent = ({
 
   return (
     <div className={className}>
-      <img src={getImageSrc()} alt={movie.original_title} />
+      <img src={getImageSrc()} id="header-image" alt={movie.original_title} />
       <Suspense fallback={<div></div>}>
         <div className="fade-bottom"></div>
         <div className="header-movie-info white-text">

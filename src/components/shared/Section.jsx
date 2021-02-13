@@ -53,8 +53,6 @@ const Section = ({
         (isMobile && scrollValue <= 1000)
       )
         setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
-      console.log(isMobile);
-      console.log(scrollValue);
       if (
         (!isMobile && scrollValue >= 3500) ||
         (isMobile && scrollValue >= 2000)
@@ -66,7 +64,6 @@ const Section = ({
   // Listening to windows resize
   useEffect(() => {
     const handleResize = () => {
-      console.log("run");
       setIsMobile(window.innerWidth < 768);
       setEndSliceIndex(isMobile ? 3 : 10);
     };
