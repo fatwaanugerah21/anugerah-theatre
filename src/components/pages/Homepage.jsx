@@ -1,9 +1,10 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, lazy, useState } from "react";
 import { allSections } from "../consts/sectionsArray";
 import { requestLinks } from "../consts/urls";
-import Section from "../shared/Section";
 import HeaderContent from "../shared/HeaderContent";
 import { connect } from "react-redux";
+
+const Section = lazy(() => import("../shared/Section"));
 
 const Homepage = ({ setEmptySearchRedirect }) => {
   const [endIndex, setEndIndex] = useState(1);
@@ -24,13 +25,15 @@ const Homepage = ({ setEmptySearchRedirect }) => {
 
   const sectionList = allSections.slice(0, endIndex).map((section) => {
     return (
-      <Section
-        key={section.title}
-        className="movielist-section"
-        title={section.title}
-        fetchURL={section.fetchURL}
-        isLarge={section.isLarge}
-      />
+      <Suspense>
+        <Section
+          key={section.title}
+          className="movielist-section"
+          title={section.title}
+          fetchURL={section.fetchURL}
+          isLarge={section.isLarge}
+        />
+      </Suspense>
     );
   });
 
