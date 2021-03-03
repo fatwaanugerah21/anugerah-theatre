@@ -19,6 +19,7 @@ const Movies = ({
 }) => {
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -49,6 +50,7 @@ const Movies = ({
       tempMovies.push(data.results);
     }
     setMovies(tempMovies);
+    setIsLoading(false);
   }
 
   if (!movies?.length || movies?.length < 17) {
@@ -187,7 +189,13 @@ const Movies = ({
     <div className="app">
       <Navbar inputValue={searchValue} />
       <div className="searched-movies-contents white-text">
-        {movieFound ? lgtmMovies : "Film tidak ditemukan"}
+        {isLoading ? (
+          <div className="white-text">Loading ...</div>
+        ) : movieFound ? (
+          lgtmMovies
+        ) : (
+          "Film tidak ditemukan"
+        )}
       </div>
       <Suspense fallback={<div></div>}>
         <FullscreenTrailer
