@@ -31,7 +31,13 @@ const Movie = ({
       }}
       id={movie.id}
     >
-      <div className="movie-content contain-scale-image">
+      <div
+        className={`${
+          activeMovieId === movie.id &&
+          playingSection === title &&
+          "active-movie"
+        } movie-content contain-scale-image`}
+      >
         <LazyLoadImage
           offset="-400px"
           alt={movieName}

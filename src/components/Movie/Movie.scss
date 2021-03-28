@@ -6,7 +6,8 @@
     display: none;
   }
 
-  &:hover {
+  &:hover,
+  &.active-movie {
     .movie-cover {
       filter: brightness(40%);
       transform: scale(1.1);

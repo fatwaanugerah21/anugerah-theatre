@@ -1,117 +1,97 @@
 @use "../../scss/variables.scss" as *;
 
-.movielist-section {
-  padding-left: $leftMargin;
-  margin-bottom: 30px;
-  position: relative;
+@media not all and (pointer: coarse) {
+  .Netflix {
+    margin-bottom: calc(500px - 100vw) !important;
+    width: 470px;
 
-  h1 {
-    color: white;
-    font-size: 19pt;
-    margin-bottom: 10px;
+    .movie-container {
+      margin: -200px 40px;
+      margin-bottom: 0 !important;
+      margin-left: -30px;
+      width: 220px;
+
+      &:nth-child(20) {
+        margin-bottom: -150px !important;
+      }
+
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .movielist {
+    height: 100vw;
+    margin-bottom: calc(300px - 100vw);
+    display: inline-block;
+    overflow-y: auto;
+    padding: 10px 40px;
+    transform: rotate(-90deg) translateX(-100%);
+    transform-origin: top left;
+    &::-webkit-scrollbar {
+      display: none;
+      width: 4px;
+      transition: all 450ms;
+      background: linear-gradient(
+        to right,
+        transparent,
+        transparent,
+        transparent,
+        black,
+        transparent,
+        transparent,
+        transparent
+      );
+    }
+
+    &::-webkit-scrollbar-thumb {
+      display: none;
+      background: rgb(71, 71, 71);
+      border-radius: 10px;
+    }
+
+    .movie-container {
+      transform: rotate(90deg) translateY(-100%);
+      transform-origin: top left;
+      animation: fade-in 250ms ease;
+      padding: 5px;
+      position: relative;
+      margin-bottom: -80px;
+      margin-right: 50px;
+      cursor: pointer;
+      &:last-child {
+        margin-bottom: 0px;
+      }
+
+      .contain-scale-image {
+        img {
+          object-fit: contain;
+          transition: transform 450ms !important;
+        }
+      }
+    }
+  }
+}
+@media (pointer: coarse) {
+  .Netflix {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    overflow-y: hidden;
   }
   .showTrailer {
-    margin-left: -40px;
+    margin-left: -10px;
   }
-  @media not all and (pointer: coarse) {
-    .Netflix {
-      margin-bottom: calc(500px - 100vw) !important;
-      padding: 0;
-      margin-right: 0px !important;
-      width: 470px;
-      .movie-container:hover,
-      .active-movie {
-        max-width: 210px !important;
-      }
-      .movie-container {
-        margin: -200px 40px;
-        margin-bottom: 0 !important;
-        margin-left: -30px;
-        width: 220px;
+  .movielist {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
 
-        &:nth-child(20) {
-          margin-bottom: -150px !important;
-        }
-
-        &:nth-child(1) {
-          margin-top: 0;
-        }
-      }
-    }
-
-    .movielist {
-      height: 100vw;
-      margin-bottom: calc(300px - 100vw);
-      display: inline-block;
-      overflow-y: auto;
-      padding: 10px 40px;
-      transform: rotate(-90deg) translateX(-100%);
-      transform-origin: top left;
-      &::-webkit-scrollbar {
-        display: none;
-        width: 4px;
-        transition: all 450ms;
-        background: linear-gradient(
-          to right,
-          transparent,
-          transparent,
-          transparent,
-          black,
-          transparent,
-          transparent,
-          transparent
-        );
-      }
-
-      &::-webkit-scrollbar-thumb {
-        display: none;
-        background: rgb(71, 71, 71);
-        border-radius: 10px;
-      }
-
-      .movie-container {
-        transform: rotate(90deg) translateY(-100%);
-        transform-origin: top left;
-        animation: fade-in 250ms ease;
-        padding: 5px;
-        position: relative;
-        margin-bottom: -60px;
-        margin-right: 50px;
-        cursor: pointer;
-        &:last-child {
-          margin-bottom: 0px;
-        }
-
-        .contain-scale-image {
-          img {
-            object-fit: contain;
-            transition: transform 450ms !important;
-          }
-        }
-      }
-    }
-  }
-  @media (pointer: coarse) {
-    margin-left: -30px;
-    .Netflix {
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-      overflow-y: hidden;
-    }
-    .showTrailer {
-      margin-left: -10px;
-    }
-    .movielist {
-      display: flex;
-      overflow-x: auto;
-      padding: 10px 0;
-
-      .movie-container {
-        margin-left: 35px;
-        padding: 5px;
-        position: relative;
-        cursor: pointer;
-      }
+    .movie-container {
+      margin-left: 35px;
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
     }
   }
 }
