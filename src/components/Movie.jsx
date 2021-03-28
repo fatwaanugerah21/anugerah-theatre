@@ -1,6 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import MediaIcon from "./MediaIcon";
-import { w500ImgURL } from "./../consts/urls";
+import { w500ImgURL } from "../consts/urls";
 
 const Movie = ({
   activeMovieId,

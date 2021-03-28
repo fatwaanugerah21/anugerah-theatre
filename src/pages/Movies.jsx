@@ -2,13 +2,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { w500ImgURL, otherTrailers, requestLinks } from "../consts/urls";
 import { isInTheList } from "../consts/utils";
 import { lazy, useState, Suspense, useEffect } from "react";
-import Navbar from "../shared/Navbar";
+import Navbar from "../components/Navbar";
 import movieTrailer from "movie-trailer";
-import MediaIcon from "../shared/MediaIcon";
+import MediaIcon from "../components/MediaIcon";
 import { connect } from "react-redux";
 import Axios from "axios";
-import { getMoviename } from "./../consts/utils";
-const FullscreenTrailer = lazy(() => import("../shared/FullscreenPlayer"));
+import { getMoviename } from "../consts/utils";
+const FullscreenTrailer = lazy(() => import("../components/FullscreenPlayer"));
 
 const Movies = ({
   allMovies,

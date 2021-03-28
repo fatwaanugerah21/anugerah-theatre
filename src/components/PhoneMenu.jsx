@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { allNavLinks } from "./../consts/urls";
+import { allNavLinks } from "../consts/urls";
 
 const PhoneMenu = ({ setEmptySearchRedirect }) => {
   const pathname = useLocation().pathname;

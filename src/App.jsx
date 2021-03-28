@@ -1,13 +1,14 @@
 import { Suspense, lazy } from "react";
 
-import "./app.css";
-import "./components/shared/shared.css";
-import Homepage from "./components/pages/Homepage";
+import "./app.scss";
+import "./components/shared.scss";
+
+import Homepage from "./pages/Homepage";
 import { connect } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Movies from "./components/pages/Movies";
+import Movies from "./pages/Movies";
 
-const Navbar = lazy(() => import("./components/shared/Navbar"));
+const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
   return (
