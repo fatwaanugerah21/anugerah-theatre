@@ -38,6 +38,8 @@ const Section = ({
       addMovieToStore({ id: title, movies: data.results });
     }
     fetchData();
+
+    return movieTrailerLink && setMovieTrailerLink(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
 
@@ -97,6 +99,7 @@ const Section = ({
 
   function pauseTrailer() {
     if (isTrailerPlaying) {
+      setMovieTrailerLink(null);
       setReactPlayerSize(["100%", "0"]);
       setIsTrailerPlaying(false);
     }

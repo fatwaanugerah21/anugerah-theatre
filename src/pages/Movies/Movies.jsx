@@ -3,9 +3,10 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import movieTrailer from "movie-trailer";
 import { connect } from "react-redux";
 import Axios from "axios";
+import Loader from "react-loader-spinner";
 
 import { w500ImgURL, otherTrailers, requestLinks } from "../../consts/urls";
-import { getMoviename, isInTheList } from "../../consts/utils";
+import { getMoviename } from "../../consts/utils";
 import { MediaIcon } from "../../components";
 
 import "./Movies.scss";
@@ -29,9 +30,9 @@ const Movies = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
-  let alreadyDumped = [];
-
   const [endSlice, setEndSlice] = useState(50);
+
+  const alreadyDumpedMovies = new Map();
 
   if (!searchValue && emptySearchRedirect === "/") {
     if (history) history?.push(emptySearchRedirect);
@@ -116,6 +117,7 @@ const Movies = ({
       trailerContainerDOM.style.display = "none";
       setReactPlayerSize(["100vw", "0"]);
       setIsTrailerPlaying(false);
+      setTrailerLink("");
     }
   }
 
@@ -152,8 +154,8 @@ const Movies = ({
     movies
       .flatMap((row) => {
         return row?.flatMap((movie) => {
-          if (isInTheList(alreadyDumped, movie)) return [];
-          alreadyDumped.push(movie);
+          if (alreadyDumpedMovies.has(movie.id)) return [];
+          alreadyDumpedMovies.set(movie.id, "Is dumped");
           const movieName = getMoviename(movie);
           const imgSrc =
             movie.poster_path !== null
@@ -166,18 +168,24 @@ const Movies = ({
         });
       })
       .slice(0, endSlice);
+
   return (
     <div className="app">
       <div className="searched-movies-contents white-text">
         {isLoading ? (
-          <div className="white-text">Loading ...</div>
+          <div className="white-text flex align-items-center">
+            <h2 style={{ marginBottom: "10px", marginRight: "10px " }}>
+              Loading Movies
+            </h2>
+            <Loader type="Oval" color="#FFF" height={25} width={25} />
+          </div>
         ) : lgtmMovies.length ? (
           lgtmMovies
         ) : (
-          "Film tidak ditemukan"
+          "Film not found"
         )}
       </div>
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={<div />}>
         <FullscreenTrailer
           isTrailerPlaying={isTrailerPlaying}
           movieName={movieName}
