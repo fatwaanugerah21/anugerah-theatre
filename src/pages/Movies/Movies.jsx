@@ -1,14 +1,18 @@
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { w500ImgURL, otherTrailers, requestLinks } from "../consts/urls";
-import { isInTheList } from "../consts/utils";
 import { lazy, useState, Suspense, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import movieTrailer from "movie-trailer";
-import MediaIcon from "../components/MediaIcon";
 import { connect } from "react-redux";
 import Axios from "axios";
-import { getMoviename } from "../consts/utils";
-const FullscreenTrailer = lazy(() => import("../components/FullscreenPlayer"));
+
+import { w500ImgURL, otherTrailers, requestLinks } from "../../consts/urls";
+import { getMoviename, isInTheList } from "../../consts/utils";
+import { Navbar, MediaIcon } from "../../components";
+
+import "./Movies.scss";
+
+const FullscreenTrailer = lazy(() =>
+  import("../../components/FullscreenPlayer/FullscreenPlayer")
+);
 
 const Movies = ({
   allMovies,
@@ -132,7 +136,7 @@ const Movies = ({
               effect="blur"
               width={"150px"}
             />
-            <div className={"movie-text white-text"}>
+            <div className={"movie-text absolute-center white-text"}>
               <h4>{movieName}</h4>
               <MediaIcon movieName={movieName} />
             </div>

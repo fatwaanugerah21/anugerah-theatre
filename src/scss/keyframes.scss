@@ -1,0 +1,29 @@
+@keyframes roll-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 250%;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes feade-in {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 100%;
+  }
+}

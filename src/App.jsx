@@ -1,19 +1,18 @@
 import { Suspense, lazy } from "react";
 
 import "./app.scss";
-import "./components/shared.scss";
 
-import Homepage from "./pages/Homepage";
+import Homepage from "./pages/Homepage/Homepage";
 import { connect } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Movies from "./pages/Movies";
+import Movies from "./pages/Movies/Movies";
 
-const Navbar = lazy(() => import("./components/Navbar"));
+const Navbar = lazy(() => import("./components/Navbar/Navbar"));
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="app">
+      <div className="app overflow-hidden">
         <Suspense fallback={<div></div>}>
           <Navbar />
         </Suspense>

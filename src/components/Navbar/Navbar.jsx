@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { allNavLinks } from "../consts/urls";
+import { allNavLinks } from "../../consts/urls";
 import { connect } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import PhoneMenu from "./PhoneMenu";
+import PhoneMenu from "../PhoneMenu/PhoneMenu";
+import "./Navbar.scss";
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");

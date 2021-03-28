@@ -1,0 +1,35 @@
+// Phone Menu
+.phone-menu {
+  background-color: rebeccapurple;
+  padding: 9px;
+  padding-right: 25px;
+  animation: roll-down 400ms;
+  position: relative;
+
+  cursor: pointer;
+
+  span {
+    position: absolute;
+    right: 5px;
+    top: 28%;
+  }
+
+  ul {
+    position: absolute;
+    background-color: red;
+    z-index: 99999999999999 !important;
+
+    top: 100%;
+    left: 0;
+    width: 150%;
+    li {
+      z-index: 999999999999999999 !important;
+      padding: 5px 0;
+
+      &:hover,
+      &:focus {
+        background-color: blue;
+      }
+    }
+  }
+}

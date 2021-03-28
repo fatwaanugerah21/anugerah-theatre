@@ -2,10 +2,13 @@ import Axios from "axios";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
-import { baseImgURL, googleSearch, w500ImgURL } from "../consts/urls";
-import { concenate } from "../consts/utils";
+import { baseImgURL, googleSearch, w500ImgURL } from "../../consts/urls";
+import { concenate } from "../../consts/utils";
+import "./HeaderContent.scss";
 
-const FullscreenTrailer = lazy(() => import("./FullscreenPlayer"));
+const FullscreenTrailer = lazy(() =>
+  import("../FullscreenPlayer/FullscreenPlayer")
+);
 
 const HeaderContent = ({
   className,
@@ -69,7 +72,12 @@ const HeaderContent = ({
 
   return (
     <div className={className}>
-      <img src={getImageSrc()} id="header-image" alt={movie.original_title} />
+      <img
+        className="full-size"
+        src={getImageSrc()}
+        id="header-image"
+        alt={movie.original_title}
+      />
       <Suspense fallback={<div></div>}>
         <div className="fade-bottom"></div>
         <div className="header-movie-info white-text">

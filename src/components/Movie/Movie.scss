@@ -1,0 +1,33 @@
+.movie-content {
+  transition: all 500ms !important;
+  position: relative;
+
+  .movie-text {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+    position: relative;
+    transform: scale(1.3);
+    z-index: 999999 !important;
+
+    img {
+      filter: brightness(50%);
+    }
+
+    .movie-text {
+      z-index: 100;
+      display: flex !important;
+      flex-direction: column;
+      h4 {
+        font-size: 10pt;
+        text-align: center;
+      }
+
+      img {
+        filter: brightness(100%);
+      }
+    }
+  }
+}

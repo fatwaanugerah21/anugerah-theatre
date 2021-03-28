@@ -1,0 +1,43 @@
+.searched-movies-contents {
+  padding: 7rem 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .movie {
+    transition: all 450ms !important;
+    margin: 10px !important;
+    position: relative;
+    .movie-text {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+      z-index: 100;
+      transform: scale(1.3);
+      img {
+        filter: brightness(50%);
+      }
+      .movie-text {
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        h4 {
+          font-size: 10pt;
+          text-align: center;
+        }
+        img {
+          filter: brightness(100%);
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
-import { googleSearch } from "../consts/urls";
+import { googleSearch } from "../../consts/urls";
+import "./MediaIcon.scss";
 
 const MediaIcon = ({ movieName }) => {
   return (

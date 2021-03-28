@@ -1,10 +1,10 @@
 import { Suspense, useEffect, lazy, useState } from "react";
-import { allSections } from "../consts/sectionsArray";
-import { requestLinks } from "../consts/urls";
-import HeaderContent from "../components/HeaderContent";
+import { allSections } from "../../consts/sectionsArray";
+import { requestLinks } from "../../consts/urls";
+import HeaderContent from "../../components/HeaderContent/HeaderContent";
 import { connect } from "react-redux";
-
-const Section = lazy(() => import("../components/Section"));
+import "./Homepage.scss";
+const Section = lazy(() => import("../../components/Section/Section"));
 
 const Homepage = ({ setEmptySearchRedirect }) => {
   const [endIndex, setEndIndex] = useState(1);

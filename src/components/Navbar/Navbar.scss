@@ -1,21 +1,6 @@
-.media-icon {
-  margin-top: 10px;
-  display: flex;
-  a {
-    padding: 5px;
-    cursor: alias;
-  }
-  img {
-    width: 20px !important;
-    height: 20px !important;
-    border-radius: 50%;
-    filter: brightness(100%);
-    &:hover {
-      transform: scale(1.2);
-      filter: brightness(140%);
-      transition: transform 450ms;
-    }
-  }
+#black-background {
+  background: black !important;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
 }
 
 .navbar {
@@ -81,57 +66,10 @@
       width: 30px;
     }
     .searchInput {
-      // padding: 2px;
       padding-left: 10px !important;
       background-color: rgb(49, 46, 46);
       border: white 1px solid;
       color: white;
     }
-  }
-}
-
-// Phone Menu
-.phone-menu {
-  background-color: rebeccapurple;
-  padding: 9px;
-  padding-right: 25px;
-  animation: roll-down 400ms;
-  position: relative;
-
-  cursor: pointer;
-
-  span {
-    position: absolute;
-    right: 5px;
-    top: 28%;
-  }
-
-  ul {
-    position: absolute;
-    background-color: red;
-    z-index: 99999999999999 !important;
-
-    top: 100%;
-    left: 0;
-    width: 150%;
-    li {
-      z-index: 999999999999999999 !important;
-      padding: 5px 0;
-
-      &:hover,
-      &:focus {
-        background-color: blue;
-      }
-    }
-  }
-}
-
-@keyframes roll-down {
-  from {
-    height: 0;
-  }
-
-  to {
-    height: 250%;
   }
 }

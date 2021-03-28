@@ -1,12 +1,14 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import MediaIcon from "./MediaIcon";
-import { w500ImgURL } from "../consts/urls";
+import MediaIcon from "../MediaIcon/MediaIcon";
+import { w500ImgURL } from "../../consts/urls";
+import "./Movie.scss";
 
 const Movie = ({
   activeMovieId,
   movie,
   playingSection,
   title,
+  className,
   playTrailer,
   isLarge,
   key,
@@ -19,7 +21,7 @@ const Movie = ({
   return (
     <div
       key={key}
-      className={`movie-container ${
+      className={`${className} ${
         activeMovieId === movie.id && playingSection === title
           ? "active-movie"
           : ""
@@ -38,7 +40,7 @@ const Movie = ({
           effect="blur"
           width={isLarge ? "210px" : "150px"}
         />
-        <div className={"movie-text white-text"}>
+        <div className={"movie-text absolute-center white-text"}>
           <h4>{movieName}</h4>
           <MediaIcon movieName={movieName} />
         </div>

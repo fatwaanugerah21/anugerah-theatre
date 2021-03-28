@@ -1,0 +1,31 @@
+.header-movie-info {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%;
+  left: 10%;
+
+  h1,
+  p {
+    margin-bottom: 20px;
+  }
+  .row {
+    margin-top: 80px;
+    .play {
+      margin-right: 20px;
+      padding: 22.7px;
+      transform: translateY(-3.2px);
+    }
+
+    a {
+      margin-right: 20px;
+      width: 80px;
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    width: 80% !important;
+    .row {
+      margin-top: 40px;
+    }
+  }
+}

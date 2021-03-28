@@ -3,10 +3,11 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
-import { otherTrailers } from "../consts/urls";
+import { otherTrailers } from "../../consts/urls";
+import "./Section.scss";
 
 const ReactPlayer = lazy(() => import("react-player"));
-const Movie = lazy(() => import("./Movie"));
+const Movie = lazy(() => import("../Movie/Movie"));
 
 const Section = ({
   activeMovieId,
@@ -100,6 +101,7 @@ const Section = ({
       setIsTrailerPlaying(false);
     }
   }
+
   if (title === wasPlayedSection && wasPlayedSection !== playingSection) {
     if (movieId) pauseTrailer();
   }
@@ -107,6 +109,7 @@ const Section = ({
   const movieList = movies.slice(0, endSliceIndex).map((movie) => {
     return (
       <Movie
+        className="movie-container"
         movie={movie}
         activeMovieId={activeMovieId}
         isLarge={isLarge}
