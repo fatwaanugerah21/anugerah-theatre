@@ -38,6 +38,7 @@ const Movie = ({
           height={isLarge ? "420px" : "230px"}
           src={imgSrc}
           effect="blur"
+          className="movie-cover object-fit-cover"
           width={isLarge ? "210px" : "150px"}
         />
         <div className={"movie-text absolute-center white-text"}>

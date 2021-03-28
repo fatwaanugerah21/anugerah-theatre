@@ -36,17 +36,6 @@
         &:nth-child(1) {
           margin-top: 0;
         }
-
-        .movie-content {
-          width: 0 !important;
-
-          img {
-            object-fit: cover !important;
-          }
-        }
-        .movie-text {
-          display: none;
-        }
       }
     }
 
@@ -122,44 +111,6 @@
         padding: 5px;
         position: relative;
         cursor: pointer;
-      }
-    }
-  }
-
-  .movie-container:hover,
-  .active-movie {
-    outline: none;
-    z-index: 4;
-    max-width: fit-content;
-    .movie-content {
-      z-index: -1;
-
-      img {
-        filter: brightness(40%);
-        transform: scale(1.1);
-      }
-
-      .movie-text {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        flex-direction: column;
-        opacity: 1;
-
-        .media-icon {
-          a {
-            padding: 5px;
-            cursor: alias;
-            z-index: 10000;
-            filter: brightness(250%);
-            &:hover {
-              transform: scale(1.2);
-              filter: brightness(300%);
-              transition: transform 450ms;
-            }
-          }
-        }
       }
     }
   }

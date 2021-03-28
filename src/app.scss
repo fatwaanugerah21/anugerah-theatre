@@ -54,6 +54,10 @@ img {
   position: absolute;
 }
 
+.object-fit-cover {
+  object-fit: cover !important;
+}
+
 .f-sb-ac {
   display: flex;
   align-items: center;

@@ -7,26 +7,28 @@
   }
 
   &:hover {
-    cursor: pointer;
-    position: relative;
-    transform: scale(1.3);
-    z-index: 999999 !important;
-
-    img {
-      filter: brightness(50%);
+    .movie-cover {
+      filter: brightness(40%);
+      transform: scale(1.1);
     }
 
     .movie-text {
-      z-index: 100;
       display: flex !important;
+      text-align: center;
       flex-direction: column;
-      h4 {
-        font-size: 10pt;
-        text-align: center;
-      }
+      opacity: 1;
 
-      img {
-        filter: brightness(100%);
+      .media-icon {
+        a {
+          padding: 5px;
+          cursor: alias;
+          z-index: 10000;
+          &:hover {
+            transform: scale(1.2);
+            filter: brightness(120%);
+            transition: transform 450ms;
+          }
+        }
       }
     }
   }
