@@ -3,7 +3,10 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
+
 import { otherTrailers } from "../../consts/urls";
+import { getMoviename } from "../../consts/utils";
+
 import "./Section.scss";
 
 const ReactPlayer = lazy(() => import("react-player"));
@@ -29,24 +32,27 @@ const Section = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [endSliceIndex, setEndSliceIndex] = useState(isMobile ? 3 : 10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
+
   const trailerReference = useRef(null);
+  const movieListRef = useRef(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function fetchData() {
-      const { data } = await Axios.get(fetchURL);
+      const { data } = await Axios.get(fetchURL, {
+        signal: abortController.signal,
+      });
       setMovies(data.results);
       addMovieToStore({ id: title, movies: data.results });
     }
     fetchData();
-
-    return movieTrailerLink && setMovieTrailerLink(null);
+    return abortController.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
 
   useEffect(() => {
     const section = document.getElementById(title + "-movielist");
-
-    section.addEventListener("scroll", (_) => {
+    function handleScrollListener() {
       const scrollValue = isMobile
         ? section.scrollWidth - section.scrollLeft
         : section.scrollHeight - section.scrollTop;
@@ -54,13 +60,16 @@ const Section = ({
         (!isMobile && scrollValue <= 1700) ||
         (isMobile && scrollValue <= 1000)
       )
-        setEndSliceIndex((old) => (old + 4 >= 20 ? 20 : old + 4));
+        setEndSliceIndex((old) => Math.min(20, old + 4));
       if (
         (!isMobile && scrollValue >= 3500) ||
         (isMobile && scrollValue >= 2000)
       )
-        setEndSliceIndex((old) => (old - 4 <= 10 ? 10 : old - 4));
-    });
+        setEndSliceIndex((old) => Math.max(10, old - 4));
+    }
+    section.addEventListener("scroll", () => handleScrollListener());
+
+    return section.removeEventListener("scroll", () => handleScrollListener());
   }, [title, isMobile]);
 
   // Listening to windows resize
@@ -81,6 +90,8 @@ const Section = ({
         setMovieTrailerLink(
           response[Math.floor((Math.random() * 200) % response.length)]
         );
+        movieListRef.current.style.overflow = "hidden";
+        console.log(movieListRef.current);
       })
       .catch((_) => {
         setMovieTrailerLink(otherTrailers[randomTrailerIndex]);
@@ -98,6 +109,8 @@ const Section = ({
   };
 
   function pauseTrailer() {
+    movieListRef.current.style.overflow = "auto";
+
     if (isTrailerPlaying) {
       setMovieTrailerLink(null);
       setReactPlayerSize(["100%", "0"]);
@@ -117,7 +130,7 @@ const Section = ({
         activeMovieId={activeMovieId}
         isLarge={isLarge}
         key={movie.id}
-        playTrailer={(movieName, id) => playTrailer(movieName, id)}
+        onClick={() => playTrailer(getMoviename(movie), movie.id)}
         playingSection={playingSection}
         title={title}
       />
@@ -128,7 +141,11 @@ const Section = ({
     <div className={className} key={title}>
       <h1 ref={trailerReference}>{title}</h1>
       <Suspense fallback={<div></div>}>
-        <div id={title + "-movielist"} className={"movielist " + title}>
+        <div
+          ref={movieListRef}
+          id={title + "-movielist"}
+          className={"movielist " + title}
+        >
           {movieList}
         </div>
 
@@ -145,7 +162,7 @@ const Section = ({
     </div>
   );
 };
-function mapStateToProps(state, props) {
+function mapStateToProps(state, _) {
   return {
     activeMovieId: state.activeMovieId,
     wasPlayedSection: state.wasPlayedSection,
@@ -153,7 +170,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-function mapDispatchToProps(dispatch, props) {
+function mapDispatchToProps(dispatch, _) {
   return {
     setPlayingSection: (title) =>
       dispatch({ type: "NEW_PLAYING_SECTION", title }),

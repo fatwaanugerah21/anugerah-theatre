@@ -1,8 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
 import { allNavLinks } from "../../consts/urls";
+
 import "./PhoneMenu.scss";
+import { generateKey } from "../../consts/utils";
 
 const PhoneMenu = ({ setEmptySearchRedirect }) => {
   const pathname = useLocation().pathname;
@@ -30,7 +33,7 @@ const PhoneMenu = ({ setEmptySearchRedirect }) => {
       <ul className="navigations hide">
         {allNavLinks.map((link) => {
           return (
-            <li>
+            <li key={generateKey("phone-menu")}>
               <Link
                 onClick={() => setEmptySearchRedirect(link.emptySearchRedirect)}
                 to={link.href}

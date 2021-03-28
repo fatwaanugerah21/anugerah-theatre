@@ -61,6 +61,7 @@ const HeaderContent = ({
   function pauseTrailer() {
     document.body.style.overflow = "auto";
     if (isTrailerPlaying) {
+      setTrailerLink(null);
       const trailerContainerDOM = document.getElementById(
         "header-trailer-container"
       );

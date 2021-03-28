@@ -5,13 +5,10 @@
   flex-wrap: wrap;
   justify-content: center;
 
-  .movie {
+  .movie-container {
     transition: all 450ms !important;
     margin: 10px !important;
     position: relative;
-    .movie-text {
-      display: none;
-    }
 
     &:hover {
       cursor: pointer;

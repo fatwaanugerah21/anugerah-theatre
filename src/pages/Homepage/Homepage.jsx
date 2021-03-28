@@ -1,8 +1,10 @@
 import { Suspense, useEffect, lazy, useState } from "react";
+import { connect } from "react-redux";
+
 import { allSections } from "../../consts/sectionsArray";
 import { requestLinks } from "../../consts/urls";
-import HeaderContent from "../../components/HeaderContent/HeaderContent";
-import { connect } from "react-redux";
+import { HeaderContent } from "../../components";
+
 import "./Homepage.scss";
 const Section = lazy(() => import("../../components/Section/Section"));
 
@@ -14,12 +16,10 @@ const Homepage = ({ setEmptySearchRedirect }) => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
       if (windowScrollHeight <= 900)
-        setEndIndex((old) => (old + 2 > 16 ? 16 : old + 2));
+        setEndIndex((old) => Math.min(16, old + 2));
     };
     window.addEventListener("scroll", () => bottomFetch());
-    return () => {
-      window.removeEventListener("scroll", () => bottomFetch());
-    };
+    return window.removeEventListener("scroll", () => bottomFetch());
   });
 
   const sectionList = allSections.slice(0, endIndex).map((section) => {

@@ -1,15 +1,15 @@
 import { lazy, useState, Suspense, useEffect } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import movieTrailer from "movie-trailer";
 import { connect } from "react-redux";
 import Axios from "axios";
 import Loader from "react-loader-spinner";
 
-import { w500ImgURL, otherTrailers, requestLinks } from "../../consts/urls";
+import { otherTrailers, requestLinks } from "../../consts/urls";
 import { getMoviename } from "../../consts/utils";
-import { MediaIcon } from "../../components";
+import { Movie } from "../../components";
 
 import "./Movies.scss";
+import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 const FullscreenTrailer = lazy(() =>
   import("../../components/FullscreenPlayer/FullscreenPlayer")
@@ -31,6 +31,9 @@ const Movies = ({
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
   const [endSlice, setEndSlice] = useState(50);
+
+  const searchValueFromParam = useLocation().search.split("=")[1];
+  console.log(searchValueFromParam);
 
   const alreadyDumpedMovies = new Map();
 
@@ -121,50 +124,26 @@ const Movies = ({
     }
   }
 
-  function createMovieDOM(movie, movieName, imgSrc, isLast) {
-    return (
-      <div
-        className="movie"
-        key={movie.id}
-        onClick={() => handleClick(movieName)}
-        tabIndex={-1}
-      >
-        <div className="movie-container" key={movie.id} id={movie.id}>
-          <div className="movie-content contain-scale-image">
-            <LazyLoadImage
-              offset="-400px"
-              alt={movieName}
-              height={"230px"}
-              src={imgSrc}
-              effect="blur"
-              width={"150px"}
-            />
-            <div className={"movie-text absolute-center white-text"}>
-              <h4>{movieName}</h4>
-              <MediaIcon movieName={movieName} />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const lgtmMovies =
     movies &&
     movies
       .flatMap((row) => {
         return row?.flatMap((movie) => {
           if (alreadyDumpedMovies.has(movie.id)) return [];
+
           alreadyDumpedMovies.set(movie.id, "Is dumped");
           const movieName = getMoviename(movie);
-          const imgSrc =
-            movie.poster_path !== null
-              ? `${w500ImgURL}${movie.poster_path}`
-              : "/img/netflix_logo.svg";
 
-          return isValid(movieName, searchValue)
-            ? createMovieDOM(movie, movieName, imgSrc)
-            : [];
+          return isValid(movieName, searchValue) ? (
+            <Movie
+              movie={movie}
+              onClick={() => handleClick(movieName)}
+              className="movie-container"
+              key={movie.id}
+            />
+          ) : (
+            []
+          );
         });
       })
       .slice(0, endSlice);
