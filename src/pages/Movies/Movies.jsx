@@ -29,10 +29,9 @@ const Movies = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
-  let movieFound = false;
   let alreadyDumped = [];
   const lastItemId = "lastmoviesitem";
-  const [endSlice, setEndSlice] = useState(3);
+  const [endSlice, setEndSlice] = useState(50);
 
   if (!searchValue && emptySearchRedirect === "/") {
     if (history) history?.push(emptySearchRedirect);
@@ -61,20 +60,23 @@ const Movies = ({
     fetchAllMovies();
   }
 
+  function isValid(moviename, searchValue) {
+    if (!searchValue) return true;
+    return moviename.toLowerCase().includes(searchValue.toLowerCase());
+  }
+
   useEffect(() => {
     const bottomFetch = () => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
-      if (windowScrollHeight <= 900) {
-        setEndSlice((old) => {
-          return old + 2 > 17 ? 17 : old + 2;
-        });
+      if (windowScrollHeight <= 1200) {
+        setEndSlice((old) => Math.min(340, old + 50));
       }
       if (
         (isMobile && windowScrollHeight >= 10000) ||
         (!isMobile && windowScrollHeight >= 2800)
       ) {
-        setEndSlice((old) => (old - 3 >= 3 ? old - 3 : 3));
+        setEndSlice((old) => Math.max(50, old - 50));
       }
     };
     window.addEventListener("scroll", () => bottomFetch());
@@ -146,56 +148,31 @@ const Movies = ({
     );
   }
 
-  function filterMovies(movies) {
-    const filteredMovies = [];
-    let i = 0;
-    let tempContainer = [];
-    for (const row of movies) {
-      for (const movie of row) {
-        const movieName = getMoviename(movie);
-
-        if (movieName.toLowerCase().includes(searchValue.toLowerCase())) {
-          i++;
-          if (i >= 20) {
-            filteredMovies.push(tempContainer);
-            tempContainer = [];
-            i = 0;
-          }
-          tempContainer.push(movie);
-        }
-      }
-    }
-    filteredMovies.push(tempContainer);
-    return filteredMovies;
-  }
-
   const lgtmMovies =
     movies &&
-    (searchValue ? filterMovies(movies) : movies)
-      .slice(0, endSlice)
-      .map((row) => {
-        if (row.length) if (!movieFound) movieFound = true;
-        return row?.map((movie) => {
-          if (isInTheList(alreadyDumped, movie)) return null;
+    movies
+      .flatMap((row) => {
+        return row?.flatMap((movie) => {
+          if (isInTheList(alreadyDumped, movie)) return [];
           alreadyDumped.push(movie);
           const movieName = getMoviename(movie);
-
           const imgSrc =
             movie.poster_path !== null
               ? `${w500ImgURL}${movie.poster_path}`
               : "/img/netflix_logo.svg";
 
-          return createMovieDOM(movie, movieName, imgSrc);
+          return isValid(movieName, searchValue)
+            ? createMovieDOM(movie, movieName, imgSrc)
+            : [];
         });
-      });
-
+      })
+      .slice(0, endSlice);
   return (
     <div className="app">
-      <Navbar inputValue={searchValue} />
       <div className="searched-movies-contents white-text">
         {isLoading ? (
           <div className="white-text">Loading ...</div>
-        ) : movieFound ? (
+        ) : lgtmMovies.length ? (
           lgtmMovies
         ) : (
           "Film tidak ditemukan"
