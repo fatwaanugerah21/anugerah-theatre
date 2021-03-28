@@ -6,7 +6,7 @@ import Axios from "axios";
 
 import { w500ImgURL, otherTrailers, requestLinks } from "../../consts/urls";
 import { getMoviename, isInTheList } from "../../consts/utils";
-import { Navbar, MediaIcon } from "../../components";
+import { MediaIcon } from "../../components";
 
 import "./Movies.scss";
 
@@ -30,7 +30,7 @@ const Movies = ({
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
   let alreadyDumped = [];
-  const lastItemId = "lastmoviesitem";
+
   const [endSlice, setEndSlice] = useState(50);
 
   if (!searchValue && emptySearchRedirect === "/") {
@@ -124,7 +124,6 @@ const Movies = ({
       <div
         className="movie"
         key={movie.id}
-        id={isLast ? lastItemId : movieName}
         onClick={() => handleClick(movieName)}
         tabIndex={-1}
       >
