@@ -48,6 +48,12 @@ const Section = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
 
+  setTimeout(() => {
+    if (movieListRef.current)
+      movieListRef.current.style.overflow =
+        isTrailerPlaying && movieTrailerLink ? "hidden" : "auto";
+  }, 0);
+
   const playTrailer = (movieName, id) => {
     setPlayingMovieId(id);
     movieTrailer(`${movieName}`, { multi: true })
@@ -55,8 +61,6 @@ const Section = ({
         setMovieTrailerLink(
           response[Math.floor((Math.random() * 200) % response.length)]
         );
-        movieListRef.current.style.overflow = "hidden";
-        console.log(movieListRef.current);
       })
       .catch((_) => {
         setMovieTrailerLink(otherTrailers[randomTrailerIndex]);
@@ -74,8 +78,6 @@ const Section = ({
   };
 
   function pauseTrailer() {
-    movieListRef.current.style.overflow = "auto";
-
     if (isTrailerPlaying) {
       setMovieTrailerLink(null);
       setReactPlayerSize(["100%", "0"]);
