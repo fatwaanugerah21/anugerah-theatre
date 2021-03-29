@@ -42,7 +42,7 @@ export const allNavLinks = [
     emptySearchRedirect: "/movies",
     onlyDisplay: true,
   },
-  { name: "Movies", href: "movies", emptySearchRedirect: "/movies" },
+  { name: "Movies", href: "/movies", emptySearchRedirect: "/movies" },
   {
     name: "Latest",
     href: "movies",

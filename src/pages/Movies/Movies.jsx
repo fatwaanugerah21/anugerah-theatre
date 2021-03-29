@@ -9,7 +9,6 @@ import { getMoviename } from "../../consts/utils";
 import { Movie } from "../../components";
 
 import "./Movies.scss";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 const FullscreenTrailer = lazy(() =>
   import("../../components/FullscreenPlayer/FullscreenPlayer")
@@ -31,9 +30,6 @@ const Movies = ({
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
   const [endSlice, setEndSlice] = useState(50);
-
-  const searchValueFromParam = useLocation().search.split("=")[1];
-  console.log(searchValueFromParam);
 
   const alreadyDumpedMovies = new Map();
 

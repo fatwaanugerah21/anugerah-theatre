@@ -1,13 +1,45 @@
-import { useEffect, useState } from "react";
-import { allNavLinks } from "../../consts/urls";
+import { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
+
 import PhoneMenu from "../PhoneMenu/PhoneMenu";
+import { allNavLinks } from "../../consts/urls";
+
 import "./Navbar.scss";
+
+const NavInput = ({ onChange, searchValue, onFocus, onBlur }) => {
+  const inputRef = useRef(null);
+
+  return (
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      className="flex align-items-center transition"
+    >
+      <img
+        onClick={() => inputRef.current.focus()}
+        className="cursor-pointer search-icon"
+        src="/img/search-icon.svg"
+        alt=""
+      />
+      <input
+        className="search-input white-text transparent transition"
+        type="text"
+        ref={inputRef}
+        placeholder="search movies"
+        onFocus={onFocus}
+        onBlur={onBlur}
+        value={searchValue ?? ""}
+        onChange={(e) => onChange(e)}
+      />
+    </form>
+  );
+};
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");
   const pathName = useLocation().pathname;
+  const [isInputingSearch, setIsInputingSearch] = useState(false);
+
   useEffect(() => {
     window.addEventListener("scroll", setNavbarBG);
     return document.body.removeEventListener("scroll", setNavbarBG);
@@ -20,13 +52,13 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const navLinks = allNavLinks.map((link) => {
     if (link.onlyDisplay)
       return (
-        <div key={link.name} className="left-side-nav white-text od-nav">
+        <div key={link.name} className="left-side-nav white-text">
           {link.name}
         </div>
       );
     return (
       <NavLink
-        className="left-side-nav"
+        className="left-side-nav white-text"
         onClick={() => {
           setSearchValue(null);
           setEmptySearchRedirect(link.emptySearchRedirect);
@@ -47,41 +79,31 @@ const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
     }, 300);
   }
 
-  function searchMovies(e) {
-    setSearchValue(e.target.value);
-  }
-
   return (
-    <div>
-      <nav className="navbar" id={navbarId}>
-        <div className="left-side">
-          <Link to="/" onClick={() => setSearchValue(null)}>
-            <img
-              src="/img/netflix_logo.svg"
-              alt="netflix-logo"
-              className="netflix-logo"
-            />
-          </Link>
-          {navLinks}
-        </div>
-        <PhoneMenu pathname={pathName}>{navLinks}</PhoneMenu>
-        <div className="right-side f-sb-ac">
-          <form onSubmit={(e) => e.preventDefault()}>
-            <input
-              className="searchInput"
-              type="text"
-              placeholder="search movies"
-              value={searchValue ?? ""}
-              onChange={searchMovies}
-            />
-          </form>
-          <img src="/img/account_icon.svg" height="26" width="20" alt="" />
-        </div>
-      </nav>
-      <Link className="hide white-text" id="searchMovieWithParams" to="movies">
-        a
-      </Link>
-    </div>
+    <nav className="navbar transition f-sb-ac fixed-top w-full" id={navbarId}>
+      <div className="left-side flex">
+        <Link to="/" onClick={() => setSearchValue(null)}>
+          <img
+            src="/img/netflix_logo.svg"
+            alt="netflix-logo"
+            className="netflix-logo"
+          />
+        </Link>
+        <div className="navlinks flex">{navLinks}</div>
+      </div>
+      <PhoneMenu isInputingSearch={isInputingSearch} pathname={pathName}>
+        {navLinks}
+      </PhoneMenu>
+      <div className="right-side f-sb-ac">
+        <NavInput
+          onChange={(e) => setSearchValue(e.target.value)}
+          searchValue={searchValue}
+          onFocus={() => setIsInputingSearch(true)}
+          onBlur={() => setTimeout(() => setIsInputingSearch(false), 450)}
+        />
+        <img src="/img/account_icon.svg" height="26" width="20" alt="" />
+      </div>
+    </nav>
   );
 };
 
