@@ -29,8 +29,6 @@ const Section = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const [movieId, setMovieId] = useState();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [endSliceIndex, setEndSliceIndex] = useState(isMobile ? 3 : 10);
   const [randomTrailerIndex, setTrailerIndex] = useState(0);
 
   const trailerReference = useRef(null);
@@ -49,39 +47,6 @@ const Section = ({
     return abortController.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchURL]);
-
-  useEffect(() => {
-    const section = document.getElementById(title + "-movielist");
-    function handleScrollListener() {
-      const scrollValue = isMobile
-        ? section.scrollWidth - section.scrollLeft
-        : section.scrollHeight - section.scrollTop;
-      if (
-        (!isMobile && scrollValue <= 1700) ||
-        (isMobile && scrollValue <= 1000)
-      )
-        setEndSliceIndex((old) => Math.min(20, old + 4));
-      if (
-        (!isMobile && scrollValue >= 3500) ||
-        (isMobile && scrollValue >= 2000)
-      )
-        setEndSliceIndex((old) => Math.max(10, old - 4));
-    }
-    section.addEventListener("scroll", () => handleScrollListener());
-
-    return section.removeEventListener("scroll", () => handleScrollListener());
-  }, [title, isMobile]);
-
-  // Listening to windows resize
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      setEndSliceIndex(isMobile ? 3 : 10);
-    };
-
-    window.addEventListener("resize", () => handleResize());
-    return window.removeEventListener("resize", () => handleResize());
-  });
 
   const playTrailer = (movieName, id) => {
     setPlayingMovieId(id);
@@ -122,7 +87,7 @@ const Section = ({
     if (movieId) pauseTrailer();
   }
 
-  const movieList = movies.slice(0, endSliceIndex).map((movie) => {
+  const movieList = movies.map((movie) => {
     return (
       <Movie
         className="movie-container"
