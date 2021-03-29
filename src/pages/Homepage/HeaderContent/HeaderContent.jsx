@@ -2,12 +2,12 @@ import Axios from "axios";
 import { useEffect, useState, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
-import { baseImgURL, googleSearch, w500ImgURL } from "../../consts/urls";
-import { concenate } from "../../consts/utils";
+import { baseImgURL, googleSearch, w500ImgURL } from "../../../consts/urls";
+import { concenate } from "../../../consts/utils";
 import "./HeaderContent.scss";
 
 const FullscreenTrailer = lazy(() =>
-  import("../FullscreenPlayer/FullscreenPlayer")
+  import("../../../components/FullscreenPlayer/FullscreenPlayer")
 );
 
 const HeaderContent = ({

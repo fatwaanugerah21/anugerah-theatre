@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import movieTrailer from "movie-trailer";
 
-import { otherTrailers } from "../../consts/urls";
-import { getMoviename } from "../../consts/utils";
+import { otherTrailers } from "../../../consts/urls";
+import { getMoviename } from "../../../consts/utils";
 
 import "./Section.scss";
 
 const ReactPlayer = lazy(() => import("react-player"));
-const Movie = lazy(() => import("../Movie/Movie"));
+const Movie = lazy(() => import("../../../components/Movie/Movie"));
 
 const Section = ({
   activeMovieId,
