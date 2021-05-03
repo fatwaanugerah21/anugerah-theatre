@@ -1,39 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 import PhoneMenu from "../PhoneMenu/PhoneMenu";
+import NavInput from "./NavInput";
 import { allNavLinks } from "../../consts/urls";
 
 import "./Navbar.scss";
-
-const NavInput = ({ onChange, searchValue, onFocus, onBlur }) => {
-  const inputRef = useRef(null);
-
-  return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-      className="flex align-items-center transition"
-    >
-      <img
-        onClick={() => inputRef.current.focus()}
-        className="cursor-pointer search-icon"
-        src="/img/search-icon.svg"
-        alt=""
-      />
-      <input
-        className="search-input white-text transparent transition"
-        type="text"
-        ref={inputRef}
-        placeholder="search movies"
-        onFocus={onFocus}
-        onBlur={onBlur}
-        value={searchValue ?? ""}
-        onChange={(e) => onChange(e)}
-      />
-    </form>
-  );
-};
 
 const Navbar = ({ searchValue, setSearchValue, setEmptySearchRedirect }) => {
   const [navbarId, setNavbarId] = useState("");

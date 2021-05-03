@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import { otherTrailers, requestLinks } from "../../consts/urls";
 import { getMoviename } from "../../consts/utils";
 import { Movie } from "../../components";
+import { useQuery } from "../../consts/utils";
 
 import "./Movies.scss";
 
@@ -16,7 +17,7 @@ const FullscreenTrailer = lazy(() =>
 
 const Movies = ({
   allMovies,
-  searchValue,
+  // searchValue,
   history,
   emptySearchRedirect,
   setPlayingMovieId,
@@ -30,6 +31,7 @@ const Movies = ({
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
   const [endSlice, setEndSlice] = useState(50);
+  const searchValue = useQuery().get("q");
 
   const alreadyDumpedMovies = new Map();
 
@@ -56,9 +58,12 @@ const Movies = ({
     setIsLoading(false);
   }
 
-  if (!movies?.length || movies?.length < 17) {
-    fetchAllMovies();
-  }
+  useEffect(() => {
+    if (!movies?.length || movies?.length < 17) {
+      fetchAllMovies();
+    }
+    return;
+  });
 
   function isValid(moviename, searchValue) {
     if (!searchValue) return true;

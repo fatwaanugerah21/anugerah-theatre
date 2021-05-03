@@ -26,7 +26,7 @@ const Homepage = ({ setEmptySearchRedirect }) => {
     return (
       <Suspense>
         <Section
-          key={section.title}
+          key={section.title + section.fetchURL}
           className="movielist-section"
           title={section.title}
           fetchURL={section.fetchURL}
