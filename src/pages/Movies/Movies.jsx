@@ -25,7 +25,7 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
-  const [endSlice, setEndSlice] = useState(50);
+  const [endSlice, setEndSlice] = useState(30);
   const searchValue = useQuery().get("q");
   const history = useHistory();
 
@@ -57,7 +57,6 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
     if (!movies?.length || movies?.length < 17) {
       fetchAllMovies();
     }
-    return;
   });
 
   function isValid(moviename, searchValue) {
@@ -173,7 +172,7 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     allMovies: state.allMovies,
     emptySearchRedirect: state.emptySearchRedirect,

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useRef, useState } from "react";
+import { connect } from "react-redux";
 import { useHistory, NavLink } from "react-router-dom";
 import { useQuery } from "../../consts/utils";
 
-const NavInput = ({ onFocus, onBlur }) => {
+const NavInput = ({ onFocus, onBlur, emptySearchRedirect }) => {
   const inputRef = useRef(null);
   const [searchValue, setSearchValue] = useState(useQuery().get("q"));
   const history = useHistory();
@@ -12,7 +13,14 @@ const NavInput = ({ onFocus, onBlur }) => {
 
   useEffect(() => {
     const navLinkDOM = document?.getElementById(linkId);
-    navLinkDOM?.click();
+    if (searchValue) {
+      navLinkDOM?.click();
+      navLinkDOM?.focus();
+    }
+
+    if (!searchValue && emptySearchRedirect === "/")
+      history.push(emptySearchRedirect);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, history]);
 
   return (
@@ -36,11 +44,19 @@ const NavInput = ({ onFocus, onBlur }) => {
         value={searchValue ?? ""}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <NavLink id={linkId} to={`${searchURL}?q=${searchValue}`}>
-        asf
-      </NavLink>
+      <NavLink
+        id={linkId}
+        to={`${searchURL}?q=${searchValue}`}
+        className="visibility-none"
+      />
     </form>
   );
 };
 
-export default NavInput;
+function mapStateToProps(state) {
+  return {
+    emptySearchRedirect: state.emptySearchRedirect,
+  };
+}
+
+export default connect(mapStateToProps)(NavInput);
