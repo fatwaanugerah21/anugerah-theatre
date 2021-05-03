@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useRef, useState } from "react";
 import { useHistory, NavLink } from "react-router-dom";
+import { useQuery } from "../../consts/utils";
 
-const NavInput = ({ onChange, onFocus, onBlur }) => {
+const NavInput = ({ onFocus, onBlur }) => {
   const inputRef = useRef(null);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(useQuery().get("q"));
   const history = useHistory();
   const searchURL = "/search";
   const linkId = "link-redirector";

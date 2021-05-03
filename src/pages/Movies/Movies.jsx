@@ -10,18 +10,13 @@ import { Movie } from "../../components";
 import { useQuery } from "../../consts/utils";
 
 import "./Movies.scss";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const FullscreenTrailer = lazy(() =>
   import("../../components/FullscreenPlayer/FullscreenPlayer")
 );
 
-const Movies = ({
-  allMovies,
-  // searchValue,
-  history,
-  emptySearchRedirect,
-  setPlayingMovieId,
-}) => {
+const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,12 +27,12 @@ const Movies = ({
   const [movies, setMovies] = useState(allMovies);
   const [endSlice, setEndSlice] = useState(50);
   const searchValue = useQuery().get("q");
+  const history = useHistory();
 
   const alreadyDumpedMovies = new Map();
 
-  if (!searchValue && emptySearchRedirect === "/") {
-    if (history) history?.push(emptySearchRedirect);
-  }
+  if (!searchValue && emptySearchRedirect === "/")
+    history.push(emptySearchRedirect);
 
   useEffect(() => {
     const handleResize = () => {
@@ -181,7 +176,6 @@ const Movies = ({
 const mapStateToProps = (state, ownProps) => {
   return {
     allMovies: state.allMovies,
-    searchValue: state.searchValue,
     emptySearchRedirect: state.emptySearchRedirect,
   };
 };
