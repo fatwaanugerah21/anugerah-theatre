@@ -81,7 +81,7 @@ const HeaderContent = ({
           />
         }
       >
-        <BigImg
+        <LazyLoadImage
           className="full-size"
           src={getImageSrc()}
           id="header-image"

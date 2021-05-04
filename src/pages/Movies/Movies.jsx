@@ -7,20 +7,16 @@ import Loader from "react-loader-spinner";
 import { otherTrailers, requestLinks } from "../../consts/urls";
 import { getMoviename } from "../../consts/utils";
 import { Movie } from "../../components";
+import { useQuery } from "../../consts/utils";
 
 import "./Movies.scss";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const FullscreenTrailer = lazy(() =>
   import("../../components/FullscreenPlayer/FullscreenPlayer")
 );
 
-const Movies = ({
-  allMovies,
-  searchValue,
-  history,
-  emptySearchRedirect,
-  setPlayingMovieId,
-}) => {
+const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
   const [trailerLink, setTrailerLink] = useState("");
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,13 +25,14 @@ const Movies = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
-  const [endSlice, setEndSlice] = useState(50);
+  const [endSlice, setEndSlice] = useState(30);
+  const searchValue = useQuery().get("q");
+  const history = useHistory();
 
   const alreadyDumpedMovies = new Map();
 
-  if (!searchValue && emptySearchRedirect === "/") {
-    if (history) history?.push(emptySearchRedirect);
-  }
+  if (!searchValue && emptySearchRedirect === "/")
+    history.push(emptySearchRedirect);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,9 +53,11 @@ const Movies = ({
     setIsLoading(false);
   }
 
-  if (!movies?.length || movies?.length < 17) {
-    fetchAllMovies();
-  }
+  useEffect(() => {
+    if (!movies?.length || movies?.length < 17) {
+      fetchAllMovies();
+    }
+  });
 
   function isValid(moviename, searchValue) {
     if (!searchValue) return true;
@@ -173,10 +172,9 @@ const Movies = ({
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     allMovies: state.allMovies,
-    searchValue: state.searchValue,
     emptySearchRedirect: state.emptySearchRedirect,
   };
 };
