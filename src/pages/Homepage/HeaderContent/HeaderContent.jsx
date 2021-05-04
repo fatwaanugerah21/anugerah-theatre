@@ -9,6 +9,7 @@ import "./HeaderContent.scss";
 const FullscreenTrailer = lazy(() =>
   import("../../../components/FullscreenPlayer/FullscreenPlayer")
 );
+const BigImg = lazy(() => import("./BigImg"));
 
 const HeaderContent = ({
   className,
@@ -21,7 +22,6 @@ const HeaderContent = ({
   const [reactPlayerSize, setReactPlayerSize] = useState(["0", "0"]);
   const [isTrailerPlaying, setIsTrailerPlaying] = useState(false);
   const movieName = movie.original_title ?? movie.original_name;
-
   useEffect(() => {
     async function fetchData() {
       const { data } = await Axios.get(fetchURL);
@@ -48,14 +48,12 @@ const HeaderContent = ({
       pauseTrailer();
     }
   };
-
-  function getImageSrc() {
+  function getImageSrc(smallPicture = false) {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    if (movie.backdrop_path || movie.poster_path)
-      return w < h
-        ? `${w500ImgURL}${movie.poster_path}`
-        : `${baseImgURL}${movie.backdrop_path}`;
+    return `${smallPicture ? w500ImgURL : baseImgURL}${
+      w < h ? movie.poster_path : movie.backdrop_path
+    }`;
   }
 
   function pauseTrailer() {
@@ -73,12 +71,23 @@ const HeaderContent = ({
 
   return (
     <div className={className}>
-      <img
-        className="full-size"
-        src={getImageSrc()}
-        id="header-image"
-        alt={movie.original_title}
-      />
+      <Suspense
+        fallback={
+          <img
+            className="full-size"
+            src={getImageSrc(true)}
+            id="header-image"
+            alt={movie.original_title}
+          />
+        }
+      >
+        <BigImg
+          className="full-size"
+          src={getImageSrc()}
+          id="header-image"
+          alt={movie.original_title}
+        />
+      </Suspense>
       <Suspense fallback={<div></div>}>
         <div className="fade-bottom"></div>
         <div className="header-movie-info white-text">
