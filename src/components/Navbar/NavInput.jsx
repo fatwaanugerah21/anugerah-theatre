@@ -18,8 +18,7 @@ const NavInput = ({ onFocus, onBlur, emptySearchRedirect }) => {
       navLinkDOM?.focus();
     }
 
-    if (!searchValue && emptySearchRedirect === "/")
-      history.push(emptySearchRedirect);
+    if (!searchValue && emptySearchRedirect) history.push(emptySearchRedirect);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, history]);
 

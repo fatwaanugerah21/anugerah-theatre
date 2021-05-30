@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import movieTrailer from "movie-trailer";
 import { baseImgURL, googleSearch, w500ImgURL } from "../../../consts/urls";
 import { concenate } from "../../../consts/utils";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./HeaderContent.scss";
 
 const FullscreenTrailer = lazy(() =>
   import("../../../components/FullscreenPlayer/FullscreenPlayer")
 );
-const BigImg = lazy(() => import("./BigImg"));
 
 const HeaderContent = ({
   className,

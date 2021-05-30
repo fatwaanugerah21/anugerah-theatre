@@ -25,7 +25,7 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [movieName, setMovieName] = useState("");
   const [movies, setMovies] = useState(allMovies);
-  const [endSlice, setEndSlice] = useState(30);
+  const [endSlice, setEndSlice] = useState(3);
   const searchValue = useQuery().get("q");
   const history = useHistory();
 
@@ -69,13 +69,13 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
       const windowScrollHeight =
         document.body.scrollHeight - window.pageYOffset;
       if (windowScrollHeight <= 1200) {
-        setEndSlice((old) => Math.min(340, old + 50));
+        setEndSlice((old) => Math.min(17, old + 3));
       }
       if (
         (isMobile && windowScrollHeight >= 10000) ||
         (!isMobile && windowScrollHeight >= 2800)
       ) {
-        setEndSlice((old) => Math.max(50, old - 50));
+        setEndSlice((old) => Math.max(3, old - 2));
       }
     };
     window.addEventListener("scroll", () => bottomFetch());
@@ -121,27 +121,25 @@ const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {
 
   const lgtmMovies =
     movies &&
-    movies
-      .flatMap((row) => {
-        return row?.flatMap((movie) => {
-          if (alreadyDumpedMovies.has(movie.id)) return [];
+    movies.slice(0, endSlice).flatMap((row) => {
+      return row?.flatMap((movie) => {
+        if (alreadyDumpedMovies.has(movie.id)) return [];
 
-          alreadyDumpedMovies.set(movie.id, "Is dumped");
-          const movieName = getMoviename(movie);
+        alreadyDumpedMovies.set(movie.id, "Is dumped");
+        const movieName = getMoviename(movie);
 
-          return isValid(movieName, searchValue) ? (
-            <Movie
-              movie={movie}
-              onClick={() => handleClick(movieName)}
-              className="movie-container"
-              key={movie.id}
-            />
-          ) : (
-            []
-          );
-        });
-      })
-      .slice(0, endSlice);
+        return isValid(movieName, searchValue) ? (
+          <Movie
+            movie={movie}
+            onClick={() => handleClick(movieName)}
+            className="movie-container"
+            key={movie.id}
+          />
+        ) : (
+          []
+        );
+      });
+    });
 
   return (
     <div className="app">
