@@ -2,6 +2,7 @@ import { lazy, useState, Suspense, useEffect } from "react";
 import movieTrailer from "movie-trailer";
 import { connect } from "react-redux";
 import Axios from "axios";
+import { useHistory } from "react-router-dom";
 import Loader from "react-loader-spinner";
 
 import { otherTrailers, requestLinks } from "../../consts/urls";
@@ -10,10 +11,9 @@ import { Movie } from "../../components";
 import { useQuery } from "../../consts/utils";
 
 import "./Movies.scss";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const FullscreenTrailer = lazy(() =>
-  import("../../components/FullscreenPlayer/FullscreenPlayer")
+  import("../../components/FullscreenPlayer")
 );
 
 const Movies = ({ allMovies, emptySearchRedirect, setPlayingMovieId }) => {

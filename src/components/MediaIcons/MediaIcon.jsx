@@ -1,4 +1,4 @@
-export default function MediaIcon(icon, movieName) {
+export default function MediaIcon({ icon, movieName }) {
   const { name, imgSrc, baseUrl } = icon;
   return (
     <a

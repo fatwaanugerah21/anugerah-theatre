@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 
 import { allSections } from "../../consts/sectionsArray";
 import { requestLinks } from "../../consts/urls";
-import HeaderContent from "./HeaderContent/HeaderContent";
+import HeaderContent from "./HeaderContent";
 
 import "./Homepage.scss";
-const Section = lazy(() => import("./Section/Section"));
+const Section = lazy(() => import("./Section"));
 
 const Homepage = ({ setEmptySearchRedirect }) => {
   const [endIndex, setEndIndex] = useState(1);

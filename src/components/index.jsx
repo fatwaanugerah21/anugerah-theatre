@@ -1,7 +1,7 @@
-import FullscreenTrailer from "./FullscreenPlayer/FullscreenPlayer";
-import MediaIcon from "./MediaIcons/MediaIcons";
-import Movie from "./Movie/Movie";
-import Navbar from "./Navbar/Navbar";
-import PhoneMenu from "./PhoneMenu/PhoneMenu";
+import FullscreenTrailer from "./FullscreenPlayer";
+import MediaIcon from "./MediaIcons";
+import Movie from "./Movie";
+import Navbar from "./Navbar";
+import PhoneMenu from "./PhoneMenu";
 
 export { FullscreenTrailer, MediaIcon, Movie, Navbar, PhoneMenu };
