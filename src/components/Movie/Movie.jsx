@@ -2,7 +2,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { w500ImgURL } from "../../consts/urls";
 import { getMoviename } from "../../consts/utils";
-import MediaIcon from "../MediaIcon/MediaIcon";
+import MediaIcon from "../MediaIcons/MediaIcons";
 
 import "./Movie.scss";
 
@@ -20,26 +20,32 @@ const Movie = ({
     movie.poster_path !== undefined
       ? `${w500ImgURL}${movie.poster_path}`
       : "/img/netflix_logo.svg";
+
+  if (movie.poster_path === undefined) {
+    console.log("cool");
+  }
+
+  const extraClassName =
+    activeMovieId === movie.id
+      ? playingSection === title
+        ? "active-movie"
+        : ""
+      : "";
+
   return (
     <div className={className} onClick={onClick} id={movie.id}>
-      <div
-        className={`${
-          activeMovieId === movie.id &&
-          playingSection === title &&
-          "active-movie"
-        } movie transition contain-scale-image`}
-      >
+      <div className={`${extraClassName} movie transition`}>
         <LazyLoadImage
           offset="-400px"
           alt={movieName}
           height={isLarge ? "420px" : "230px"}
           src={imgSrc}
           effect="blur"
-          className="movie-cover object-fit-cover"
+          className="movie-cover"
           width={isLarge ? "210px" : "150px"}
         />
         <div className={"movie-text absolute-center white-text"}>
-          <h4>{movieName}</h4>
+          <h4 className="cursor-pointer">{movieName}</h4>
           <MediaIcon movieName={movieName} />
         </div>
       </div>

@@ -92,7 +92,7 @@ const Section = ({
   const movieList = movies.map((movie) => {
     return (
       <Movie
-        className="movie-container"
+        className="movie-container hover-on-top"
         movie={movie}
         activeMovieId={activeMovieId}
         isLarge={isLarge}

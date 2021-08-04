@@ -1,37 +1,26 @@
 .movie {
-  transition: all 500ms !important;
   position: relative;
 
   .movie-text {
-    display: none;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .movie-cover,
+  .movie-text {
+    transition: all 500ms 300ms !important;
   }
 
   &:hover,
   &.active-movie {
     .movie-cover {
       filter: brightness(40%);
-      transform: scale(1.1);
+      transform: scale(1.3);
     }
 
     .movie-text {
-      display: flex !important;
-      text-align: center;
-      flex-direction: column;
       opacity: 1;
-
-      .media-icon {
-        a {
-          padding: 5px;
-          cursor: alias;
-          z-index: 10000;
-          &:hover {
-            transform: scale(1.2);
-            filter: brightness(120%);
-            transition: transform 450ms ease;
-            transition-delay: 200ms;
-          }
-        }
-      }
     }
   }
 }

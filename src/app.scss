@@ -58,9 +58,9 @@ a {
   position: relative;
 }
 
-.transition {
-  transition: all 450ms ease;
-}
+// .transition {
+//   transition: all 450ms ease 100s;
+// }
 
 .display-none {
   width: 0;
@@ -135,6 +135,10 @@ img {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.hover-on-top:hover {
+  z-index: 9999999 !important;
 }
 
 @media (min-width: 768px) {

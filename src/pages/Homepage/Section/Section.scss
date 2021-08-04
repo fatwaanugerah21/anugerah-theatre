@@ -32,7 +32,6 @@
     &::-webkit-scrollbar {
       display: none;
       width: 4px;
-      transition: all 450ms;
       background: linear-gradient(
         to right,
         transparent,
@@ -60,15 +59,9 @@
       margin-bottom: -80px;
       margin-right: 50px;
       cursor: pointer;
+
       &:last-child {
         margin-bottom: 0px;
-      }
-
-      .contain-scale-image {
-        img {
-          object-fit: contain;
-          transition: transform 450ms !important;
-        }
       }
     }
   }
