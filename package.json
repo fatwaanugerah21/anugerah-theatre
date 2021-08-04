@@ -4,9 +4,6 @@
   "version": "1.0.1",
   "private": false,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "movie-trailer": "^2.0.6",
     "react": "^16.7.0-alpha.1",
@@ -21,6 +18,11 @@
     "redux": "^4.0.5",
     "sass": "^1.32.8",
     "web-vitals": "^0.2.4"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
