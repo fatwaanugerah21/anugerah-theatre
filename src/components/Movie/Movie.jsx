@@ -29,7 +29,7 @@ const Movie = ({
 
   return (
     <div className={className} onClick={onClick} id={movie.id}>
-      <div className={`${extraClassName} movie transition`}>
+      <div className={`${extraClassName} movie transition cursor-pointer`}>
         <LazyLoadImage
           offset="-400px"
           alt={movieName}
@@ -40,7 +40,7 @@ const Movie = ({
           width={isLarge ? "210px" : "150px"}
         />
         <div className={"movie-text absolute-center white-text"}>
-          <h4 className="cursor-pointer">{movieName}</h4>
+          <h4>{movieName}</h4>
           <MediaIcon movieName={movieName} />
         </div>
       </div>

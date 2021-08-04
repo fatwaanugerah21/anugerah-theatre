@@ -3,13 +3,12 @@
 
   .movie-text {
     text-align: center;
-    cursor: pointer;
     opacity: 0;
   }
 
   .movie-cover,
   .movie-text {
-    transition: transform 500ms 300ms !important;
+    transition: all 500ms 300ms !important;
   }
 
   &:hover,
