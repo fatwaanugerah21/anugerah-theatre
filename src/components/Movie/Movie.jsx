@@ -16,14 +16,9 @@ const Movie = ({
   isLarge,
 }) => {
   const movieName = getMoviename(movie);
-  const imgSrc =
-    movie.poster_path !== undefined
-      ? `${w500ImgURL}${movie.poster_path}`
-      : "/img/netflix_logo.svg";
-
-  if (movie.poster_path === undefined) {
-    console.log("cool");
-  }
+  const imgSrc = movie.poster_path
+    ? `${w500ImgURL}${movie.poster_path}`
+    : "/img/netflix_logo.svg";
 
   const extraClassName =
     activeMovieId === movie.id

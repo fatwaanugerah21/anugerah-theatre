@@ -24,7 +24,7 @@ const Homepage = ({ setEmptySearchRedirect }) => {
 
   const sectionList = allSections.slice(0, endIndex).map((section) => {
     return (
-      <Suspense>
+      <Suspense key={section.fetchURL + section.title}>
         <Section
           key={section.title + section.fetchURL}
           className="movielist-section"
